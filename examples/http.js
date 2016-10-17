@@ -1,7 +1,7 @@
 var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.VCAP_APP_PORT || process.env.PORT || process.argv[2] || 80;
 
 var Gun = require('../');
-var gun = Gun({ 
+var gun = Gun({
 	file: 'data.json',
 	s3: {
 		key: '', // AWS Access Key
@@ -11,7 +11,7 @@ var gun = Gun({
 });
 
 var server = require('http').createServer(function(req, res){
-	if(gun.wsp.server(req, res)){ 
+	if(gun.wsp.server(req, res)){
 		return; // filters gun requests!
 	}
 	require('fs').createReadStream(require('path').join(__dirname, req.url)).on('error',function(){ // static files!

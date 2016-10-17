@@ -73,7 +73,7 @@
 		Type.list.map = function(l, c, _){ return obj_map(l, c, _) }
 		Type.list.index = 1; // change this to 0 if you want non-logical, non-mathematical, non-matrix, non-convenient array notation
 		Type.obj = {is: function(o){ return o? (o instanceof Object && o.constructor === Object) || Object.prototype.toString.call(o).match(/^\[object (\w+)\]$/)[1] === 'Object' : false }}
-		Type.obj.put = function(o, f, v){ return (o||{})[f] = v, o } 
+		Type.obj.put = function(o, f, v){ return (o||{})[f] = v, o }
 		Type.obj.has = function(o, f){ return o && Object.prototype.hasOwnProperty.call(o, f) }
 		Type.obj.del = function(o, k){
 			if(!o){ return }
@@ -163,7 +163,7 @@
 		var obj = Type.obj, obj_is = obj.is, obj_has = obj.has, obj_map = obj.map;
 		module.exports = Type;
 	})(require, './type');
-		
+
 	;require(function(module){
 		// On event emitter generic javascript utility.
 		function Scope(){
@@ -295,7 +295,7 @@
 
 	;require(function(module){
 		var On = require('./on');
-		
+
 		function Chain(create, opt){
 			opt = opt || {};
 			opt.id = opt.id || '#';
@@ -312,7 +312,7 @@
 						return;
 					}
 					if(at.stun === stun){
-						delete at.stun;	
+						delete at.stun;
 					}
 					off = true;
 					var i = 0, q = res.queue, l = q.length, c, v;
@@ -468,11 +468,11 @@
 			}
 			if(incomingState < currentState){
 				return {historical: true}; // the incoming value is within the boundary of the machine's state, but not within the range.
-				
+
 			}
 			if(currentState < incomingState){
 				return {converge: true, incoming: true}; // the incoming value is within both the boundary and the range of the machine's state.
-				
+
 			}
 			if(incomingState === currentState){
 				if(incomingValue === currentValue){ // Note: while these are practically the same, the deltas could be technically different
@@ -612,7 +612,7 @@
 					if(o.node){ o.node[f] = tmp }
 					return;
 				}
-				if(Val.is(v)){ 
+				if(Val.is(v)){
 					o.node[f] = v;
 				}
 			}
@@ -697,8 +697,8 @@
 			}
 			function map(n, s){ // we invert this because the way we check for this is via a negation.
 				if(!n || s !== Node.soul(n) || !Node.is(n, this.fn)){ return true } // it is true that this is an invalid graph.
-				if(!fn_is(this.cb)){ return }	
-				nf.n = n; nf.as = this.as;	 
+				if(!fn_is(this.cb)){ return }
+				nf.n = n; nf.as = this.as;
 				this.cb.call(nf.as, n, s, nf);
 			}
 		}());
@@ -707,7 +707,7 @@
 				var at = {path: [], obj: obj};
 				if(!env){
 					env = {};
-				} else 
+				} else
 				if(typeof env === 'string'){
 					env = {soul: env};
 				} else
@@ -876,7 +876,8 @@
 		Gun.graph = require('./graph');
 
 		Gun.on = require('./onify')();
-		
+		console.log('Gun.on set', Gun.on)
+
 		/*
 		var opt = {chain: 'in', back: 'out', extend: 'root', id: Gun._.soul};
 		Gun.chain = require('./chain')(Gun, opt);
@@ -1011,7 +1012,7 @@
 				var is = state_is(node, field), cs = state_is(vertex, field);
 				if(u === is || u === cs){ return true } // it is true that this is an invalid HAM comparison.
 				var iv = rel_is(value) || value, cv = rel_is(vertex[field]) || vertex[field];
-				
+
 
 
 
@@ -1081,7 +1082,7 @@
 		var obj = Gun.obj, obj_is = obj.is, obj_put = obj.put, obj_map = obj.map, obj_empty = obj.empty;
 		var num = Gun.num, num_is = num.is;
 		var _soul = Gun.val.rel._, _field = '.';
-		
+
 		;(function(){ var obj = {}, u;
 			Gun.chain.Back = function(n, opt){ var tmp;
 				if(-1 === n || Infinity === n){
@@ -1212,7 +1213,7 @@
 				as.batch();
 			}
 
-			function any(at, ev){ 
+			function any(at, ev){
 				function implicit(at){ // TODO: CLEAN UP!!!!!
 					if(!at || !at.get){ return } // TODO: CLEAN UP!!!!!
 					as.data = obj_put({}, tmp = at.get, as.data); // TODO: CLEAN UP!!!!!
@@ -1223,9 +1224,9 @@
 					implicit(at);  // TODO: CLEAN UP!!!!!
 				} // TODO: CLEAN UP!!!!!
 				var as = this;
-				if(at.err){ 
+				if(at.err){
 					console.log("Please report this as an issue! Put.any.err");
-					return 
+					return
 				}
 				var cat = as.ref._, data = at.put, opt = as.opt, root, tmp;
 				if(u === data){
@@ -1344,7 +1345,7 @@
 				var cat = back._, path = cat.path, gun = back.chain(), at = gun._;
 				if(!path){ path = cat.path = {} }
 				path[at.get = key] = gun;
-				at.stun = at.stun || cat.stun; // TODO: BUG! Clean up! This is kinda ugly. These need to be attached all the way down regardless of whether a gun chain has been cached or not for the first time. 
+				at.stun = at.stun || cat.stun; // TODO: BUG! Clean up! This is kinda ugly. These need to be attached all the way down regardless of whether a gun chain has been cached or not for the first time.
 				Gun.on('path', at);
 				//gun.on('in', input, at); // For 'in' if I add my own listeners to each then I MUST do it before in gets called. If I listen globally for all incoming data instead though, regardless of individual listeners, I can transform the data there and then as well.
 				gun.on('out', output, at); // However for output, there isn't really the global option. I must listen by adding my own listener individually BEFORE this one is ever called.
@@ -1581,7 +1582,7 @@
 							at = obj_to(at, {put: data = cat.change = cat.put = Gun.state.ify(Gun.node.ify({}, tmp))});
 						}
 						// TODO: BUG! Need to use at.put > cat.put for merged cache?
-						if(tmp = opt.change){ // TODO: BUG! Opt is outer scope, gun/cat/data might be iterative and thus only inner scope? Aka, we can't use it for all of them. 
+						if(tmp = opt.change){ // TODO: BUG! Opt is outer scope, gun/cat/data might be iterative and thus only inner scope? Aka, we can't use it for all of them.
 							if(1 === tmp){
 								opt.change = true;
 							} else {
@@ -1594,11 +1595,11 @@
 						if(last[id] == data && obj_has(last, id)){ return }
 						last[id] = data; // TODO: PERF! Memory optimizaiton? Can we avoid this.
 						*/
-					
+
 						if(last.put === data && last.get === id){ return }
 						last.get = id;
 						last.put = data;
-						
+
 						cat.last = data;
 						if(opt.as){
 							any.call(opt.as, at, ev);
@@ -1858,14 +1859,14 @@
 					return gun;
 				}
 				var opt = arg;
-				opt = (true === opt)? {change: true} : opt || {}; 
+				opt = (true === opt)? {change: true} : opt || {};
 				opt.ok = tag;
 				gun.any(ok, {as: opt, change: opt.change}); // TODO: PERF! Event listener leak!!!????
 				return gun;
 			}
 
 			function ok(cat, ev){ var opt = this;
-				var data = cat.put, tmp; 
+				var data = cat.put, tmp;
 				// TODO: BUG! Need to use at.put > cat.put for merged cache?
 				if(u === data){ return }
 				if(opt.as){
@@ -1878,7 +1879,7 @@
 			}
 
 					//if(obj_empty(value, Gun._.meta) && !(opt && opt.empty)){ // TODO: PERF! Deprecate!???
-						
+
 					//} else {
 						//console.log("value", value);
 						//if(!(value||empty)['#']/* || !val_rel_is(value)*/){ // TODO: Performance hit!???? // TODO: BUG! WE should avoid this. So that way it is usable with gun plugin chains.
@@ -1972,7 +1973,7 @@
 					chain.on('in').map = {};
 					chain.on('out', function(at){
 						console.debug(8, 'map out', at);
-				 		if(at.get instanceof Function){
+						if(at.get instanceof Function){
 							chain.on('in', at.get, at);
 							return;
 						} else {
@@ -2030,7 +2031,7 @@
 	;require(function(module){
 		if(typeof JSON === 'undefined'){ throw new Error("Include JSON first: ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js") } // for old IE use
 		if(typeof Gun === 'undefined'){ return } // TODO: localStorage is Browser only. But it would be nice if it could somehow plugin into NodeJS compatible localStorage APIs?
-		
+
 		var root, noop = function(){};
 		if(typeof window !== 'undefined'){ root = window }
 		var store = root.localStorage || {setItem: noop, removeItem: noop, getItem: noop};
@@ -2060,7 +2061,7 @@
 		Gun.on('put', put);
 		Gun.on('get', get);
 	})(require, './adapters/localStorage');
-	
+
 	;require(function(module){
 		function r(base, body, cb, opt){
 			var o = base.length? {base: base} : {};
@@ -2243,7 +2244,7 @@
 	;require(function(module){
 		if(typeof JSON === 'undefined'){ throw new Error("Include JSON first: ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js") } // for old IE use
 		if(typeof Gun === 'undefined'){ return } // TODO: window.Websocket is Browser only. But it would be nice if it could somehow merge it with lib/WSP?
-		
+
 		var root, noop = function(){};
 		if(typeof window !== 'undefined'){ root = window }
 
@@ -2305,7 +2306,7 @@
 					if(Tab.ons[tmp = msg['@'] || msg['#']]){
 						Tab.on(tmp, [msg['!'], msg['$']]);
 					}
-					return 
+					return
 				}
 				if(msg['$'] && msg['$']['#']){ return server.get(req, res) }
 				else { return server.put(req, res) }
@@ -2350,12 +2351,12 @@
 						Gun.obj.del(server.msg.debounce, id);
 					});
 				},500);
-				if(server.msg.debounce[id]){ 
+				if(server.msg.debounce[id]){
 					return server.msg.debounce[id] = Gun.time.is(), id;
 				}
 				server.msg.debounce[id] = Gun.time.is();
 				return;
-			};	
+			};
 			server.msg.debounce = server.msg.debounce || {};
 		});
 
