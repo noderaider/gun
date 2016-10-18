@@ -1,0 +1,26 @@
+[libs]
+./interfaces/
+
+[ignore]
+# top level non src
+<PROJECT_ROOT>/\(bin\|lib\|log\|public\|webpack\)/.*
+
+# src non-JS
+<PROJECT_ROOT>/src/\(design\|public\|scripts\)/.*
+
+.*/node_modules/fbjs/lib/Deferred\.js\.flow
+.*/node_modules/fbjs/lib/shallowEqual\.js\.flow
+.*/node_modules/.raider/.*
+
+# TEMPORARY IGNORES
+.*/lib/api/frames\.js
+
+
+[options]
+module.name_mapper='^\(.*\)\.css$' -> '<PROJECT_ROOT>/CSSModule.js.flow'
+
+server.max_workers=1
+
+suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
+suppress_comment= \\(.\\|\n\\)*\\$FlowIssue
+unsafe.enable_getters_and_setters=true

@@ -1,27 +1,27 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function e(t, n, r){function s(o, u){if(!n[o]){if(!t[o]){var a=typeof require=='function'&&require;if(!u&&a)return a(o, !0);if(i)return i(o, !0);var f=new Error('Cannot find module \''+o+'\'');throw f.code='MODULE_NOT_FOUND', f}var l=n[o]={ exports: {} };t[o][0].call(l.exports, function(e){var n=t[o][1][e];return s(n?n:e)}, l, l.exports, e, t, n, r)}return n[o].exports}var i=typeof require=='function'&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({ 1: [ function(require, module, exports){
 (function (process){
 module.exports = process.env.COV
   ? require('./lib-cov/mocha')
-  : require('./lib/mocha');
+  : require('./lib/mocha')
 
-}).call(this,require('_process'))
-},{"./lib-cov/mocha":undefined,"./lib/mocha":14,"_process":51}],2:[function(require,module,exports){
+}).call(this, require('_process'))
+}, { './lib-cov/mocha': undefined, './lib/mocha': 14, '_process': 51 } ], 2: [ function(require, module, exports){
 /* eslint-disable no-unused-vars */
 module.exports = function(type) {
-  return function() {};
-};
+  return function() {}
+}
 
-},{}],3:[function(require,module,exports){
+}, {} ], 3: [ function(require, module, exports){
 /**
  * Module exports.
  */
 
-exports.EventEmitter = EventEmitter;
+exports.EventEmitter = EventEmitter
 
 /**
  * Object#hasOwnProperty reference.
  */
-var objToString = Object.prototype.toString;
+var objToString = Object.prototype.toString
 
 /**
  * Check if a value is an array.
@@ -31,7 +31,7 @@ var objToString = Object.prototype.toString;
  * @return {boolean} true if the value is a boolean, otherwise false.
  */
 function isArray(val) {
-  return objToString.call(val) === '[object Array]';
+  return objToString.call(val) === '[object Array]'
 }
 
 /**
@@ -51,21 +51,21 @@ function EventEmitter() {}
  */
 EventEmitter.prototype.on = function(name, fn) {
   if (!this.$events) {
-    this.$events = {};
+    this.$events = {}
   }
 
   if (!this.$events[name]) {
-    this.$events[name] = fn;
+    this.$events[name] = fn
   } else if (isArray(this.$events[name])) {
-    this.$events[name].push(fn);
+    this.$events[name].push(fn)
   } else {
-    this.$events[name] = [this.$events[name], fn];
+    this.$events[name] = [ this.$events[name], fn ]
   }
 
-  return this;
-};
+  return this
+}
 
-EventEmitter.prototype.addListener = EventEmitter.prototype.on;
+EventEmitter.prototype.addListener = EventEmitter.prototype.on
 
 /**
  * Adds a volatile listener.
@@ -76,18 +76,18 @@ EventEmitter.prototype.addListener = EventEmitter.prototype.on;
  * @return {EventEmitter} Emitter instance.
  */
 EventEmitter.prototype.once = function(name, fn) {
-  var self = this;
+  var self = this
 
   function on() {
-    self.removeListener(name, on);
-    fn.apply(this, arguments);
+    self.removeListener(name, on)
+    fn.apply(this, arguments)
   }
 
-  on.listener = fn;
-  this.on(name, on);
+  on.listener = fn
+  this.on(name, on)
 
-  return this;
-};
+  return this
+}
 
 /**
  * Remove a listener.
@@ -99,34 +99,34 @@ EventEmitter.prototype.once = function(name, fn) {
  */
 EventEmitter.prototype.removeListener = function(name, fn) {
   if (this.$events && this.$events[name]) {
-    var list = this.$events[name];
+    var list = this.$events[name]
 
     if (isArray(list)) {
-      var pos = -1;
+      var pos = -1
 
       for (var i = 0, l = list.length; i < l; i++) {
         if (list[i] === fn || (list[i].listener && list[i].listener === fn)) {
-          pos = i;
-          break;
+          pos = i
+          break
         }
       }
 
       if (pos < 0) {
-        return this;
+        return this
       }
 
-      list.splice(pos, 1);
+      list.splice(pos, 1)
 
       if (!list.length) {
-        delete this.$events[name];
+        delete this.$events[name]
       }
     } else if (list === fn || (list.listener && list.listener === fn)) {
-      delete this.$events[name];
+      delete this.$events[name]
     }
   }
 
-  return this;
-};
+  return this
+}
 
 /**
  * Remove all listeners for an event.
@@ -137,16 +137,16 @@ EventEmitter.prototype.removeListener = function(name, fn) {
  */
 EventEmitter.prototype.removeAllListeners = function(name) {
   if (name === undefined) {
-    this.$events = {};
-    return this;
+    this.$events = {}
+    return this
   }
 
   if (this.$events && this.$events[name]) {
-    this.$events[name] = null;
+    this.$events[name] = null
   }
 
-  return this;
-};
+  return this
+}
 
 /**
  * Get all listeners for a given event.
@@ -157,19 +157,19 @@ EventEmitter.prototype.removeAllListeners = function(name) {
  */
 EventEmitter.prototype.listeners = function(name) {
   if (!this.$events) {
-    this.$events = {};
+    this.$events = {}
   }
 
   if (!this.$events[name]) {
-    this.$events[name] = [];
+    this.$events[name] = []
   }
 
   if (!isArray(this.$events[name])) {
-    this.$events[name] = [this.$events[name]];
+    this.$events[name] = [ this.$events[name] ]
   }
 
-  return this.$events[name];
-};
+  return this.$events[name]
+}
 
 /**
  * Emit an event.
@@ -180,47 +180,47 @@ EventEmitter.prototype.listeners = function(name) {
  */
 EventEmitter.prototype.emit = function(name) {
   if (!this.$events) {
-    return false;
+    return false
   }
 
-  var handler = this.$events[name];
+  var handler = this.$events[name]
 
   if (!handler) {
-    return false;
+    return false
   }
 
-  var args = Array.prototype.slice.call(arguments, 1);
+  var args = Array.prototype.slice.call(arguments, 1)
 
   if (typeof handler === 'function') {
-    handler.apply(this, args);
+    handler.apply(this, args)
   } else if (isArray(handler)) {
-    var listeners = handler.slice();
+    var listeners = handler.slice()
 
     for (var i = 0, l = listeners.length; i < l; i++) {
-      listeners[i].apply(this, args);
+      listeners[i].apply(this, args)
     }
   } else {
-    return false;
+    return false
   }
 
-  return true;
-};
+  return true
+}
 
-},{}],4:[function(require,module,exports){
+}, {} ], 4: [ function(require, module, exports){
 /**
  * Expose `Progress`.
  */
 
-module.exports = Progress;
+module.exports = Progress
 
 /**
  * Initialize a new `Progress` indicator.
  */
 function Progress() {
-  this.percent = 0;
-  this.size(0);
-  this.fontSize(11);
-  this.font('helvetica, arial, sans-serif');
+  this.percent = 0
+  this.size(0)
+  this.fontSize(11)
+  this.font('helvetica, arial, sans-serif')
 }
 
 /**
@@ -231,9 +231,9 @@ function Progress() {
  * @return {Progress} Progress instance.
  */
 Progress.prototype.size = function(size) {
-  this._size = size;
-  return this;
-};
+  this._size = size
+  return this
+}
 
 /**
  * Set text to `text`.
@@ -243,9 +243,9 @@ Progress.prototype.size = function(size) {
  * @return {Progress} Progress instance.
  */
 Progress.prototype.text = function(text) {
-  this._text = text;
-  return this;
-};
+  this._text = text
+  return this
+}
 
 /**
  * Set font size to `size`.
@@ -255,9 +255,9 @@ Progress.prototype.text = function(text) {
  * @return {Progress} Progress instance.
  */
 Progress.prototype.fontSize = function(size) {
-  this._fontSize = size;
-  return this;
-};
+  this._fontSize = size
+  return this
+}
 
 /**
  * Set font to `family`.
@@ -266,9 +266,9 @@ Progress.prototype.fontSize = function(size) {
  * @return {Progress} Progress instance.
  */
 Progress.prototype.font = function(family) {
-  this._font = family;
-  return this;
-};
+  this._font = family
+  return this
+}
 
 /**
  * Update percentage to `n`.
@@ -277,9 +277,9 @@ Progress.prototype.font = function(family) {
  * @return {Progress} Progress instance.
  */
 Progress.prototype.update = function(n) {
-  this.percent = n;
-  return this;
-};
+  this.percent = n
+  return this
+}
 
 /**
  * Draw on `ctx`.
@@ -289,63 +289,63 @@ Progress.prototype.update = function(n) {
  */
 Progress.prototype.draw = function(ctx) {
   try {
-    var percent = Math.min(this.percent, 100);
-    var size = this._size;
-    var half = size / 2;
-    var x = half;
-    var y = half;
-    var rad = half - 1;
-    var fontSize = this._fontSize;
+    var percent = Math.min(this.percent, 100)
+    var size = this._size
+    var half = size / 2
+    var x = half
+    var y = half
+    var rad = half - 1
+    var fontSize = this._fontSize
 
-    ctx.font = fontSize + 'px ' + this._font;
+    ctx.font = fontSize + 'px ' + this._font
 
-    var angle = Math.PI * 2 * (percent / 100);
-    ctx.clearRect(0, 0, size, size);
+    var angle = Math.PI * 2 * (percent / 100)
+    ctx.clearRect(0, 0, size, size)
 
     // outer circle
-    ctx.strokeStyle = '#9f9f9f';
-    ctx.beginPath();
-    ctx.arc(x, y, rad, 0, angle, false);
-    ctx.stroke();
+    ctx.strokeStyle = '#9f9f9f'
+    ctx.beginPath()
+    ctx.arc(x, y, rad, 0, angle, false)
+    ctx.stroke()
 
     // inner circle
-    ctx.strokeStyle = '#eee';
-    ctx.beginPath();
-    ctx.arc(x, y, rad - 1, 0, angle, true);
-    ctx.stroke();
+    ctx.strokeStyle = '#eee'
+    ctx.beginPath()
+    ctx.arc(x, y, rad - 1, 0, angle, true)
+    ctx.stroke()
 
     // text
-    var text = this._text || (percent | 0) + '%';
-    var w = ctx.measureText(text).width;
+    var text = this._text || (percent | 0) + '%'
+    var w = ctx.measureText(text).width
 
-    ctx.fillText(text, x - w / 2 + 1, y + fontSize / 2 - 1);
+    ctx.fillText(text, x - w / 2 + 1, y + fontSize / 2 - 1)
   } catch (err) {
     // don't fail if we can't render progress
   }
-  return this;
-};
+  return this
+}
 
-},{}],5:[function(require,module,exports){
+}, {} ], 5: [ function(require, module, exports){
 (function (global){
 exports.isatty = function isatty() {
-  return true;
-};
+  return true
+}
 
 exports.getWindowSize = function getWindowSize() {
   if ('innerHeight' in global) {
-    return [global.innerHeight, global.innerWidth];
+    return [ global.innerHeight, global.innerWidth ]
   }
   // In a Web Worker, the DOM Window is not available.
-  return [640, 480];
-};
+  return [ 640, 480 ]
+}
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],6:[function(require,module,exports){
+}).call(this, typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : {})
+}, {} ], 6: [ function(require, module, exports){
 /**
  * Expose `Context`.
  */
 
-module.exports = Context;
+module.exports = Context
 
 /**
  * Initialize a new `Context`.
@@ -363,11 +363,11 @@ function Context() {}
  */
 Context.prototype.runnable = function(runnable) {
   if (!arguments.length) {
-    return this._runnable;
+    return this._runnable
   }
-  this.test = this._runnable = runnable;
-  return this;
-};
+  this.test = this._runnable = runnable
+  return this
+}
 
 /**
  * Set test timeout `ms`.
@@ -378,11 +378,11 @@ Context.prototype.runnable = function(runnable) {
  */
 Context.prototype.timeout = function(ms) {
   if (!arguments.length) {
-    return this.runnable().timeout();
+    return this.runnable().timeout()
   }
-  this.runnable().timeout(ms);
-  return this;
-};
+  this.runnable().timeout(ms)
+  return this
+}
 
 /**
  * Set test timeout `enabled`.
@@ -392,9 +392,9 @@ Context.prototype.timeout = function(ms) {
  * @return {Context} self
  */
 Context.prototype.enableTimeouts = function(enabled) {
-  this.runnable().enableTimeouts(enabled);
-  return this;
-};
+  this.runnable().enableTimeouts(enabled)
+  return this
+}
 
 /**
  * Set test slowness threshold `ms`.
@@ -404,9 +404,9 @@ Context.prototype.enableTimeouts = function(enabled) {
  * @return {Context} self
  */
 Context.prototype.slow = function(ms) {
-  this.runnable().slow(ms);
-  return this;
-};
+  this.runnable().slow(ms)
+  return this
+}
 
 /**
  * Mark a test as skipped.
@@ -415,9 +415,9 @@ Context.prototype.slow = function(ms) {
  * @return {Context} self
  */
 Context.prototype.skip = function() {
-  this.runnable().skip();
-  return this;
-};
+  this.runnable().skip()
+  return this
+}
 
 /**
  * Inspect the context void of `._runnable`.
@@ -427,23 +427,23 @@ Context.prototype.skip = function() {
  */
 Context.prototype.inspect = function() {
   return JSON.stringify(this, function(key, val) {
-    return key === 'runnable' || key === 'test' ? undefined : val;
-  }, 2);
-};
+    return key === 'runnable' || key === 'test' ? undefined : val
+  }, 2)
+}
 
-},{}],7:[function(require,module,exports){
+}, {} ], 7: [ function(require, module, exports){
 /**
  * Module dependencies.
  */
 
-var Runnable = require('./runnable');
-var inherits = require('./utils').inherits;
+var Runnable = require('./runnable')
+var inherits = require('./utils').inherits
 
 /**
  * Expose `Hook`.
  */
 
-module.exports = Hook;
+module.exports = Hook
 
 /**
  * Initialize a new `Hook` with the given `title` and callback `fn`.
@@ -453,14 +453,14 @@ module.exports = Hook;
  * @api private
  */
 function Hook(title, fn) {
-  Runnable.call(this, title, fn);
-  this.type = 'hook';
+  Runnable.call(this, title, fn)
+  this.type = 'hook'
 }
 
 /**
  * Inherit from `Runnable.prototype`.
  */
-inherits(Hook, Runnable);
+inherits(Hook, Runnable)
 
 /**
  * Get or set the test `err`.
@@ -471,22 +471,22 @@ inherits(Hook, Runnable);
  */
 Hook.prototype.error = function(err) {
   if (!arguments.length) {
-    err = this._error;
-    this._error = null;
-    return err;
+    err = this._error
+    this._error = null
+    return err
   }
 
-  this._error = err;
-};
+  this._error = err
+}
 
-},{"./runnable":35,"./utils":39}],8:[function(require,module,exports){
+}, { './runnable': 35, './utils': 39 } ], 8: [ function(require, module, exports){
 /**
  * Module dependencies.
  */
 
-var Suite = require('../suite');
-var Test = require('../test');
-var escapeRe = require('escape-string-regexp');
+var Suite = require('../suite')
+var Test = require('../test')
+var escapeRe = require('escape-string-regexp')
 
 /**
  * BDD-style interface:
@@ -506,16 +506,16 @@ var escapeRe = require('escape-string-regexp');
  * @param {Suite} suite Root suite.
  */
 module.exports = function(suite) {
-  var suites = [suite];
+  var suites = [ suite ]
 
   suite.on('pre-require', function(context, file, mocha) {
-    var common = require('./common')(suites, context);
+    var common = require('./common')(suites, context)
 
-    context.before = common.before;
-    context.after = common.after;
-    context.beforeEach = common.beforeEach;
-    context.afterEach = common.afterEach;
-    context.run = mocha.options.delay && common.runWithSuite(suite);
+    context.before = common.before
+    context.after = common.after
+    context.beforeEach = common.beforeEach
+    context.afterEach = common.afterEach
+    context.run = mocha.options.delay && common.runWithSuite(suite)
     /**
      * Describe a "suite" with the given `title`
      * and callback `fn` containing nested suites
@@ -523,35 +523,35 @@ module.exports = function(suite) {
      */
 
     context.describe = context.context = function(title, fn) {
-      var suite = Suite.create(suites[0], title);
-      suite.file = file;
-      suites.unshift(suite);
-      fn.call(suite);
-      suites.shift();
-      return suite;
-    };
+      var suite = Suite.create(suites[0], title)
+      suite.file = file
+      suites.unshift(suite)
+      fn.call(suite)
+      suites.shift()
+      return suite
+    }
 
     /**
      * Pending describe.
      */
 
     context.xdescribe = context.xcontext = context.describe.skip = function(title, fn) {
-      var suite = Suite.create(suites[0], title);
-      suite.pending = true;
-      suites.unshift(suite);
-      fn.call(suite);
-      suites.shift();
-    };
+      var suite = Suite.create(suites[0], title)
+      suite.pending = true
+      suites.unshift(suite)
+      fn.call(suite)
+      suites.shift()
+    }
 
     /**
      * Exclusive suite.
      */
 
     context.describe.only = function(title, fn) {
-      var suite = context.describe(title, fn);
-      mocha.grep(suite.fullTitle());
-      return suite;
-    };
+      var suite = context.describe(title, fn)
+      mocha.grep(suite.fullTitle())
+      return suite
+    }
 
     /**
      * Describe a specification or test-case
@@ -560,39 +560,39 @@ module.exports = function(suite) {
      */
 
     context.it = context.specify = function(title, fn) {
-      var suite = suites[0];
+      var suite = suites[0]
       if (suite.pending) {
-        fn = null;
+        fn = null
       }
-      var test = new Test(title, fn);
-      test.file = file;
-      suite.addTest(test);
-      return test;
-    };
+      var test = new Test(title, fn)
+      test.file = file
+      suite.addTest(test)
+      return test
+    }
 
     /**
      * Exclusive test-case.
      */
 
     context.it.only = function(title, fn) {
-      var test = context.it(title, fn);
-      var reString = '^' + escapeRe(test.fullTitle()) + '$';
-      mocha.grep(new RegExp(reString));
-      return test;
-    };
+      var test = context.it(title, fn)
+      var reString = '^' + escapeRe(test.fullTitle()) + '$'
+      mocha.grep(new RegExp(reString))
+      return test
+    }
 
     /**
      * Pending test case.
      */
 
     context.xit = context.xspecify = context.it.skip = function(title) {
-      context.it(title);
-    };
-  });
-};
+      context.it(title)
+    }
+  })
+}
 
-},{"../suite":37,"../test":38,"./common":9,"escape-string-regexp":68}],9:[function(require,module,exports){
-'use strict';
+}, { '../suite': 37, '../test': 38, './common': 9, 'escape-string-regexp': 68 } ], 9: [ function(require, module, exports){
+
 
 /**
  * Functions common to more than one interface.
@@ -612,9 +612,9 @@ module.exports = function(suites, context) {
      */
     runWithSuite: function runWithSuite(suite) {
       return function run() {
-        suite.run();
-      };
-    },
+        suite.run()
+      }
+    }
 
     /**
      * Execute before running tests.
@@ -622,9 +622,9 @@ module.exports = function(suites, context) {
      * @param {string} name
      * @param {Function} fn
      */
-    before: function(name, fn) {
-      suites[0].beforeAll(name, fn);
-    },
+    , before: function(name, fn) {
+      suites[0].beforeAll(name, fn)
+    }
 
     /**
      * Execute after running tests.
@@ -632,9 +632,9 @@ module.exports = function(suites, context) {
      * @param {string} name
      * @param {Function} fn
      */
-    after: function(name, fn) {
-      suites[0].afterAll(name, fn);
-    },
+    , after: function(name, fn) {
+      suites[0].afterAll(name, fn)
+    }
 
     /**
      * Execute before each test case.
@@ -642,9 +642,9 @@ module.exports = function(suites, context) {
      * @param {string} name
      * @param {Function} fn
      */
-    beforeEach: function(name, fn) {
-      suites[0].beforeEach(name, fn);
-    },
+    , beforeEach: function(name, fn) {
+      suites[0].beforeEach(name, fn)
+    }
 
     /**
      * Execute after each test case.
@@ -652,30 +652,30 @@ module.exports = function(suites, context) {
      * @param {string} name
      * @param {Function} fn
      */
-    afterEach: function(name, fn) {
-      suites[0].afterEach(name, fn);
-    },
+    , afterEach: function(name, fn) {
+      suites[0].afterEach(name, fn)
+    }
 
-    test: {
+    , test: {
       /**
        * Pending test case.
        *
        * @param {string} title
        */
       skip: function(title) {
-        context.test(title);
+        context.test(title)
       }
     }
-  };
-};
+  }
+}
 
-},{}],10:[function(require,module,exports){
+}, {} ], 10: [ function(require, module, exports){
 /**
  * Module dependencies.
  */
 
-var Suite = require('../suite');
-var Test = require('../test');
+var Suite = require('../suite')
+var Test = require('../test')
 
 /**
  * TDD-style interface:
@@ -695,57 +695,57 @@ var Test = require('../test');
  * @param {Suite} suite Root suite.
  */
 module.exports = function(suite) {
-  var suites = [suite];
+  var suites = [ suite ]
 
-  suite.on('require', visit);
+  suite.on('require', visit)
 
   function visit(obj, file) {
-    var suite;
+    var suite
     for (var key in obj) {
       if (typeof obj[key] === 'function') {
-        var fn = obj[key];
+        var fn = obj[key]
         switch (key) {
           case 'before':
-            suites[0].beforeAll(fn);
-            break;
+            suites[0].beforeAll(fn)
+            break
           case 'after':
-            suites[0].afterAll(fn);
-            break;
+            suites[0].afterAll(fn)
+            break
           case 'beforeEach':
-            suites[0].beforeEach(fn);
-            break;
+            suites[0].beforeEach(fn)
+            break
           case 'afterEach':
-            suites[0].afterEach(fn);
-            break;
+            suites[0].afterEach(fn)
+            break
           default:
-            var test = new Test(key, fn);
-            test.file = file;
-            suites[0].addTest(test);
+            var test = new Test(key, fn)
+            test.file = file
+            suites[0].addTest(test)
         }
       } else {
-        suite = Suite.create(suites[0], key);
-        suites.unshift(suite);
-        visit(obj[key]);
-        suites.shift();
+        suite = Suite.create(suites[0], key)
+        suites.unshift(suite)
+        visit(obj[key])
+        suites.shift()
       }
     }
   }
-};
+}
 
-},{"../suite":37,"../test":38}],11:[function(require,module,exports){
-exports.bdd = require('./bdd');
-exports.tdd = require('./tdd');
-exports.qunit = require('./qunit');
-exports.exports = require('./exports');
+}, { '../suite': 37, '../test': 38 } ], 11: [ function(require, module, exports){
+exports.bdd = require('./bdd')
+exports.tdd = require('./tdd')
+exports.qunit = require('./qunit')
+exports.exports = require('./exports')
 
-},{"./bdd":8,"./exports":10,"./qunit":12,"./tdd":13}],12:[function(require,module,exports){
+}, { './bdd': 8, './exports': 10, './qunit': 12, './tdd': 13 } ], 12: [ function(require, module, exports){
 /**
  * Module dependencies.
  */
 
-var Suite = require('../suite');
-var Test = require('../test');
-var escapeRe = require('escape-string-regexp');
+var Suite = require('../suite')
+var Test = require('../test')
+var escapeRe = require('escape-string-regexp')
 
 /**
  * QUnit-style interface:
@@ -773,38 +773,38 @@ var escapeRe = require('escape-string-regexp');
  * @param {Suite} suite Root suite.
  */
 module.exports = function(suite) {
-  var suites = [suite];
+  var suites = [ suite ]
 
   suite.on('pre-require', function(context, file, mocha) {
-    var common = require('./common')(suites, context);
+    var common = require('./common')(suites, context)
 
-    context.before = common.before;
-    context.after = common.after;
-    context.beforeEach = common.beforeEach;
-    context.afterEach = common.afterEach;
-    context.run = mocha.options.delay && common.runWithSuite(suite);
+    context.before = common.before
+    context.after = common.after
+    context.beforeEach = common.beforeEach
+    context.afterEach = common.afterEach
+    context.run = mocha.options.delay && common.runWithSuite(suite)
     /**
      * Describe a "suite" with the given `title`.
      */
 
     context.suite = function(title) {
       if (suites.length > 1) {
-        suites.shift();
+        suites.shift()
       }
-      var suite = Suite.create(suites[0], title);
-      suite.file = file;
-      suites.unshift(suite);
-      return suite;
-    };
+      var suite = Suite.create(suites[0], title)
+      suite.file = file
+      suites.unshift(suite)
+      return suite
+    }
 
     /**
      * Exclusive test-case.
      */
 
     context.suite.only = function(title, fn) {
-      var suite = context.suite(title, fn);
-      mocha.grep(suite.fullTitle());
-    };
+      var suite = context.suite(title, fn)
+      mocha.grep(suite.fullTitle())
+    }
 
     /**
      * Describe a specification or test-case
@@ -813,34 +813,34 @@ module.exports = function(suite) {
      */
 
     context.test = function(title, fn) {
-      var test = new Test(title, fn);
-      test.file = file;
-      suites[0].addTest(test);
-      return test;
-    };
+      var test = new Test(title, fn)
+      test.file = file
+      suites[0].addTest(test)
+      return test
+    }
 
     /**
      * Exclusive test-case.
      */
 
     context.test.only = function(title, fn) {
-      var test = context.test(title, fn);
-      var reString = '^' + escapeRe(test.fullTitle()) + '$';
-      mocha.grep(new RegExp(reString));
-    };
+      var test = context.test(title, fn)
+      var reString = '^' + escapeRe(test.fullTitle()) + '$'
+      mocha.grep(new RegExp(reString))
+    }
 
-    context.test.skip = common.test.skip;
-  });
-};
+    context.test.skip = common.test.skip
+  })
+}
 
-},{"../suite":37,"../test":38,"./common":9,"escape-string-regexp":68}],13:[function(require,module,exports){
+}, { '../suite': 37, '../test': 38, './common': 9, 'escape-string-regexp': 68 } ], 13: [ function(require, module, exports){
 /**
  * Module dependencies.
  */
 
-var Suite = require('../suite');
-var Test = require('../test');
-var escapeRe = require('escape-string-regexp');
+var Suite = require('../suite')
+var Test = require('../test')
+var escapeRe = require('escape-string-regexp')
 
 /**
  * TDD-style interface:
@@ -868,80 +868,80 @@ var escapeRe = require('escape-string-regexp');
  * @param {Suite} suite Root suite.
  */
 module.exports = function(suite) {
-  var suites = [suite];
+  var suites = [ suite ]
 
   suite.on('pre-require', function(context, file, mocha) {
-    var common = require('./common')(suites, context);
+    var common = require('./common')(suites, context)
 
-    context.setup = common.beforeEach;
-    context.teardown = common.afterEach;
-    context.suiteSetup = common.before;
-    context.suiteTeardown = common.after;
-    context.run = mocha.options.delay && common.runWithSuite(suite);
+    context.setup = common.beforeEach
+    context.teardown = common.afterEach
+    context.suiteSetup = common.before
+    context.suiteTeardown = common.after
+    context.run = mocha.options.delay && common.runWithSuite(suite)
 
     /**
      * Describe a "suite" with the given `title` and callback `fn` containing
      * nested suites and/or tests.
      */
     context.suite = function(title, fn) {
-      var suite = Suite.create(suites[0], title);
-      suite.file = file;
-      suites.unshift(suite);
-      fn.call(suite);
-      suites.shift();
-      return suite;
-    };
+      var suite = Suite.create(suites[0], title)
+      suite.file = file
+      suites.unshift(suite)
+      fn.call(suite)
+      suites.shift()
+      return suite
+    }
 
     /**
      * Pending suite.
      */
     context.suite.skip = function(title, fn) {
-      var suite = Suite.create(suites[0], title);
-      suite.pending = true;
-      suites.unshift(suite);
-      fn.call(suite);
-      suites.shift();
-    };
+      var suite = Suite.create(suites[0], title)
+      suite.pending = true
+      suites.unshift(suite)
+      fn.call(suite)
+      suites.shift()
+    }
 
     /**
      * Exclusive test-case.
      */
     context.suite.only = function(title, fn) {
-      var suite = context.suite(title, fn);
-      mocha.grep(suite.fullTitle());
-    };
+      var suite = context.suite(title, fn)
+      mocha.grep(suite.fullTitle())
+    }
 
     /**
      * Describe a specification or test-case with the given `title` and
      * callback `fn` acting as a thunk.
      */
     context.test = function(title, fn) {
-      var suite = suites[0];
+      var suite = suites[0]
       if (suite.pending) {
-        fn = null;
+        fn = null
       }
-      var test = new Test(title, fn);
-      test.file = file;
-      suite.addTest(test);
-      return test;
-    };
+      var test = new Test(title, fn)
+      test.file = file
+      suite.addTest(test)
+      return test
+    }
 
     /**
      * Exclusive test-case.
      */
 
     context.test.only = function(title, fn) {
-      var test = context.test(title, fn);
-      var reString = '^' + escapeRe(test.fullTitle()) + '$';
-      mocha.grep(new RegExp(reString));
-    };
+      var test = context.test(title, fn)
+      var reString = '^' + escapeRe(test.fullTitle()) + '$'
+      mocha.grep(new RegExp(reString))
+    }
 
-    context.test.skip = common.test.skip;
-  });
-};
+    context.test.skip = common.test.skip
+  })
+}
 
-},{"../suite":37,"../test":38,"./common":9,"escape-string-regexp":68}],14:[function(require,module,exports){
-(function (process,global,__dirname){
+}, { '../suite': 37, '../test': 38, './common': 9, 'escape-string-regexp': 68 } ], 14: [ function(require, module, exports){
+(function (process, global, __dirname){
 /*!
  * mocha
  * Copyright(c) 2011 TJ Holowaychuk <tj@vision-media.ca>
@@ -952,39 +952,39 @@ module.exports = function(suite) {
  * Module dependencies.
  */
 
-var escapeRe = require('escape-string-regexp');
-var path = require('path');
-var reporters = require('./reporters');
-var utils = require('./utils');
+var escapeRe = require('escape-string-regexp')
+var path = require('path')
+var reporters = require('./reporters')
+var utils = require('./utils')
 
 /**
  * Expose `Mocha`.
  */
 
-exports = module.exports = Mocha;
+exports = module.exports = Mocha
 
 /**
  * To require local UIs and reporters when running in node.
  */
 
 if (!process.browser) {
-  var cwd = process.cwd();
-  module.paths.push(cwd, path.join(cwd, 'node_modules'));
+  var cwd = process.cwd()
+  module.paths.push(cwd, path.join(cwd, 'node_modules'))
 }
 
 /**
  * Expose internals.
  */
 
-exports.utils = utils;
-exports.interfaces = require('./interfaces');
-exports.reporters = reporters;
-exports.Runnable = require('./runnable');
-exports.Context = require('./context');
-exports.Runner = require('./runner');
-exports.Suite = require('./suite');
-exports.Hook = require('./hook');
-exports.Test = require('./test');
+exports.utils = utils
+exports.interfaces = require('./interfaces')
+exports.reporters = reporters
+exports.Runnable = require('./runnable')
+exports.Context = require('./context')
+exports.Runner = require('./runner')
+exports.Suite = require('./suite')
+exports.Hook = require('./hook')
+exports.Test = require('./test')
 
 /**
  * Return image `name` path.
@@ -994,7 +994,7 @@ exports.Test = require('./test');
  * @return {string}
  */
 function image(name) {
-  return path.join(__dirname, '../images', name + '.png');
+  return path.join(__dirname, '../images', name + '.png')
 }
 
 /**
@@ -1016,45 +1016,45 @@ function image(name) {
  * @api public
  */
 function Mocha(options) {
-  options = options || {};
-  this.files = [];
-  this.options = options;
+  options = options || {}
+  this.files = []
+  this.options = options
   if (options.grep) {
-    this.grep(new RegExp(options.grep));
+    this.grep(new RegExp(options.grep))
   }
   if (options.fgrep) {
-    this.grep(options.fgrep);
+    this.grep(options.fgrep)
   }
-  this.suite = new exports.Suite('', new exports.Context());
-  this.ui(options.ui);
-  this.bail(options.bail);
-  this.reporter(options.reporter, options.reporterOptions);
+  this.suite = new exports.Suite('', new exports.Context())
+  this.ui(options.ui)
+  this.bail(options.bail)
+  this.reporter(options.reporter, options.reporterOptions)
   if (typeof options.timeout !== 'undefined' && options.timeout !== null) {
-    this.timeout(options.timeout);
+    this.timeout(options.timeout)
   }
-  this.useColors(options.useColors);
+  this.useColors(options.useColors)
   if (options.enableTimeouts !== null) {
-    this.enableTimeouts(options.enableTimeouts);
+    this.enableTimeouts(options.enableTimeouts)
   }
   if (options.slow) {
-    this.slow(options.slow);
+    this.slow(options.slow)
   }
 
   this.suite.on('pre-require', function(context) {
-    exports.afterEach = context.afterEach || context.teardown;
-    exports.after = context.after || context.suiteTeardown;
-    exports.beforeEach = context.beforeEach || context.setup;
-    exports.before = context.before || context.suiteSetup;
-    exports.describe = context.describe || context.suite;
-    exports.it = context.it || context.test;
-    exports.setup = context.setup || context.beforeEach;
-    exports.suiteSetup = context.suiteSetup || context.before;
-    exports.suiteTeardown = context.suiteTeardown || context.after;
-    exports.suite = context.suite || context.describe;
-    exports.teardown = context.teardown || context.afterEach;
-    exports.test = context.test || context.it;
-    exports.run = context.run;
-  });
+    exports.afterEach = context.afterEach || context.teardown
+    exports.after = context.after || context.suiteTeardown
+    exports.beforeEach = context.beforeEach || context.setup
+    exports.before = context.before || context.suiteSetup
+    exports.describe = context.describe || context.suite
+    exports.it = context.it || context.test
+    exports.setup = context.setup || context.beforeEach
+    exports.suiteSetup = context.suiteSetup || context.before
+    exports.suiteTeardown = context.suiteTeardown || context.after
+    exports.suite = context.suite || context.describe
+    exports.teardown = context.teardown || context.afterEach
+    exports.test = context.test || context.it
+    exports.run = context.run
+  })
 }
 
 /**
@@ -1065,11 +1065,11 @@ function Mocha(options) {
  */
 Mocha.prototype.bail = function(bail) {
   if (!arguments.length) {
-    bail = true;
+    bail = true
   }
-  this.suite.bail(bail);
-  return this;
-};
+  this.suite.bail(bail)
+  return this
+}
 
 /**
  * Add test `file`.
@@ -1078,9 +1078,9 @@ Mocha.prototype.bail = function(bail) {
  * @param {string} file
  */
 Mocha.prototype.addFile = function(file) {
-  this.files.push(file);
-  return this;
-};
+  this.files.push(file)
+  return this
+}
 
 /**
  * Set reporter to `reporter`, defaults to "spec".
@@ -1093,37 +1093,37 @@ Mocha.prototype.addFile = function(file) {
  */
 Mocha.prototype.reporter = function(reporter, reporterOptions) {
   if (typeof reporter === 'function') {
-    this._reporter = reporter;
+    this._reporter = reporter
   } else {
-    reporter = reporter || 'spec';
-    var _reporter;
+    reporter = reporter || 'spec'
+    var _reporter
     // Try to load a built-in reporter.
     if (reporters[reporter]) {
-      _reporter = reporters[reporter];
+      _reporter = reporters[reporter]
     }
     // Try to load reporters from process.cwd() and node_modules
     if (!_reporter) {
       try {
-        _reporter = require(reporter);
+        _reporter = require(reporter)
       } catch (err) {
         err.message.indexOf('Cannot find module') !== -1
           ? console.warn('"' + reporter + '" reporter not found')
-          : console.warn('"' + reporter + '" reporter blew up with error:\n' + err.stack);
+          : console.warn('"' + reporter + '" reporter blew up with error:\n' + err.stack)
       }
     }
     if (!_reporter && reporter === 'teamcity') {
       console.warn('The Teamcity reporter was moved to a package named '
         + 'mocha-teamcity-reporter '
-        + '(https://npmjs.org/package/mocha-teamcity-reporter).');
+        + '(https://npmjs.org/package/mocha-teamcity-reporter).')
     }
     if (!_reporter) {
-      throw new Error('invalid reporter "' + reporter + '"');
+      throw new Error('invalid reporter "' + reporter + '"')
     }
-    this._reporter = _reporter;
+    this._reporter = _reporter
   }
-  this.options.reporterOptions = reporterOptions;
-  return this;
-};
+  this.options.reporterOptions = reporterOptions
+  return this
+}
 
 /**
  * Set test UI `name`, defaults to "bdd".
@@ -1132,18 +1132,18 @@ Mocha.prototype.reporter = function(reporter, reporterOptions) {
  * @param {string} bdd
  */
 Mocha.prototype.ui = function(name) {
-  name = name || 'bdd';
-  this._ui = exports.interfaces[name];
+  name = name || 'bdd'
+  this._ui = exports.interfaces[name]
   if (!this._ui) {
     try {
-      this._ui = require(name);
+      this._ui = require(name)
     } catch (err) {
-      throw new Error('invalid interface "' + name + '"');
+      throw new Error('invalid interface "' + name + '"')
     }
   }
-  this._ui = this._ui(this.suite);
-  return this;
-};
+  this._ui = this._ui(this.suite)
+  return this
+}
 
 /**
  * Load registered files.
@@ -1151,17 +1151,17 @@ Mocha.prototype.ui = function(name) {
  * @api private
  */
 Mocha.prototype.loadFiles = function(fn) {
-  var self = this;
-  var suite = this.suite;
-  var pending = this.files.length;
+  var self = this
+  var suite = this.suite
+  var pending = this.files.length
   this.files.forEach(function(file) {
-    file = path.resolve(file);
-    suite.emit('pre-require', global, file, self);
-    suite.emit('require', require(file), file, self);
+    file = path.resolve(file)
+    suite.emit('pre-require', global, file, self)
+    suite.emit('require', require(file), file, self)
     suite.emit('post-require', global, file, self);
-    --pending || (fn && fn());
-  });
-};
+    --pending || (fn && fn())
+  })
+}
 
 /**
  * Enable growl support.
@@ -1169,22 +1169,22 @@ Mocha.prototype.loadFiles = function(fn) {
  * @api private
  */
 Mocha.prototype._growl = function(runner, reporter) {
-  var notify = require('growl');
+  var notify = require('growl')
 
   runner.on('end', function() {
-    var stats = reporter.stats;
+    var stats = reporter.stats
     if (stats.failures) {
-      var msg = stats.failures + ' of ' + runner.total + ' tests failed';
-      notify(msg, { name: 'mocha', title: 'Failed', image: image('error') });
+      var msg = stats.failures + ' of ' + runner.total + ' tests failed'
+      notify(msg, { name: 'mocha', title: 'Failed', image: image('error') })
     } else {
       notify(stats.passes + ' tests passed in ' + stats.duration + 'ms', {
-        name: 'mocha',
-        title: 'Passed',
-        image: image('ok')
-      });
+        name: 'mocha'
+        , title: 'Passed'
+        , image: image('ok')
+      })
     }
-  });
-};
+  })
+}
 
 /**
  * Add regexp to grep, if `re` is a string it is escaped.
@@ -1196,9 +1196,9 @@ Mocha.prototype._growl = function(runner, reporter) {
  * @return {Mocha}
  */
 Mocha.prototype.grep = function(re) {
-  this.options.grep = typeof re === 'string' ? new RegExp(escapeRe(re)) : re;
-  return this;
-};
+  this.options.grep = typeof re === 'string' ? new RegExp(escapeRe(re)) : re
+  return this
+}
 
 /**
  * Invert `.grep()` matches.
@@ -1207,9 +1207,9 @@ Mocha.prototype.grep = function(re) {
  * @api public
  */
 Mocha.prototype.invert = function() {
-  this.options.invert = true;
-  return this;
-};
+  this.options.invert = true
+  return this
+}
 
 /**
  * Ignore global leaks.
@@ -1221,9 +1221,9 @@ Mocha.prototype.invert = function() {
  * @return {Mocha}
  */
 Mocha.prototype.ignoreLeaks = function(ignore) {
-  this.options.ignoreLeaks = Boolean(ignore);
-  return this;
-};
+  this.options.ignoreLeaks = Boolean(ignore)
+  return this
+}
 
 /**
  * Enable global leak checking.
@@ -1232,9 +1232,9 @@ Mocha.prototype.ignoreLeaks = function(ignore) {
  * @api public
  */
 Mocha.prototype.checkLeaks = function() {
-  this.options.ignoreLeaks = false;
-  return this;
-};
+  this.options.ignoreLeaks = false
+  return this
+}
 
 /**
  * Display long stack-trace on failing
@@ -1243,9 +1243,9 @@ Mocha.prototype.checkLeaks = function() {
  * @api public
  */
 Mocha.prototype.fullTrace = function() {
-  this.options.fullStackTrace = true;
-  return this;
-};
+  this.options.fullStackTrace = true
+  return this
+}
 
 /**
  * Enable growl support.
@@ -1254,9 +1254,9 @@ Mocha.prototype.fullTrace = function() {
  * @api public
  */
 Mocha.prototype.growl = function() {
-  this.options.growl = true;
-  return this;
-};
+  this.options.growl = true
+  return this
+}
 
 /**
  * Ignore `globals` array or string.
@@ -1268,9 +1268,9 @@ Mocha.prototype.growl = function() {
  * @return {Mocha}
  */
 Mocha.prototype.globals = function(globals) {
-  this.options.globals = (this.options.globals || []).concat(globals);
-  return this;
-};
+  this.options.globals = (this.options.globals || []).concat(globals)
+  return this
+}
 
 /**
  * Emit color output.
@@ -1283,10 +1283,10 @@ Mocha.prototype.globals = function(globals) {
  */
 Mocha.prototype.useColors = function(colors) {
   if (colors !== undefined) {
-    this.options.useColors = colors;
+    this.options.useColors = colors
   }
-  return this;
-};
+  return this
+}
 
 /**
  * Use inline diffs rather than +/-.
@@ -1298,9 +1298,9 @@ Mocha.prototype.useColors = function(colors) {
  * @return {Mocha}
  */
 Mocha.prototype.useInlineDiffs = function(inlineDiffs) {
-  this.options.useInlineDiffs = inlineDiffs !== undefined && inlineDiffs;
-  return this;
-};
+  this.options.useInlineDiffs = inlineDiffs !== undefined && inlineDiffs
+  return this
+}
 
 /**
  * Set the timeout in milliseconds.
@@ -1312,9 +1312,9 @@ Mocha.prototype.useInlineDiffs = function(inlineDiffs) {
  * @return {Mocha}
  */
 Mocha.prototype.timeout = function(timeout) {
-  this.suite.timeout(timeout);
-  return this;
-};
+  this.suite.timeout(timeout)
+  return this
+}
 
 /**
  * Set slowness threshold in milliseconds.
@@ -1326,9 +1326,9 @@ Mocha.prototype.timeout = function(timeout) {
  * @return {Mocha}
  */
 Mocha.prototype.slow = function(slow) {
-  this.suite.slow(slow);
-  return this;
-};
+  this.suite.slow(slow)
+  return this
+}
 
 /**
  * Enable timeouts.
@@ -1340,9 +1340,9 @@ Mocha.prototype.slow = function(slow) {
  * @return {Mocha}
  */
 Mocha.prototype.enableTimeouts = function(enabled) {
-  this.suite.enableTimeouts(arguments.length && enabled !== undefined ? enabled : true);
-  return this;
-};
+  this.suite.enableTimeouts(arguments.length && enabled !== undefined ? enabled : true)
+  return this
+}
 
 /**
  * Makes all tests async (accepting a callback)
@@ -1351,9 +1351,9 @@ Mocha.prototype.enableTimeouts = function(enabled) {
  * @api public
  */
 Mocha.prototype.asyncOnly = function() {
-  this.options.asyncOnly = true;
-  return this;
-};
+  this.options.asyncOnly = true
+  return this
+}
 
 /**
  * Disable syntax highlighting (in browser).
@@ -1361,9 +1361,9 @@ Mocha.prototype.asyncOnly = function() {
  * @api public
  */
 Mocha.prototype.noHighlighting = function() {
-  this.options.noHighlighting = true;
-  return this;
-};
+  this.options.noHighlighting = true
+  return this
+}
 
 /**
  * Enable uncaught errors to propagate (in browser).
@@ -1372,18 +1372,18 @@ Mocha.prototype.noHighlighting = function() {
  * @api public
  */
 Mocha.prototype.allowUncaught = function() {
-  this.options.allowUncaught = true;
-  return this;
-};
+  this.options.allowUncaught = true
+  return this
+}
 
 /**
  * Delay root suite execution.
  * @returns {Mocha}
  */
 Mocha.prototype.delay = function delay() {
-  this.options.delay = true;
-  return this;
-};
+  this.options.delay = true
+  return this
+}
 
 /**
  * Run tests and invoke `fn()` when complete.
@@ -1394,53 +1394,53 @@ Mocha.prototype.delay = function delay() {
  */
 Mocha.prototype.run = function(fn) {
   if (this.files.length) {
-    this.loadFiles();
+    this.loadFiles()
   }
-  var suite = this.suite;
-  var options = this.options;
-  options.files = this.files;
-  var runner = new exports.Runner(suite, options.delay);
-  var reporter = new this._reporter(runner, options);
-  runner.ignoreLeaks = options.ignoreLeaks !== false;
-  runner.fullStackTrace = options.fullStackTrace;
-  runner.asyncOnly = options.asyncOnly;
-  runner.allowUncaught = options.allowUncaught;
+  var suite = this.suite
+  var options = this.options
+  options.files = this.files
+  var runner = new exports.Runner(suite, options.delay)
+  var reporter = new this._reporter(runner, options)
+  runner.ignoreLeaks = options.ignoreLeaks !== false
+  runner.fullStackTrace = options.fullStackTrace
+  runner.asyncOnly = options.asyncOnly
+  runner.allowUncaught = options.allowUncaught
   if (options.grep) {
-    runner.grep(options.grep, options.invert);
+    runner.grep(options.grep, options.invert)
   }
   if (options.globals) {
-    runner.globals(options.globals);
+    runner.globals(options.globals)
   }
   if (options.growl) {
-    this._growl(runner, reporter);
+    this._growl(runner, reporter)
   }
   if (options.useColors !== undefined) {
-    exports.reporters.Base.useColors = options.useColors;
+    exports.reporters.Base.useColors = options.useColors
   }
-  exports.reporters.Base.inlineDiffs = options.useInlineDiffs;
+  exports.reporters.Base.inlineDiffs = options.useInlineDiffs
 
   function done(failures) {
     if (reporter.done) {
-      reporter.done(failures, fn);
+      reporter.done(failures, fn)
     } else {
-      fn && fn(failures);
+      fn && fn(failures)
     }
   }
 
-  return runner.run(done);
-};
+  return runner.run(done)
+}
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},"/lib")
-},{"./context":6,"./hook":7,"./interfaces":11,"./reporters":22,"./runnable":35,"./runner":36,"./suite":37,"./test":38,"./utils":39,"_process":51,"escape-string-regexp":68,"growl":69,"path":41}],15:[function(require,module,exports){
+}).call(this, require('_process'), typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : {}, '/lib')
+}, { './context': 6, './hook': 7, './interfaces': 11, './reporters': 22, './runnable': 35, './runner': 36, './suite': 37, './test': 38, './utils': 39, '_process': 51, 'escape-string-regexp': 68, 'growl': 69, 'path': 41 } ], 15: [ function(require, module, exports){
 /**
  * Helpers.
  */
 
-var s = 1000;
-var m = s * 60;
-var h = m * 60;
-var d = h * 24;
-var y = d * 365.25;
+var s = 1000
+var m = s * 60
+var h = m * 60
+var d = h * 24
+var y = d * 365.25
 
 /**
  * Parse or format the given `val`.
@@ -1455,13 +1455,13 @@ var y = d * 365.25;
  * @return {string|number}
  */
 module.exports = function(val, options) {
-  options = options || {};
+  options = options || {}
   if (typeof val === 'string') {
-    return parse(val);
+    return parse(val)
   }
   // https://github.com/mochajs/mocha/pull/1035
-  return options['long'] ? longFormat(val) : shortFormat(val);
-};
+  return options['long'] ? longFormat(val) : shortFormat(val)
+}
 
 /**
  * Parse the given `str` and return milliseconds.
@@ -1471,35 +1471,35 @@ module.exports = function(val, options) {
  * @return {number}
  */
 function parse(str) {
-  var match = (/^((?:\d+)?\.?\d+) *(ms|seconds?|s|minutes?|m|hours?|h|days?|d|years?|y)?$/i).exec(str);
+  var match = (/^((?:\d+)?\.?\d+) *(ms|seconds?|s|minutes?|m|hours?|h|days?|d|years?|y)?$/i).exec(str)
   if (!match) {
-    return;
+    return
   }
-  var n = parseFloat(match[1]);
-  var type = (match[2] || 'ms').toLowerCase();
+  var n = parseFloat(match[1])
+  var type = (match[2] || 'ms').toLowerCase()
   switch (type) {
     case 'years':
     case 'year':
     case 'y':
-      return n * y;
+      return n * y
     case 'days':
     case 'day':
     case 'd':
-      return n * d;
+      return n * d
     case 'hours':
     case 'hour':
     case 'h':
-      return n * h;
+      return n * h
     case 'minutes':
     case 'minute':
     case 'm':
-      return n * m;
+      return n * m
     case 'seconds':
     case 'second':
     case 's':
-      return n * s;
+      return n * s
     case 'ms':
-      return n;
+      return n
     default:
       // No default case
   }
@@ -1514,18 +1514,18 @@ function parse(str) {
  */
 function shortFormat(ms) {
   if (ms >= d) {
-    return Math.round(ms / d) + 'd';
+    return Math.round(ms / d) + 'd'
   }
   if (ms >= h) {
-    return Math.round(ms / h) + 'h';
+    return Math.round(ms / h) + 'h'
   }
   if (ms >= m) {
-    return Math.round(ms / m) + 'm';
+    return Math.round(ms / m) + 'm'
   }
   if (ms >= s) {
-    return Math.round(ms / s) + 's';
+    return Math.round(ms / s) + 's'
   }
-  return ms + 'ms';
+  return ms + 'ms'
 }
 
 /**
@@ -1540,7 +1540,7 @@ function longFormat(ms) {
     || plural(ms, h, 'hour')
     || plural(ms, m, 'minute')
     || plural(ms, s, 'second')
-    || ms + ' ms';
+    || ms + ' ms'
 }
 
 /**
@@ -1553,21 +1553,21 @@ function longFormat(ms) {
  */
 function plural(ms, n, name) {
   if (ms < n) {
-    return;
+    return
   }
   if (ms < n * 1.5) {
-    return Math.floor(ms / n) + ' ' + name;
+    return Math.floor(ms / n) + ' ' + name
   }
-  return Math.ceil(ms / n) + ' ' + name + 's';
+  return Math.ceil(ms / n) + ' ' + name + 's'
 }
 
-},{}],16:[function(require,module,exports){
+}, {} ], 16: [ function(require, module, exports){
 
 /**
  * Expose `Pending`.
  */
 
-module.exports = Pending;
+module.exports = Pending
 
 /**
  * Initialize a new `Pending` error with the given message.
@@ -1575,26 +1575,26 @@ module.exports = Pending;
  * @param {string} message
  */
 function Pending(message) {
-  this.message = message;
+  this.message = message
 }
 
-},{}],17:[function(require,module,exports){
-(function (process,global){
+}, {} ], 17: [ function(require, module, exports){
+(function (process, global){
 /**
  * Module dependencies.
  */
 
-var tty = require('tty');
-var diff = require('diff');
-var ms = require('../ms');
-var utils = require('../utils');
-var supportsColor = process.browser ? null : require('supports-color');
+var tty = require('tty')
+var diff = require('diff')
+var ms = require('../ms')
+var utils = require('../utils')
+var supportsColor = process.browser ? null : require('supports-color')
 
 /**
  * Expose `Base`.
  */
 
-exports = module.exports = Base;
+exports = module.exports = Base
 
 /**
  * Save timer references to avoid Sinon interfering.
@@ -1602,72 +1602,72 @@ exports = module.exports = Base;
  */
 
 /* eslint-disable no-unused-vars, no-native-reassign */
-var Date = global.Date;
-var setTimeout = global.setTimeout;
-var setInterval = global.setInterval;
-var clearTimeout = global.clearTimeout;
-var clearInterval = global.clearInterval;
+var Date = global.Date
+var setTimeout = global.setTimeout
+var setInterval = global.setInterval
+var clearTimeout = global.clearTimeout
+var clearInterval = global.clearInterval
 /* eslint-enable no-unused-vars, no-native-reassign */
 
 /**
  * Check if both stdio streams are associated with a tty.
  */
 
-var isatty = tty.isatty(1) && tty.isatty(2);
+var isatty = tty.isatty(1) && tty.isatty(2)
 
 /**
  * Enable coloring by default, except in the browser interface.
  */
 
-exports.useColors = !process.browser && (supportsColor || (process.env.MOCHA_COLORS !== undefined));
+exports.useColors = !process.browser && (supportsColor || (process.env.MOCHA_COLORS !== undefined))
 
 /**
  * Inline diffs instead of +/-
  */
 
-exports.inlineDiffs = false;
+exports.inlineDiffs = false
 
 /**
  * Default color map.
  */
 
 exports.colors = {
-  pass: 90,
-  fail: 31,
-  'bright pass': 92,
-  'bright fail': 91,
-  'bright yellow': 93,
-  pending: 36,
-  suite: 0,
-  'error title': 0,
-  'error message': 31,
-  'error stack': 90,
-  checkmark: 32,
-  fast: 90,
-  medium: 33,
-  slow: 31,
-  green: 32,
-  light: 90,
-  'diff gutter': 90,
-  'diff added': 32,
-  'diff removed': 31
-};
+  pass: 90
+  , fail: 31
+  , 'bright pass': 92
+  , 'bright fail': 91
+  , 'bright yellow': 93
+  , pending: 36
+  , suite: 0
+  , 'error title': 0
+  , 'error message': 31
+  , 'error stack': 90
+  , checkmark: 32
+  , fast: 90
+  , medium: 33
+  , slow: 31
+  , green: 32
+  , light: 90
+  , 'diff gutter': 90
+  , 'diff added': 32
+  , 'diff removed': 31
+}
 
 /**
  * Default symbol map.
  */
 
 exports.symbols = {
-  ok: '?',
-  err: '?',
-  dot: '·'
-};
+  ok: '?'
+  , err: '?'
+  , dot: 'ï¿½'
+}
 
 // With node.js on Windows: use symbols available in terminal default fonts
 if (process.platform === 'win32') {
-  exports.symbols.ok = '\u221A';
-  exports.symbols.err = '\u00D7';
-  exports.symbols.dot = '.';
+  exports.symbols.ok = '\u221A'
+  exports.symbols.err = '\u00D7'
+  exports.symbols.dot = '.'
 }
 
 /**
@@ -1683,10 +1683,10 @@ if (process.platform === 'win32') {
  */
 var color = exports.color = function(type, str) {
   if (!exports.useColors) {
-    return String(str);
+    return String(str)
   }
-  return '\u001b[' + exports.colors[type] + 'm' + str + '\u001b[0m';
-};
+  return '\u001b[' + exports.colors[type] + 'm' + str + '\u001b[0m'
+}
 
 /**
  * Expose term window size, with some defaults for when stderr is not a tty.
@@ -1694,12 +1694,12 @@ var color = exports.color = function(type, str) {
 
 exports.window = {
   width: 75
-};
+}
 
 if (isatty) {
   exports.window.width = process.stdout.getWindowSize
       ? process.stdout.getWindowSize(1)[0]
-      : tty.getWindowSize()[1];
+      : tty.getWindowSize()[1]
 }
 
 /**
@@ -1708,30 +1708,30 @@ if (isatty) {
 
 exports.cursor = {
   hide: function() {
-    isatty && process.stdout.write('\u001b[?25l');
-  },
+    isatty && process.stdout.write('\u001b[?25l')
+  }
 
-  show: function() {
-    isatty && process.stdout.write('\u001b[?25h');
-  },
+  , show: function() {
+    isatty && process.stdout.write('\u001b[?25h')
+  }
 
-  deleteLine: function() {
-    isatty && process.stdout.write('\u001b[2K');
-  },
+  , deleteLine: function() {
+    isatty && process.stdout.write('\u001b[2K')
+  }
 
-  beginningOfLine: function() {
-    isatty && process.stdout.write('\u001b[0G');
-  },
+  , beginningOfLine: function() {
+    isatty && process.stdout.write('\u001b[0G')
+  }
 
-  CR: function() {
+  , CR: function() {
     if (isatty) {
-      exports.cursor.deleteLine();
-      exports.cursor.beginningOfLine();
+      exports.cursor.deleteLine()
+      exports.cursor.beginningOfLine()
     } else {
-      process.stdout.write('\r');
+      process.stdout.write('\r')
     }
   }
-};
+}
 
 /**
  * Outut the given `failures` as a list.
@@ -1741,68 +1741,68 @@ exports.cursor = {
  */
 
 exports.list = function(failures) {
-  console.log();
+  console.log()
   failures.forEach(function(test, i) {
     // format
     var fmt = color('error title', '  %s) %s:\n')
       + color('error message', '     %s')
-      + color('error stack', '\n%s\n');
+      + color('error stack', '\n%s\n')
 
     // msg
-    var msg;
-    var err = test.err;
-    var message;
+    var msg
+    var err = test.err
+    var message
     if (err.message) {
-      message = err.message;
+      message = err.message
     } else if (typeof err.inspect === 'function') {
-      message = err.inspect() + '';
+      message = err.inspect() + ''
     } else {
-      message = '';
+      message = ''
     }
-    var stack = err.stack || message;
-    var index = stack.indexOf(message);
-    var actual = err.actual;
-    var expected = err.expected;
-    var escape = true;
+    var stack = err.stack || message
+    var index = stack.indexOf(message)
+    var actual = err.actual
+    var expected = err.expected
+    var escape = true
 
     if (index === -1) {
-      msg = message;
+      msg = message
     } else {
-      index += message.length;
-      msg = stack.slice(0, index);
+      index += message.length
+      msg = stack.slice(0, index)
       // remove msg from stack
-      stack = stack.slice(index + 1);
+      stack = stack.slice(index + 1)
     }
 
     // uncaught
     if (err.uncaught) {
-      msg = 'Uncaught ' + msg;
+      msg = 'Uncaught ' + msg
     }
     // explicitly show diff
     if (err.showDiff !== false && sameType(actual, expected) && expected !== undefined) {
-      escape = false;
+      escape = false
       if (!(utils.isString(actual) && utils.isString(expected))) {
-        err.actual = actual = utils.stringify(actual);
-        err.expected = expected = utils.stringify(expected);
+        err.actual = actual = utils.stringify(actual)
+        err.expected = expected = utils.stringify(expected)
       }
 
-      fmt = color('error title', '  %s) %s:\n%s') + color('error stack', '\n%s\n');
-      var match = message.match(/^([^:]+): expected/);
-      msg = '\n      ' + color('error message', match ? match[1] : msg);
+      fmt = color('error title', '  %s) %s:\n%s') + color('error stack', '\n%s\n')
+      var match = message.match(/^([^:]+): expected/)
+      msg = '\n      ' + color('error message', match ? match[1] : msg)
 
       if (exports.inlineDiffs) {
-        msg += inlineDiff(err, escape);
+        msg += inlineDiff(err, escape)
       } else {
-        msg += unifiedDiff(err, escape);
+        msg += unifiedDiff(err, escape)
       }
     }
 
     // indent stack trace
-    stack = stack.replace(/^/gm, '  ');
+    stack = stack.replace(/^/gm, '  ')
 
-    console.log(fmt, (i + 1), test.fullTitle(), msg, stack);
-  });
-};
+    console.log(fmt, (i + 1), test.fullTitle(), msg, stack)
+  })
+}
 
 /**
  * Initialize a new `Base` reporter.
@@ -1817,59 +1817,59 @@ exports.list = function(failures) {
  */
 
 function Base(runner) {
-  var stats = this.stats = { suites: 0, tests: 0, passes: 0, pending: 0, failures: 0 };
-  var failures = this.failures = [];
+  var stats = this.stats = { suites: 0, tests: 0, passes: 0, pending: 0, failures: 0 }
+  var failures = this.failures = []
 
   if (!runner) {
-    return;
+    return
   }
-  this.runner = runner;
+  this.runner = runner
 
-  runner.stats = stats;
+  runner.stats = stats
 
   runner.on('start', function() {
-    stats.start = new Date();
-  });
+    stats.start = new Date()
+  })
 
   runner.on('suite', function(suite) {
-    stats.suites = stats.suites || 0;
-    suite.root || stats.suites++;
-  });
+    stats.suites = stats.suites || 0
+    suite.root || stats.suites++
+  })
 
   runner.on('test end', function() {
-    stats.tests = stats.tests || 0;
-    stats.tests++;
-  });
+    stats.tests = stats.tests || 0
+    stats.tests++
+  })
 
   runner.on('pass', function(test) {
-    stats.passes = stats.passes || 0;
+    stats.passes = stats.passes || 0
 
     if (test.duration > test.slow()) {
-      test.speed = 'slow';
+      test.speed = 'slow'
     } else if (test.duration > test.slow() / 2) {
-      test.speed = 'medium';
+      test.speed = 'medium'
     } else {
-      test.speed = 'fast';
+      test.speed = 'fast'
     }
 
-    stats.passes++;
-  });
+    stats.passes++
+  })
 
   runner.on('fail', function(test, err) {
-    stats.failures = stats.failures || 0;
-    stats.failures++;
-    test.err = err;
-    failures.push(test);
-  });
+    stats.failures = stats.failures || 0
+    stats.failures++
+    test.err = err
+    failures.push(test)
+  })
 
   runner.on('end', function() {
-    stats.end = new Date();
-    stats.duration = new Date() - stats.start;
-  });
+    stats.end = new Date()
+    stats.duration = new Date() - stats.start
+  })
 
   runner.on('pending', function() {
-    stats.pending++;
-  });
+    stats.pending++
+  })
 }
 
 /**
@@ -1879,40 +1879,40 @@ function Base(runner) {
  * @api public
  */
 Base.prototype.epilogue = function() {
-  var stats = this.stats;
-  var fmt;
+  var stats = this.stats
+  var fmt
 
-  console.log();
+  console.log()
 
   // passes
   fmt = color('bright pass', ' ')
     + color('green', ' %d passing')
-    + color('light', ' (%s)');
+    + color('light', ' (%s)')
 
   console.log(fmt,
     stats.passes || 0,
-    ms(stats.duration));
+    ms(stats.duration))
 
   // pending
   if (stats.pending) {
     fmt = color('pending', ' ')
-      + color('pending', ' %d pending');
+      + color('pending', ' %d pending')
 
-    console.log(fmt, stats.pending);
+    console.log(fmt, stats.pending)
   }
 
   // failures
   if (stats.failures) {
-    fmt = color('fail', '  %d failing');
+    fmt = color('fail', '  %d failing')
 
-    console.log(fmt, stats.failures);
+    console.log(fmt, stats.failures)
 
-    Base.list(this.failures);
-    console.log();
+    Base.list(this.failures)
+    console.log()
   }
 
-  console.log();
-};
+  console.log()
+}
 
 /**
  * Pad the given `str` to `len`.
@@ -1923,8 +1923,8 @@ Base.prototype.epilogue = function() {
  * @return {string}
  */
 function pad(str, len) {
-  str = String(str);
-  return Array(len - str.length + 1).join(' ') + str;
+  str = String(str)
+  return Array(len - str.length + 1).join(' ') + str
 }
 
 /**
@@ -1936,15 +1936,15 @@ function pad(str, len) {
  * @return {string} Diff
  */
 function inlineDiff(err, escape) {
-  var msg = errorDiff(err, 'WordsWithSpace', escape);
+  var msg = errorDiff(err, 'WordsWithSpace', escape)
 
   // linenos
-  var lines = msg.split('\n');
+  var lines = msg.split('\n')
   if (lines.length > 4) {
-    var width = String(lines.length).length;
+    var width = String(lines.length).length
     msg = lines.map(function(str, i) {
-      return pad(++i, width) + ' |' + ' ' + str;
-    }).join('\n');
+      return pad(++i, width) + ' |' + ' ' + str
+    }).join('\n')
   }
 
   // legend
@@ -1954,11 +1954,11 @@ function inlineDiff(err, escape) {
     + color('diff added', 'expected')
     + '\n\n'
     + msg
-    + '\n';
+    + '\n'
 
   // indent
-  msg = msg.replace(/^/gm, '      ');
-  return msg;
+  msg = msg.replace(/^/gm, '      ')
+  return msg
 }
 
 /**
@@ -1970,35 +1970,35 @@ function inlineDiff(err, escape) {
  * @return {string} The diff.
  */
 function unifiedDiff(err, escape) {
-  var indent = '      ';
+  var indent = '      '
   function cleanUp(line) {
     if (escape) {
-      line = escapeInvisibles(line);
+      line = escapeInvisibles(line)
     }
     if (line[0] === '+') {
-      return indent + colorLines('diff added', line);
+      return indent + colorLines('diff added', line)
     }
     if (line[0] === '-') {
-      return indent + colorLines('diff removed', line);
+      return indent + colorLines('diff removed', line)
     }
     if (line.match(/\@\@/)) {
-      return null;
+      return null
     }
     if (line.match(/\\ No newline/)) {
-      return null;
+      return null
     }
-    return indent + line;
+    return indent + line
   }
   function notBlank(line) {
-    return typeof line !== 'undefined' && line !== null;
+    return typeof line !== 'undefined' && line !== null
   }
-  var msg = diff.createPatch('string', err.actual, err.expected);
-  var lines = msg.split('\n').splice(4);
+  var msg = diff.createPatch('string', err.actual, err.expected)
+  var lines = msg.split('\n').splice(4)
   return '\n      '
     + colorLines('diff added', '+ expected') + ' '
     + colorLines('diff removed', '- actual')
     + '\n\n'
-    + lines.map(cleanUp).filter(notBlank).join('\n');
+    + lines.map(cleanUp).filter(notBlank).join('\n')
 }
 
 /**
@@ -2011,17 +2011,17 @@ function unifiedDiff(err, escape) {
  * @return {string}
  */
 function errorDiff(err, type, escape) {
-  var actual = escape ? escapeInvisibles(err.actual) : err.actual;
-  var expected = escape ? escapeInvisibles(err.expected) : err.expected;
+  var actual = escape ? escapeInvisibles(err.actual) : err.actual
+  var expected = escape ? escapeInvisibles(err.expected) : err.expected
   return diff['diff' + type](actual, expected).map(function(str) {
     if (str.added) {
-      return colorLines('diff added', str.value);
+      return colorLines('diff added', str.value)
     }
     if (str.removed) {
-      return colorLines('diff removed', str.value);
+      return colorLines('diff removed', str.value)
     }
-    return str.value;
-  }).join('');
+    return str.value
+  }).join('')
 }
 
 /**
@@ -2034,7 +2034,7 @@ function errorDiff(err, type, escape) {
 function escapeInvisibles(line) {
   return line.replace(/\t/g, '<tab>')
     .replace(/\r/g, '<CR>')
-    .replace(/\n/g, '<LF>\n');
+    .replace(/\n/g, '<LF>\n')
 }
 
 /**
@@ -2047,14 +2047,14 @@ function escapeInvisibles(line) {
  */
 function colorLines(name, str) {
   return str.split('\n').map(function(str) {
-    return color(name, str);
-  }).join('\n');
+    return color(name, str)
+  }).join('\n')
 }
 
 /**
  * Object#toString reference.
  */
-var objToString = Object.prototype.toString;
+var objToString = Object.prototype.toString
 
 /**
  * Check that a / b have the same type.
@@ -2065,23 +2065,23 @@ var objToString = Object.prototype.toString;
  * @return {boolean}
  */
 function sameType(a, b) {
-  return objToString.call(a) === objToString.call(b);
+  return objToString.call(a) === objToString.call(b)
 }
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../ms":15,"../utils":39,"_process":51,"diff":67,"supports-color":41,"tty":5}],18:[function(require,module,exports){
+}).call(this, require('_process'), typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : {})
+}, { '../ms': 15, '../utils': 39, '_process': 51, 'diff': 67, 'supports-color': 41, 'tty': 5 } ], 18: [ function(require, module, exports){
 /**
  * Module dependencies.
  */
 
-var Base = require('./base');
-var utils = require('../utils');
+var Base = require('./base')
+var utils = require('../utils')
 
 /**
  * Expose `Doc`.
  */
 
-exports = module.exports = Doc;
+exports = module.exports = Doc
 
 /**
  * Initialize a new `Doc` reporter.
@@ -2090,64 +2090,64 @@ exports = module.exports = Doc;
  * @api public
  */
 function Doc(runner) {
-  Base.call(this, runner);
+  Base.call(this, runner)
 
-  var indents = 2;
+  var indents = 2
 
   function indent() {
-    return Array(indents).join('  ');
+    return Array(indents).join('  ')
   }
 
   runner.on('suite', function(suite) {
     if (suite.root) {
-      return;
+      return
     }
-    ++indents;
+    ++indents
     console.log('%s<section class="suite">', indent());
-    ++indents;
-    console.log('%s<h1>%s</h1>', indent(), utils.escape(suite.title));
-    console.log('%s<dl>', indent());
-  });
+    ++indents
+    console.log('%s<h1>%s</h1>', indent(), utils.escape(suite.title))
+    console.log('%s<dl>', indent())
+  })
 
   runner.on('suite end', function(suite) {
     if (suite.root) {
-      return;
+      return
     }
     console.log('%s</dl>', indent());
-    --indents;
+    --indents
     console.log('%s</section>', indent());
-    --indents;
-  });
+    --indents
+  })
 
   runner.on('pass', function(test) {
-    console.log('%s  <dt>%s</dt>', indent(), utils.escape(test.title));
-    var code = utils.escape(utils.clean(test.fn.toString()));
-    console.log('%s  <dd><pre><code>%s</code></pre></dd>', indent(), code);
-  });
+    console.log('%s  <dt>%s</dt>', indent(), utils.escape(test.title))
+    var code = utils.escape(utils.clean(test.fn.toString()))
+    console.log('%s  <dd><pre><code>%s</code></pre></dd>', indent(), code)
+  })
 
   runner.on('fail', function(test, err) {
-    console.log('%s  <dt class="error">%s</dt>', indent(), utils.escape(test.title));
-    var code = utils.escape(utils.clean(test.fn.toString()));
-    console.log('%s  <dd class="error"><pre><code>%s</code></pre></dd>', indent(), code);
-    console.log('%s  <dd class="error">%s</dd>', indent(), utils.escape(err));
-  });
+    console.log('%s  <dt class="error">%s</dt>', indent(), utils.escape(test.title))
+    var code = utils.escape(utils.clean(test.fn.toString()))
+    console.log('%s  <dd class="error"><pre><code>%s</code></pre></dd>', indent(), code)
+    console.log('%s  <dd class="error">%s</dd>', indent(), utils.escape(err))
+  })
 }
 
-},{"../utils":39,"./base":17}],19:[function(require,module,exports){
+}, { '../utils': 39, './base': 17 } ], 19: [ function(require, module, exports){
 (function (process){
 /**
  * Module dependencies.
  */
 
-var Base = require('./base');
-var inherits = require('../utils').inherits;
-var color = Base.color;
+var Base = require('./base')
+var inherits = require('../utils').inherits
+var color = Base.color
 
 /**
  * Expose `Dot`.
  */
 
-exports = module.exports = Dot;
+exports = module.exports = Dot
 
 /**
  * Initialize a new `Dot` matrix test reporter.
@@ -2156,68 +2156,68 @@ exports = module.exports = Dot;
  * @param {Runner} runner
  */
 function Dot(runner) {
-  Base.call(this, runner);
+  Base.call(this, runner)
 
-  var self = this;
-  var width = Base.window.width * .75 | 0;
-  var n = -1;
+  var self = this
+  var width = Base.window.width * .75 | 0
+  var n = -1
 
   runner.on('start', function() {
-    process.stdout.write('\n');
-  });
+    process.stdout.write('\n')
+  })
 
   runner.on('pending', function() {
     if (++n % width === 0) {
-      process.stdout.write('\n  ');
+      process.stdout.write('\n  ')
     }
-    process.stdout.write(color('pending', Base.symbols.dot));
-  });
+    process.stdout.write(color('pending', Base.symbols.dot))
+  })
 
   runner.on('pass', function(test) {
     if (++n % width === 0) {
-      process.stdout.write('\n  ');
+      process.stdout.write('\n  ')
     }
     if (test.speed === 'slow') {
-      process.stdout.write(color('bright yellow', Base.symbols.dot));
+      process.stdout.write(color('bright yellow', Base.symbols.dot))
     } else {
-      process.stdout.write(color(test.speed, Base.symbols.dot));
+      process.stdout.write(color(test.speed, Base.symbols.dot))
     }
-  });
+  })
 
   runner.on('fail', function() {
     if (++n % width === 0) {
-      process.stdout.write('\n  ');
+      process.stdout.write('\n  ')
     }
-    process.stdout.write(color('fail', Base.symbols.dot));
-  });
+    process.stdout.write(color('fail', Base.symbols.dot))
+  })
 
   runner.on('end', function() {
-    console.log();
-    self.epilogue();
-  });
+    console.log()
+    self.epilogue()
+  })
 }
 
 /**
  * Inherit from `Base.prototype`.
  */
-inherits(Dot, Base);
+inherits(Dot, Base)
 
-}).call(this,require('_process'))
-},{"../utils":39,"./base":17,"_process":51}],20:[function(require,module,exports){
-(function (process,__dirname){
+}).call(this, require('_process'))
+}, { '../utils': 39, './base': 17, '_process': 51 } ], 20: [ function(require, module, exports){
+(function (process, __dirname){
 /**
  * Module dependencies.
  */
 
-var JSONCov = require('./json-cov');
-var readFileSync = require('fs').readFileSync;
-var join = require('path').join;
+var JSONCov = require('./json-cov')
+var readFileSync = require('fs').readFileSync
+var join = require('path').join
 
 /**
  * Expose `HTMLCov`.
  */
 
-exports = module.exports = HTMLCov;
+exports = module.exports = HTMLCov
 
 /**
  * Initialize a new `JsCoverage` reporter.
@@ -2226,20 +2226,20 @@ exports = module.exports = HTMLCov;
  * @param {Runner} runner
  */
 function HTMLCov(runner) {
-  var jade = require('jade');
-  var file = join(__dirname, '/templates/coverage.jade');
-  var str = readFileSync(file, 'utf8');
-  var fn = jade.compile(str, { filename: file });
-  var self = this;
+  var jade = require('jade')
+  var file = join(__dirname, '/templates/coverage.jade')
+  var str = readFileSync(file, 'utf8')
+  var fn = jade.compile(str, { filename: file })
+  var self = this
 
-  JSONCov.call(this, runner, false);
+  JSONCov.call(this, runner, false)
 
   runner.on('end', function() {
     process.stdout.write(fn({
-      cov: self.cov,
-      coverageClass: coverageClass
-    }));
-  });
+      cov: self.cov
+      , coverageClass: coverageClass
+    }))
+  })
 }
 
 /**
@@ -2251,19 +2251,19 @@ function HTMLCov(runner) {
  */
 function coverageClass(coveragePctg) {
   if (coveragePctg >= 75) {
-    return 'high';
+    return 'high'
   }
   if (coveragePctg >= 50) {
-    return 'medium';
+    return 'medium'
   }
   if (coveragePctg >= 25) {
-    return 'low';
+    return 'low'
   }
-  return 'terrible';
+  return 'terrible'
 }
 
-}).call(this,require('_process'),"/lib/reporters")
-},{"./json-cov":23,"_process":51,"fs":41,"jade":41,"path":41}],21:[function(require,module,exports){
+}).call(this, require('_process'), '/lib/reporters')
+}, { './json-cov': 23, '_process': 51, 'fs': 41, 'jade': 41, 'path': 41 } ], 21: [ function(require, module, exports){
 (function (global){
 /* eslint-env browser */
 
@@ -2271,29 +2271,29 @@ function coverageClass(coveragePctg) {
  * Module dependencies.
  */
 
-var Base = require('./base');
-var utils = require('../utils');
-var Progress = require('../browser/progress');
-var escapeRe = require('escape-string-regexp');
-var escape = utils.escape;
+var Base = require('./base')
+var utils = require('../utils')
+var Progress = require('../browser/progress')
+var escapeRe = require('escape-string-regexp')
+var escape = utils.escape
 
 /**
  * Save timer references to avoid Sinon interfering (see GH-237).
  */
 
 /* eslint-disable no-unused-vars, no-native-reassign */
-var Date = global.Date;
-var setTimeout = global.setTimeout;
-var setInterval = global.setInterval;
-var clearTimeout = global.clearTimeout;
-var clearInterval = global.clearInterval;
+var Date = global.Date
+var setTimeout = global.setTimeout
+var setInterval = global.setInterval
+var clearTimeout = global.clearTimeout
+var clearInterval = global.clearInterval
 /* eslint-enable no-unused-vars, no-native-reassign */
 
 /**
  * Expose `HTML`.
  */
 
-exports = module.exports = HTML;
+exports = module.exports = HTML
 
 /**
  * Stats template.
@@ -2304,7 +2304,7 @@ var statsTemplate = '<ul id="mocha-stats">'
   + '<li class="passes"><a href="javascript:void(0);">passes:</a> <em>0</em></li>'
   + '<li class="failures"><a href="javascript:void(0);">failures:</a> <em>0</em></li>'
   + '<li class="duration">duration: <em>0</em>s</li>'
-  + '</ul>';
+  + '</ul>'
 
 /**
  * Initialize a new `HTML` reporter.
@@ -2313,167 +2313,167 @@ var statsTemplate = '<ul id="mocha-stats">'
  * @param {Runner} runner
  */
 function HTML(runner) {
-  Base.call(this, runner);
+  Base.call(this, runner)
 
-  var self = this;
-  var stats = this.stats;
-  var stat = fragment(statsTemplate);
-  var items = stat.getElementsByTagName('li');
-  var passes = items[1].getElementsByTagName('em')[0];
-  var passesLink = items[1].getElementsByTagName('a')[0];
-  var failures = items[2].getElementsByTagName('em')[0];
-  var failuresLink = items[2].getElementsByTagName('a')[0];
-  var duration = items[3].getElementsByTagName('em')[0];
-  var canvas = stat.getElementsByTagName('canvas')[0];
-  var report = fragment('<ul id="mocha-report"></ul>');
-  var stack = [report];
-  var progress;
-  var ctx;
-  var root = document.getElementById('mocha');
+  var self = this
+  var stats = this.stats
+  var stat = fragment(statsTemplate)
+  var items = stat.getElementsByTagName('li')
+  var passes = items[1].getElementsByTagName('em')[0]
+  var passesLink = items[1].getElementsByTagName('a')[0]
+  var failures = items[2].getElementsByTagName('em')[0]
+  var failuresLink = items[2].getElementsByTagName('a')[0]
+  var duration = items[3].getElementsByTagName('em')[0]
+  var canvas = stat.getElementsByTagName('canvas')[0]
+  var report = fragment('<ul id="mocha-report"></ul>')
+  var stack = [ report ]
+  var progress
+  var ctx
+  var root = document.getElementById('mocha')
 
   if (canvas.getContext) {
-    var ratio = window.devicePixelRatio || 1;
-    canvas.style.width = canvas.width;
-    canvas.style.height = canvas.height;
-    canvas.width *= ratio;
-    canvas.height *= ratio;
-    ctx = canvas.getContext('2d');
-    ctx.scale(ratio, ratio);
-    progress = new Progress();
+    var ratio = window.devicePixelRatio || 1
+    canvas.style.width = canvas.width
+    canvas.style.height = canvas.height
+    canvas.width *= ratio
+    canvas.height *= ratio
+    ctx = canvas.getContext('2d')
+    ctx.scale(ratio, ratio)
+    progress = new Progress()
   }
 
   if (!root) {
-    return error('#mocha div missing, add it to your document');
+    return error('#mocha div missing, add it to your document')
   }
 
   // pass toggle
   on(passesLink, 'click', function() {
-    unhide();
-    var name = (/pass/).test(report.className) ? '' : ' pass';
-    report.className = report.className.replace(/fail|pass/g, '') + name;
+    unhide()
+    var name = (/pass/).test(report.className) ? '' : ' pass'
+    report.className = report.className.replace(/fail|pass/g, '') + name
     if (report.className.trim()) {
-      hideSuitesWithout('test pass');
+      hideSuitesWithout('test pass')
     }
-  });
+  })
 
   // failure toggle
   on(failuresLink, 'click', function() {
-    unhide();
-    var name = (/fail/).test(report.className) ? '' : ' fail';
-    report.className = report.className.replace(/fail|pass/g, '') + name;
+    unhide()
+    var name = (/fail/).test(report.className) ? '' : ' fail'
+    report.className = report.className.replace(/fail|pass/g, '') + name
     if (report.className.trim()) {
-      hideSuitesWithout('test fail');
+      hideSuitesWithout('test fail')
     }
-  });
+  })
 
-  root.appendChild(stat);
-  root.appendChild(report);
+  root.appendChild(stat)
+  root.appendChild(report)
 
   if (progress) {
-    progress.size(40);
+    progress.size(40)
   }
 
   runner.on('suite', function(suite) {
     if (suite.root) {
-      return;
+      return
     }
 
     // suite
-    var url = self.suiteURL(suite);
-    var el = fragment('<li class="suite"><h1><a href="%s">%s</a></h1></li>', url, escape(suite.title));
+    var url = self.suiteURL(suite)
+    var el = fragment('<li class="suite"><h1><a href="%s">%s</a></h1></li>', url, escape(suite.title))
 
     // container
-    stack[0].appendChild(el);
-    stack.unshift(document.createElement('ul'));
-    el.appendChild(stack[0]);
-  });
+    stack[0].appendChild(el)
+    stack.unshift(document.createElement('ul'))
+    el.appendChild(stack[0])
+  })
 
   runner.on('suite end', function(suite) {
     if (suite.root) {
-      return;
+      return
     }
-    stack.shift();
-  });
+    stack.shift()
+  })
 
   runner.on('fail', function(test) {
     if (test.type === 'hook') {
-      runner.emit('test end', test);
+      runner.emit('test end', test)
     }
-  });
+  })
 
   runner.on('test end', function(test) {
     // TODO: add to stats
-    var percent = stats.tests / this.total * 100 | 0;
+    var percent = stats.tests / this.total * 100 | 0
     if (progress) {
-      progress.update(percent).draw(ctx);
+      progress.update(percent).draw(ctx)
     }
 
     // update stats
-    var ms = new Date() - stats.start;
-    text(passes, stats.passes);
-    text(failures, stats.failures);
-    text(duration, (ms / 1000).toFixed(2));
+    var ms = new Date() - stats.start
+    text(passes, stats.passes)
+    text(failures, stats.failures)
+    text(duration, (ms / 1000).toFixed(2))
 
     // test
-    var el;
+    var el
     if (test.state === 'passed') {
-      var url = self.testURL(test);
-      el = fragment('<li class="test pass %e"><h2>%e<span class="duration">%ems</span> <a href="%s" class="replay">?</a></h2></li>', test.speed, test.title, test.duration, url);
+      var url = self.testURL(test)
+      el = fragment('<li class="test pass %e"><h2>%e<span class="duration">%ems</span> <a href="%s" class="replay">?</a></h2></li>', test.speed, test.title, test.duration, url)
     } else if (test.pending) {
-      el = fragment('<li class="test pass pending"><h2>%e</h2></li>', test.title);
+      el = fragment('<li class="test pass pending"><h2>%e</h2></li>', test.title)
     } else {
-      el = fragment('<li class="test fail"><h2>%e <a href="%e" class="replay">?</a></h2></li>', test.title, self.testURL(test));
-      var stackString; // Note: Includes leading newline
-      var message = test.err.toString();
+      el = fragment('<li class="test fail"><h2>%e <a href="%e" class="replay">?</a></h2></li>', test.title, self.testURL(test))
+      var stackString // Note: Includes leading newline
+      var message = test.err.toString()
 
       // <=IE7 stringifies to [Object Error]. Since it can be overloaded, we
       // check for the result of the stringifying.
       if (message === '[object Error]') {
-        message = test.err.message;
+        message = test.err.message
       }
 
       if (test.err.stack) {
-        var indexOfMessage = test.err.stack.indexOf(test.err.message);
+        var indexOfMessage = test.err.stack.indexOf(test.err.message)
         if (indexOfMessage === -1) {
-          stackString = test.err.stack;
+          stackString = test.err.stack
         } else {
-          stackString = test.err.stack.substr(test.err.message.length + indexOfMessage);
+          stackString = test.err.stack.substr(test.err.message.length + indexOfMessage)
         }
       } else if (test.err.sourceURL && test.err.line !== undefined) {
         // Safari doesn't give you a stack. Let's at least provide a source line.
-        stackString = '\n(' + test.err.sourceURL + ':' + test.err.line + ')';
+        stackString = '\n(' + test.err.sourceURL + ':' + test.err.line + ')'
       }
 
-      stackString = stackString || '';
+      stackString = stackString || ''
 
       if (test.err.htmlMessage && stackString) {
-        el.appendChild(fragment('<div class="html-error">%s\n<pre class="error">%e</pre></div>', test.err.htmlMessage, stackString));
+        el.appendChild(fragment('<div class="html-error">%s\n<pre class="error">%e</pre></div>', test.err.htmlMessage, stackString))
       } else if (test.err.htmlMessage) {
-        el.appendChild(fragment('<div class="html-error">%s</div>', test.err.htmlMessage));
+        el.appendChild(fragment('<div class="html-error">%s</div>', test.err.htmlMessage))
       } else {
-        el.appendChild(fragment('<pre class="error">%e%e</pre>', message, stackString));
+        el.appendChild(fragment('<pre class="error">%e%e</pre>', message, stackString))
       }
     }
 
     // toggle code
     // TODO: defer
     if (!test.pending) {
-      var h2 = el.getElementsByTagName('h2')[0];
+      var h2 = el.getElementsByTagName('h2')[0]
 
       on(h2, 'click', function() {
-        pre.style.display = pre.style.display === 'none' ? 'block' : 'none';
-      });
+        pre.style.display = pre.style.display === 'none' ? 'block' : 'none'
+      })
 
-      var pre = fragment('<pre><code>%e</code></pre>', utils.clean(test.fn.toString()));
-      el.appendChild(pre);
-      pre.style.display = 'none';
+      var pre = fragment('<pre><code>%e</code></pre>', utils.clean(test.fn.toString()))
+      el.appendChild(pre)
+      pre.style.display = 'none'
     }
 
     // Don't call .appendChild if #mocha-report was already .shift()'ed off the stack.
     if (stack[0]) {
-      stack[0].appendChild(el);
+      stack[0].appendChild(el)
     }
-  });
+  })
 }
 
 /**
@@ -2483,14 +2483,14 @@ function HTML(runner) {
  * @return {string} A new URL.
  */
 function makeUrl(s) {
-  var search = window.location.search;
+  var search = window.location.search
 
   // Remove previous grep query parameter if present
   if (search) {
-    search = search.replace(/[?&]grep=[^&\s]*/g, '').replace(/^&/, '?');
+    search = search.replace(/[?&]grep=[^&\s]*/g, '').replace(/^&/, '?')
   }
 
-  return window.location.pathname + (search ? search + '&' : '?') + 'grep=' + encodeURIComponent(escapeRe(s));
+  return window.location.pathname + (search ? search + '&' : '?') + 'grep=' + encodeURIComponent(escapeRe(s))
 }
 
 /**
@@ -2499,8 +2499,8 @@ function makeUrl(s) {
  * @param {Object} [suite]
  */
 HTML.prototype.suiteURL = function(suite) {
-  return makeUrl(suite.fullTitle());
-};
+  return makeUrl(suite.fullTitle())
+}
 
 /**
  * Provide test URL.
@@ -2508,8 +2508,8 @@ HTML.prototype.suiteURL = function(suite) {
  * @param {Object} [test]
  */
 HTML.prototype.testURL = function(test) {
-  return makeUrl(test.fullTitle());
-};
+  return makeUrl(test.fullTitle())
+}
 
 /**
  * Display error `msg`.
@@ -2517,7 +2517,7 @@ HTML.prototype.testURL = function(test) {
  * @param {string} msg
  */
 function error(msg) {
-  document.body.appendChild(fragment('<div id="mocha-error">%s</div>', msg));
+  document.body.appendChild(fragment('<div id="mocha-error">%s</div>', msg))
 }
 
 /**
@@ -2526,19 +2526,19 @@ function error(msg) {
  * @param {string} html
  */
 function fragment(html) {
-  var args = arguments;
-  var div = document.createElement('div');
-  var i = 1;
+  var args = arguments
+  var div = document.createElement('div')
+  var i = 1
 
   div.innerHTML = html.replace(/%([se])/g, function(_, type) {
     switch (type) {
-      case 's': return String(args[i++]);
-      case 'e': return escape(args[i++]);
+      case 's': return String(args[i++])
+      case 'e': return escape(args[i++])
       // no default
     }
-  });
+  })
 
-  return div.firstChild;
+  return div.firstChild
 }
 
 /**
@@ -2548,11 +2548,11 @@ function fragment(html) {
  * @param {text} classname
  */
 function hideSuitesWithout(classname) {
-  var suites = document.getElementsByClassName('suite');
+  var suites = document.getElementsByClassName('suite')
   for (var i = 0; i < suites.length; i++) {
-    var els = suites[i].getElementsByClassName(classname);
+    var els = suites[i].getElementsByClassName(classname)
     if (!els.length) {
-      suites[i].className += ' hidden';
+      suites[i].className += ' hidden'
     }
   }
 }
@@ -2561,9 +2561,9 @@ function hideSuitesWithout(classname) {
  * Unhide .hidden suites.
  */
 function unhide() {
-  var els = document.getElementsByClassName('suite hidden');
+  var els = document.getElementsByClassName('suite hidden')
   for (var i = 0; i < els.length; ++i) {
-    els[i].className = els[i].className.replace('suite hidden', 'suite');
+    els[i].className = els[i].className.replace('suite hidden', 'suite')
   }
 }
 
@@ -2575,9 +2575,9 @@ function unhide() {
  */
 function text(el, contents) {
   if (el.textContent) {
-    el.textContent = contents;
+    el.textContent = contents
   } else {
-    el.innerText = contents;
+    el.innerText = contents
   }
 }
 
@@ -2586,47 +2586,47 @@ function text(el, contents) {
  */
 function on(el, event, fn) {
   if (el.addEventListener) {
-    el.addEventListener(event, fn, false);
+    el.addEventListener(event, fn, false)
   } else {
-    el.attachEvent('on' + event, fn);
+    el.attachEvent('on' + event, fn)
   }
 }
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../browser/progress":4,"../utils":39,"./base":17,"escape-string-regexp":68}],22:[function(require,module,exports){
+}).call(this, typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : {})
+}, { '../browser/progress': 4, '../utils': 39, './base': 17, 'escape-string-regexp': 68 } ], 22: [ function(require, module, exports){
 // Alias exports to a their normalized format Mocha#reporter to prevent a need
 // for dynamic (try/catch) requires, which Browserify doesn't handle.
-exports.Base = exports.base = require('./base');
-exports.Dot = exports.dot = require('./dot');
-exports.Doc = exports.doc = require('./doc');
-exports.TAP = exports.tap = require('./tap');
-exports.JSON = exports.json = require('./json');
-exports.HTML = exports.html = require('./html');
-exports.List = exports.list = require('./list');
-exports.Min = exports.min = require('./min');
-exports.Spec = exports.spec = require('./spec');
-exports.Nyan = exports.nyan = require('./nyan');
-exports.XUnit = exports.xunit = require('./xunit');
-exports.Markdown = exports.markdown = require('./markdown');
-exports.Progress = exports.progress = require('./progress');
-exports.Landing = exports.landing = require('./landing');
-exports.JSONCov = exports['json-cov'] = require('./json-cov');
-exports.HTMLCov = exports['html-cov'] = require('./html-cov');
-exports.JSONStream = exports['json-stream'] = require('./json-stream');
+exports.Base = exports.base = require('./base')
+exports.Dot = exports.dot = require('./dot')
+exports.Doc = exports.doc = require('./doc')
+exports.TAP = exports.tap = require('./tap')
+exports.JSON = exports.json = require('./json')
+exports.HTML = exports.html = require('./html')
+exports.List = exports.list = require('./list')
+exports.Min = exports.min = require('./min')
+exports.Spec = exports.spec = require('./spec')
+exports.Nyan = exports.nyan = require('./nyan')
+exports.XUnit = exports.xunit = require('./xunit')
+exports.Markdown = exports.markdown = require('./markdown')
+exports.Progress = exports.progress = require('./progress')
+exports.Landing = exports.landing = require('./landing')
+exports.JSONCov = exports['json-cov'] = require('./json-cov')
+exports.HTMLCov = exports['html-cov'] = require('./html-cov')
+exports.JSONStream = exports['json-stream'] = require('./json-stream')
 
-},{"./base":17,"./doc":18,"./dot":19,"./html":21,"./html-cov":20,"./json":25,"./json-cov":23,"./json-stream":24,"./landing":26,"./list":27,"./markdown":28,"./min":29,"./nyan":30,"./progress":31,"./spec":32,"./tap":33,"./xunit":34}],23:[function(require,module,exports){
-(function (process,global){
+}, { './base': 17, './doc': 18, './dot': 19, './html': 21, './html-cov': 20, './json': 25, './json-cov': 23, './json-stream': 24, './landing': 26, './list': 27, './markdown': 28, './min': 29, './nyan': 30, './progress': 31, './spec': 32, './tap': 33, './xunit': 34 } ], 23: [ function(require, module, exports){
+(function (process, global){
 /**
  * Module dependencies.
  */
 
-var Base = require('./base');
+var Base = require('./base')
 
 /**
  * Expose `JSONCov`.
  */
 
-exports = module.exports = JSONCov;
+exports = module.exports = JSONCov
 
 /**
  * Initialize a new `JsCoverage` reporter.
@@ -2636,38 +2636,38 @@ exports = module.exports = JSONCov;
  * @param {boolean} output
  */
 function JSONCov(runner, output) {
-  Base.call(this, runner);
+  Base.call(this, runner)
 
-  output = arguments.length === 1 || output;
-  var self = this;
-  var tests = [];
-  var failures = [];
-  var passes = [];
+  output = arguments.length === 1 || output
+  var self = this
+  var tests = []
+  var failures = []
+  var passes = []
 
   runner.on('test end', function(test) {
-    tests.push(test);
-  });
+    tests.push(test)
+  })
 
   runner.on('pass', function(test) {
-    passes.push(test);
-  });
+    passes.push(test)
+  })
 
   runner.on('fail', function(test) {
-    failures.push(test);
-  });
+    failures.push(test)
+  })
 
   runner.on('end', function() {
-    var cov = global._$jscoverage || {};
-    var result = self.cov = map(cov);
-    result.stats = self.stats;
-    result.tests = tests.map(clean);
-    result.failures = failures.map(clean);
-    result.passes = passes.map(clean);
+    var cov = global._$jscoverage || {}
+    var result = self.cov = map(cov)
+    result.stats = self.stats
+    result.tests = tests.map(clean)
+    result.failures = failures.map(clean)
+    result.passes = passes.map(clean)
     if (!output) {
-      return;
+      return
     }
-    process.stdout.write(JSON.stringify(result, null, 2));
-  });
+    process.stdout.write(JSON.stringify(result, null, 2))
+  })
 }
 
 /**
@@ -2681,33 +2681,33 @@ function JSONCov(runner, output) {
 
 function map(cov) {
   var ret = {
-    instrumentation: 'node-jscoverage',
-    sloc: 0,
-    hits: 0,
-    misses: 0,
-    coverage: 0,
-    files: []
-  };
+    instrumentation: 'node-jscoverage'
+    , sloc: 0
+    , hits: 0
+    , misses: 0
+    , coverage: 0
+    , files: []
+  }
 
   for (var filename in cov) {
     if (Object.prototype.hasOwnProperty.call(cov, filename)) {
-      var data = coverage(filename, cov[filename]);
-      ret.files.push(data);
-      ret.hits += data.hits;
-      ret.misses += data.misses;
-      ret.sloc += data.sloc;
+      var data = coverage(filename, cov[filename])
+      ret.files.push(data)
+      ret.hits += data.hits
+      ret.misses += data.misses
+      ret.sloc += data.sloc
     }
   }
 
   ret.files.sort(function(a, b) {
-    return a.filename.localeCompare(b.filename);
-  });
+    return a.filename.localeCompare(b.filename)
+  })
 
   if (ret.sloc > 0) {
-    ret.coverage = (ret.hits / ret.sloc) * 100;
+    ret.coverage = (ret.hits / ret.sloc) * 100
   }
 
-  return ret;
+  return ret
 }
 
 /**
@@ -2721,34 +2721,34 @@ function map(cov) {
  */
 function coverage(filename, data) {
   var ret = {
-    filename: filename,
-    coverage: 0,
-    hits: 0,
-    misses: 0,
-    sloc: 0,
-    source: {}
-  };
+    filename: filename
+    , coverage: 0
+    , hits: 0
+    , misses: 0
+    , sloc: 0
+    , source: {}
+  }
 
   data.source.forEach(function(line, num) {
-    num++;
+    num++
 
     if (data[num] === 0) {
-      ret.misses++;
-      ret.sloc++;
+      ret.misses++
+      ret.sloc++
     } else if (data[num] !== undefined) {
-      ret.hits++;
-      ret.sloc++;
+      ret.hits++
+      ret.sloc++
     }
 
     ret.source[num] = {
-      source: line,
-      coverage: data[num] === undefined ? '' : data[num]
-    };
-  });
+      source: line
+      , coverage: data[num] === undefined ? '' : data[num]
+    }
+  })
 
-  ret.coverage = ret.hits / ret.sloc * 100;
+  ret.coverage = ret.hits / ret.sloc * 100
 
-  return ret;
+  return ret
 }
 
 /**
@@ -2761,26 +2761,26 @@ function coverage(filename, data) {
  */
 function clean(test) {
   return {
-    duration: test.duration,
-    fullTitle: test.fullTitle(),
-    title: test.title
-  };
+    duration: test.duration
+    , fullTitle: test.fullTitle()
+    , title: test.title
+  }
 }
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./base":17,"_process":51}],24:[function(require,module,exports){
+}).call(this, require('_process'), typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : {})
+}, { './base': 17, '_process': 51 } ], 24: [ function(require, module, exports){
 (function (process){
 /**
  * Module dependencies.
  */
 
-var Base = require('./base');
+var Base = require('./base')
 
 /**
  * Expose `List`.
  */
 
-exports = module.exports = List;
+exports = module.exports = List
 
 /**
  * Initialize a new `List` test reporter.
@@ -2789,29 +2789,29 @@ exports = module.exports = List;
  * @param {Runner} runner
  */
 function List(runner) {
-  Base.call(this, runner);
+  Base.call(this, runner)
 
-  var self = this;
-  var total = runner.total;
+  var self = this
+  var total = runner.total
 
   runner.on('start', function() {
-    console.log(JSON.stringify(['start', { total: total }]));
-  });
+    console.log(JSON.stringify([ 'start', { total: total } ]))
+  })
 
   runner.on('pass', function(test) {
-    console.log(JSON.stringify(['pass', clean(test)]));
-  });
+    console.log(JSON.stringify([ 'pass', clean(test) ]))
+  })
 
   runner.on('fail', function(test, err) {
-    test = clean(test);
-    test.err = err.message;
-    test.stack = err.stack || null;
-    console.log(JSON.stringify(['fail', test]));
-  });
+    test = clean(test)
+    test.err = err.message
+    test.stack = err.stack || null
+    console.log(JSON.stringify([ 'fail', test ]))
+  })
 
   runner.on('end', function() {
-    process.stdout.write(JSON.stringify(['end', self.stats]));
-  });
+    process.stdout.write(JSON.stringify([ 'end', self.stats ]))
+  })
 }
 
 /**
@@ -2824,26 +2824,26 @@ function List(runner) {
  */
 function clean(test) {
   return {
-    title: test.title,
-    fullTitle: test.fullTitle(),
-    duration: test.duration
-  };
+    title: test.title
+    , fullTitle: test.fullTitle()
+    , duration: test.duration
+  }
 }
 
-}).call(this,require('_process'))
-},{"./base":17,"_process":51}],25:[function(require,module,exports){
+}).call(this, require('_process'))
+}, { './base': 17, '_process': 51 } ], 25: [ function(require, module, exports){
 (function (process){
 /**
  * Module dependencies.
  */
 
-var Base = require('./base');
+var Base = require('./base')
 
 /**
  * Expose `JSON`.
  */
 
-exports = module.exports = JSONReporter;
+exports = module.exports = JSONReporter
 
 /**
  * Initialize a new `JSON` reporter.
@@ -2852,43 +2852,43 @@ exports = module.exports = JSONReporter;
  * @param {Runner} runner
  */
 function JSONReporter(runner) {
-  Base.call(this, runner);
+  Base.call(this, runner)
 
-  var self = this;
-  var tests = [];
-  var pending = [];
-  var failures = [];
-  var passes = [];
+  var self = this
+  var tests = []
+  var pending = []
+  var failures = []
+  var passes = []
 
   runner.on('test end', function(test) {
-    tests.push(test);
-  });
+    tests.push(test)
+  })
 
   runner.on('pass', function(test) {
-    passes.push(test);
-  });
+    passes.push(test)
+  })
 
   runner.on('fail', function(test) {
-    failures.push(test);
-  });
+    failures.push(test)
+  })
 
   runner.on('pending', function(test) {
-    pending.push(test);
-  });
+    pending.push(test)
+  })
 
   runner.on('end', function() {
     var obj = {
-      stats: self.stats,
-      tests: tests.map(clean),
-      pending: pending.map(clean),
-      failures: failures.map(clean),
-      passes: passes.map(clean)
-    };
+      stats: self.stats
+      , tests: tests.map(clean)
+      , pending: pending.map(clean)
+      , failures: failures.map(clean)
+      , passes: passes.map(clean)
+    }
 
-    runner.testResults = obj;
+    runner.testResults = obj
 
-    process.stdout.write(JSON.stringify(obj, null, 2));
-  });
+    process.stdout.write(JSON.stringify(obj, null, 2))
+  })
 }
 
 /**
@@ -2901,11 +2901,11 @@ function JSONReporter(runner) {
  */
 function clean(test) {
   return {
-    title: test.title,
-    fullTitle: test.fullTitle(),
-    duration: test.duration,
-    err: errorJSON(test.err || {})
-  };
+    title: test.title
+    , fullTitle: test.fullTitle()
+    , duration: test.duration
+    , err: errorJSON(test.err || {})
+  }
 }
 
 /**
@@ -2916,48 +2916,48 @@ function clean(test) {
  * @return {Object}
  */
 function errorJSON(err) {
-  var res = {};
+  var res = {}
   Object.getOwnPropertyNames(err).forEach(function(key) {
-    res[key] = err[key];
-  }, err);
-  return res;
+    res[key] = err[key]
+  }, err)
+  return res
 }
 
-}).call(this,require('_process'))
-},{"./base":17,"_process":51}],26:[function(require,module,exports){
+}).call(this, require('_process'))
+}, { './base': 17, '_process': 51 } ], 26: [ function(require, module, exports){
 (function (process){
 /**
  * Module dependencies.
  */
 
-var Base = require('./base');
-var inherits = require('../utils').inherits;
-var cursor = Base.cursor;
-var color = Base.color;
+var Base = require('./base')
+var inherits = require('../utils').inherits
+var cursor = Base.cursor
+var color = Base.color
 
 /**
  * Expose `Landing`.
  */
 
-exports = module.exports = Landing;
+exports = module.exports = Landing
 
 /**
  * Airplane color.
  */
 
-Base.colors.plane = 0;
+Base.colors.plane = 0
 
 /**
  * Airplane crash color.
  */
 
-Base.colors['plane crash'] = 31;
+Base.colors['plane crash'] = 31
 
 /**
  * Runway color.
  */
 
-Base.colors.runway = 90;
+Base.colors.runway = 90
 
 /**
  * Initialize a new `Landing` reporter.
@@ -2966,76 +2966,76 @@ Base.colors.runway = 90;
  * @param {Runner} runner
  */
 function Landing(runner) {
-  Base.call(this, runner);
+  Base.call(this, runner)
 
-  var self = this;
-  var width = Base.window.width * .75 | 0;
-  var total = runner.total;
-  var stream = process.stdout;
-  var plane = color('plane', '?');
-  var crashed = -1;
-  var n = 0;
+  var self = this
+  var width = Base.window.width * .75 | 0
+  var total = runner.total
+  var stream = process.stdout
+  var plane = color('plane', '?')
+  var crashed = -1
+  var n = 0
 
   function runway() {
-    var buf = Array(width).join('-');
-    return '  ' + color('runway', buf);
+    var buf = Array(width).join('-')
+    return '  ' + color('runway', buf)
   }
 
   runner.on('start', function() {
-    stream.write('\n\n\n  ');
-    cursor.hide();
-  });
+    stream.write('\n\n\n  ')
+    cursor.hide()
+  })
 
   runner.on('test end', function(test) {
     // check if the plane crashed
-    var col = crashed === -1 ? width * ++n / total | 0 : crashed;
+    var col = crashed === -1 ? width * ++n / total | 0 : crashed
 
     // show the crash
     if (test.state === 'failed') {
-      plane = color('plane crash', '?');
-      crashed = col;
+      plane = color('plane crash', '?')
+      crashed = col
     }
 
     // render landing strip
-    stream.write('\u001b[' + (width + 1) + 'D\u001b[2A');
-    stream.write(runway());
-    stream.write('\n  ');
-    stream.write(color('runway', Array(col).join('·')));
-    stream.write(plane);
-    stream.write(color('runway', Array(width - col).join('·') + '\n'));
-    stream.write(runway());
-    stream.write('\u001b[0m');
-  });
+    stream.write('\u001b[' + (width + 1) + 'D\u001b[2A')
+    stream.write(runway())
+    stream.write('\n  ')
+    stream.write(color('runway', Array(col).join('ï¿½')))
+    stream.write(plane)
+    stream.write(color('runway', Array(width - col).join('ï¿½') + '\n'))
+    stream.write(runway())
+    stream.write('\u001b[0m')
+  })
 
   runner.on('end', function() {
-    cursor.show();
-    console.log();
-    self.epilogue();
-  });
+    cursor.show()
+    console.log()
+    self.epilogue()
+  })
 }
 
 /**
  * Inherit from `Base.prototype`.
  */
-inherits(Landing, Base);
+inherits(Landing, Base)
 
-}).call(this,require('_process'))
-},{"../utils":39,"./base":17,"_process":51}],27:[function(require,module,exports){
+}).call(this, require('_process'))
+}, { '../utils': 39, './base': 17, '_process': 51 } ], 27: [ function(require, module, exports){
 (function (process){
 /**
  * Module dependencies.
  */
 
-var Base = require('./base');
-var inherits = require('../utils').inherits;
-var color = Base.color;
-var cursor = Base.cursor;
+var Base = require('./base')
+var inherits = require('../utils').inherits
+var color = Base.color
+var cursor = Base.cursor
 
 /**
  * Expose `List`.
  */
 
-exports = module.exports = List;
+exports = module.exports = List
 
 /**
  * Initialize a new `List` test reporter.
@@ -3044,67 +3044,67 @@ exports = module.exports = List;
  * @param {Runner} runner
  */
 function List(runner) {
-  Base.call(this, runner);
+  Base.call(this, runner)
 
-  var self = this;
-  var n = 0;
+  var self = this
+  var n = 0
 
   runner.on('start', function() {
-    console.log();
-  });
+    console.log()
+  })
 
   runner.on('test', function(test) {
-    process.stdout.write(color('pass', '    ' + test.fullTitle() + ': '));
-  });
+    process.stdout.write(color('pass', '    ' + test.fullTitle() + ': '))
+  })
 
   runner.on('pending', function(test) {
     var fmt = color('checkmark', '  -')
-      + color('pending', ' %s');
-    console.log(fmt, test.fullTitle());
-  });
+      + color('pending', ' %s')
+    console.log(fmt, test.fullTitle())
+  })
 
   runner.on('pass', function(test) {
     var fmt = color('checkmark', '  ' + Base.symbols.dot)
       + color('pass', ' %s: ')
-      + color(test.speed, '%dms');
-    cursor.CR();
-    console.log(fmt, test.fullTitle(), test.duration);
-  });
+      + color(test.speed, '%dms')
+    cursor.CR()
+    console.log(fmt, test.fullTitle(), test.duration)
+  })
 
   runner.on('fail', function(test) {
-    cursor.CR();
-    console.log(color('fail', '  %d) %s'), ++n, test.fullTitle());
-  });
+    cursor.CR()
+    console.log(color('fail', '  %d) %s'), ++n, test.fullTitle())
+  })
 
-  runner.on('end', self.epilogue.bind(self));
+  runner.on('end', self.epilogue.bind(self))
 }
 
 /**
  * Inherit from `Base.prototype`.
  */
-inherits(List, Base);
+inherits(List, Base)
 
-}).call(this,require('_process'))
-},{"../utils":39,"./base":17,"_process":51}],28:[function(require,module,exports){
+}).call(this, require('_process'))
+}, { '../utils': 39, './base': 17, '_process': 51 } ], 28: [ function(require, module, exports){
 (function (process){
 /**
  * Module dependencies.
  */
 
-var Base = require('./base');
-var utils = require('../utils');
+var Base = require('./base')
+var utils = require('../utils')
 
 /**
  * Constants
  */
 
-var SUITE_PREFIX = '$';
+var SUITE_PREFIX = '$'
 
 /**
  * Expose `Markdown`.
  */
 
-exports = module.exports = Markdown;
+exports = module.exports = Markdown
 
 /**
  * Initialize a new `Markdown` reporter.
@@ -3113,93 +3113,93 @@ exports = module.exports = Markdown;
  * @param {Runner} runner
  */
 function Markdown(runner) {
-  Base.call(this, runner);
+  Base.call(this, runner)
 
-  var level = 0;
-  var buf = '';
+  var level = 0
+  var buf = ''
 
   function title(str) {
-    return Array(level).join('#') + ' ' + str;
+    return Array(level).join('#') + ' ' + str
   }
 
   function mapTOC(suite, obj) {
-    var ret = obj;
-    var key = SUITE_PREFIX + suite.title;
+    var ret = obj
+    var key = SUITE_PREFIX + suite.title
 
-    obj = obj[key] = obj[key] || { suite: suite };
+    obj = obj[key] = obj[key] || { suite: suite }
     suite.suites.forEach(function(suite) {
-      mapTOC(suite, obj);
-    });
+      mapTOC(suite, obj)
+    })
 
-    return ret;
+    return ret
   }
 
   function stringifyTOC(obj, level) {
-    ++level;
-    var buf = '';
-    var link;
+    ++level
+    var buf = ''
+    var link
     for (var key in obj) {
       if (key === 'suite') {
-        continue;
+        continue
       }
       if (key !== SUITE_PREFIX) {
-        link = ' - [' + key.substring(1) + ']';
-        link += '(#' + utils.slug(obj[key].suite.fullTitle()) + ')\n';
-        buf += Array(level).join('  ') + link;
+        link = ' - [' + key.substring(1) + ']'
+        link += '(#' + utils.slug(obj[key].suite.fullTitle()) + ')\n'
+        buf += Array(level).join('  ') + link
       }
-      buf += stringifyTOC(obj[key], level);
+      buf += stringifyTOC(obj[key], level)
     }
-    return buf;
+    return buf
   }
 
   function generateTOC(suite) {
-    var obj = mapTOC(suite, {});
-    return stringifyTOC(obj, 0);
+    var obj = mapTOC(suite, {})
+    return stringifyTOC(obj, 0)
   }
 
-  generateTOC(runner.suite);
+  generateTOC(runner.suite)
 
   runner.on('suite', function(suite) {
-    ++level;
-    var slug = utils.slug(suite.fullTitle());
-    buf += '<a name="' + slug + '"></a>' + '\n';
-    buf += title(suite.title) + '\n';
-  });
+    ++level
+    var slug = utils.slug(suite.fullTitle())
+    buf += '<a name="' + slug + '"></a>' + '\n'
+    buf += title(suite.title) + '\n'
+  })
 
   runner.on('suite end', function() {
-    --level;
-  });
+    --level
+  })
 
   runner.on('pass', function(test) {
-    var code = utils.clean(test.fn.toString());
-    buf += test.title + '.\n';
-    buf += '\n```js\n';
-    buf += code + '\n';
-    buf += '```\n\n';
-  });
+    var code = utils.clean(test.fn.toString())
+    buf += test.title + '.\n'
+    buf += '\n```js\n'
+    buf += code + '\n'
+    buf += '```\n\n'
+  })
 
   runner.on('end', function() {
-    process.stdout.write('# TOC\n');
-    process.stdout.write(generateTOC(runner.suite));
-    process.stdout.write(buf);
-  });
+    process.stdout.write('# TOC\n')
+    process.stdout.write(generateTOC(runner.suite))
+    process.stdout.write(buf)
+  })
 }
 
-}).call(this,require('_process'))
-},{"../utils":39,"./base":17,"_process":51}],29:[function(require,module,exports){
+}).call(this, require('_process'))
+}, { '../utils': 39, './base': 17, '_process': 51 } ], 29: [ function(require, module, exports){
 (function (process){
 /**
  * Module dependencies.
  */
 
-var Base = require('./base');
-var inherits = require('../utils').inherits;
+var Base = require('./base')
+var inherits = require('../utils').inherits
 
 /**
  * Expose `Min`.
  */
 
-exports = module.exports = Min;
+exports = module.exports = Min
 
 /**
  * Initialize a new `Min` minimal test reporter (best used with --watch).
@@ -3208,38 +3208,38 @@ exports = module.exports = Min;
  * @param {Runner} runner
  */
 function Min(runner) {
-  Base.call(this, runner);
+  Base.call(this, runner)
 
   runner.on('start', function() {
     // clear screen
-    process.stdout.write('\u001b[2J');
+    process.stdout.write('\u001b[2J')
     // set cursor position
-    process.stdout.write('\u001b[1;3H');
-  });
+    process.stdout.write('\u001b[1;3H')
+  })
 
-  runner.on('end', this.epilogue.bind(this));
+  runner.on('end', this.epilogue.bind(this))
 }
 
 /**
  * Inherit from `Base.prototype`.
  */
-inherits(Min, Base);
+inherits(Min, Base)
 
-}).call(this,require('_process'))
-},{"../utils":39,"./base":17,"_process":51}],30:[function(require,module,exports){
+}).call(this, require('_process'))
+}, { '../utils': 39, './base': 17, '_process': 51 } ], 30: [ function(require, module, exports){
 (function (process){
 /**
  * Module dependencies.
  */
 
-var Base = require('./base');
-var inherits = require('../utils').inherits;
+var Base = require('./base')
+var inherits = require('../utils').inherits
 
 /**
  * Expose `Dot`.
  */
 
-exports = module.exports = NyanCat;
+exports = module.exports = NyanCat
 
 /**
  * Initialize a new `Dot` matrix test reporter.
@@ -3249,50 +3249,50 @@ exports = module.exports = NyanCat;
  */
 
 function NyanCat(runner) {
-  Base.call(this, runner);
+  Base.call(this, runner)
 
-  var self = this;
-  var width = Base.window.width * .75 | 0;
-  var nyanCatWidth = this.nyanCatWidth = 11;
+  var self = this
+  var width = Base.window.width * .75 | 0
+  var nyanCatWidth = this.nyanCatWidth = 11
 
-  this.colorIndex = 0;
-  this.numberOfLines = 4;
-  this.rainbowColors = self.generateColors();
-  this.scoreboardWidth = 5;
-  this.tick = 0;
-  this.trajectories = [[], [], [], []];
-  this.trajectoryWidthMax = (width - nyanCatWidth);
+  this.colorIndex = 0
+  this.numberOfLines = 4
+  this.rainbowColors = self.generateColors()
+  this.scoreboardWidth = 5
+  this.tick = 0
+  this.trajectories = [ [], [], [], [] ]
+  this.trajectoryWidthMax = (width - nyanCatWidth)
 
   runner.on('start', function() {
-    Base.cursor.hide();
-    self.draw();
-  });
+    Base.cursor.hide()
+    self.draw()
+  })
 
   runner.on('pending', function() {
-    self.draw();
-  });
+    self.draw()
+  })
 
   runner.on('pass', function() {
-    self.draw();
-  });
+    self.draw()
+  })
 
   runner.on('fail', function() {
-    self.draw();
-  });
+    self.draw()
+  })
 
   runner.on('end', function() {
-    Base.cursor.show();
+    Base.cursor.show()
     for (var i = 0; i < self.numberOfLines; i++) {
-      write('\n');
+      write('\n')
     }
-    self.epilogue();
-  });
+    self.epilogue()
+  })
 }
 
 /**
  * Inherit from `Base.prototype`.
  */
-inherits(NyanCat, Base);
+inherits(NyanCat, Base)
 
 /**
  * Draw the nyan cat
@@ -3301,12 +3301,12 @@ inherits(NyanCat, Base);
  */
 
 NyanCat.prototype.draw = function() {
-  this.appendRainbow();
-  this.drawScoreboard();
-  this.drawRainbow();
-  this.drawNyanCat();
-  this.tick = !this.tick;
-};
+  this.appendRainbow()
+  this.drawScoreboard()
+  this.drawRainbow()
+  this.drawNyanCat()
+  this.tick = !this.tick
+}
 
 /**
  * Draw the "scoreboard" showing the number
@@ -3316,21 +3316,21 @@ NyanCat.prototype.draw = function() {
  */
 
 NyanCat.prototype.drawScoreboard = function() {
-  var stats = this.stats;
+  var stats = this.stats
 
   function draw(type, n) {
-    write(' ');
-    write(Base.color(type, n));
-    write('\n');
+    write(' ')
+    write(Base.color(type, n))
+    write('\n')
   }
 
-  draw('green', stats.passes);
-  draw('fail', stats.failures);
-  draw('pending', stats.pending);
-  write('\n');
+  draw('green', stats.passes)
+  draw('fail', stats.failures)
+  draw('pending', stats.pending)
+  write('\n')
 
-  this.cursorUp(this.numberOfLines);
-};
+  this.cursorUp(this.numberOfLines)
+}
 
 /**
  * Append the rainbow.
@@ -3339,17 +3339,17 @@ NyanCat.prototype.drawScoreboard = function() {
  */
 
 NyanCat.prototype.appendRainbow = function() {
-  var segment = this.tick ? '_' : '-';
-  var rainbowified = this.rainbowify(segment);
+  var segment = this.tick ? '_' : '-'
+  var rainbowified = this.rainbowify(segment)
 
   for (var index = 0; index < this.numberOfLines; index++) {
-    var trajectory = this.trajectories[index];
+    var trajectory = this.trajectories[index]
     if (trajectory.length >= this.trajectoryWidthMax) {
-      trajectory.shift();
+      trajectory.shift()
     }
-    trajectory.push(rainbowified);
+    trajectory.push(rainbowified)
   }
-};
+}
 
 /**
  * Draw the rainbow.
@@ -3358,16 +3358,16 @@ NyanCat.prototype.appendRainbow = function() {
  */
 
 NyanCat.prototype.drawRainbow = function() {
-  var self = this;
+  var self = this
 
   this.trajectories.forEach(function(line) {
-    write('\u001b[' + self.scoreboardWidth + 'C');
-    write(line.join(''));
-    write('\n');
-  });
+    write('\u001b[' + self.scoreboardWidth + 'C')
+    write(line.join(''))
+    write('\n')
+  })
 
-  this.cursorUp(this.numberOfLines);
-};
+  this.cursorUp(this.numberOfLines)
+}
 
 /**
  * Draw the nyan cat
@@ -3375,33 +3375,33 @@ NyanCat.prototype.drawRainbow = function() {
  * @api private
  */
 NyanCat.prototype.drawNyanCat = function() {
-  var self = this;
-  var startWidth = this.scoreboardWidth + this.trajectories[0].length;
-  var dist = '\u001b[' + startWidth + 'C';
-  var padding = '';
+  var self = this
+  var startWidth = this.scoreboardWidth + this.trajectories[0].length
+  var dist = '\u001b[' + startWidth + 'C'
+  var padding = ''
 
-  write(dist);
-  write('_,------,');
-  write('\n');
+  write(dist)
+  write('_,------,')
+  write('\n')
 
-  write(dist);
-  padding = self.tick ? '  ' : '   ';
-  write('_|' + padding + '/\\_/\\ ');
-  write('\n');
+  write(dist)
+  padding = self.tick ? '  ' : '   '
+  write('_|' + padding + '/\\_/\\ ')
+  write('\n')
 
-  write(dist);
-  padding = self.tick ? '_' : '__';
-  var tail = self.tick ? '~' : '^';
-  write(tail + '|' + padding + this.face() + ' ');
-  write('\n');
+  write(dist)
+  padding = self.tick ? '_' : '__'
+  var tail = self.tick ? '~' : '^'
+  write(tail + '|' + padding + this.face() + ' ')
+  write('\n')
 
-  write(dist);
-  padding = self.tick ? ' ' : '  ';
-  write(padding + '""  "" ');
-  write('\n');
+  write(dist)
+  padding = self.tick ? ' ' : '  '
+  write(padding + '""  "" ')
+  write('\n')
 
-  this.cursorUp(this.numberOfLines);
-};
+  this.cursorUp(this.numberOfLines)
+}
 
 /**
  * Draw nyan cat face.
@@ -3411,16 +3411,16 @@ NyanCat.prototype.drawNyanCat = function() {
  */
 
 NyanCat.prototype.face = function() {
-  var stats = this.stats;
+  var stats = this.stats
   if (stats.failures) {
-    return '( x .x)';
+    return '( x .x)'
   } else if (stats.pending) {
-    return '( o .o)';
+    return '( o .o)'
   } else if (stats.passes) {
-    return '( ^ .^)';
+    return '( ^ .^)'
   }
-  return '( - .-)';
-};
+  return '( - .-)'
+}
 
 /**
  * Move cursor up `n`.
@@ -3430,8 +3430,8 @@ NyanCat.prototype.face = function() {
  */
 
 NyanCat.prototype.cursorUp = function(n) {
-  write('\u001b[' + n + 'A');
-};
+  write('\u001b[' + n + 'A')
+}
 
 /**
  * Move cursor down `n`.
@@ -3441,8 +3441,8 @@ NyanCat.prototype.cursorUp = function(n) {
  */
 
 NyanCat.prototype.cursorDown = function(n) {
-  write('\u001b[' + n + 'B');
-};
+  write('\u001b[' + n + 'B')
+}
 
 /**
  * Generate rainbow colors.
@@ -3451,19 +3451,19 @@ NyanCat.prototype.cursorDown = function(n) {
  * @return {Array}
  */
 NyanCat.prototype.generateColors = function() {
-  var colors = [];
+  var colors = []
 
   for (var i = 0; i < (6 * 7); i++) {
-    var pi3 = Math.floor(Math.PI / 3);
-    var n = (i * (1.0 / 6));
-    var r = Math.floor(3 * Math.sin(n) + 3);
-    var g = Math.floor(3 * Math.sin(n + 2 * pi3) + 3);
-    var b = Math.floor(3 * Math.sin(n + 4 * pi3) + 3);
-    colors.push(36 * r + 6 * g + b + 16);
+    var pi3 = Math.floor(Math.PI / 3)
+    var n = (i * (1.0 / 6))
+    var r = Math.floor(3 * Math.sin(n) + 3)
+    var g = Math.floor(3 * Math.sin(n + 2 * pi3) + 3)
+    var b = Math.floor(3 * Math.sin(n + 4 * pi3) + 3)
+    colors.push(36 * r + 6 * g + b + 16)
   }
 
-  return colors;
-};
+  return colors
+}
 
 /**
  * Apply rainbow to the given `str`.
@@ -3474,12 +3474,12 @@ NyanCat.prototype.generateColors = function() {
  */
 NyanCat.prototype.rainbowify = function(str) {
   if (!Base.useColors) {
-    return str;
+    return str
   }
-  var color = this.rainbowColors[this.colorIndex % this.rainbowColors.length];
-  this.colorIndex += 1;
-  return '\u001b[38;5;' + color + 'm' + str + '\u001b[0m';
-};
+  var color = this.rainbowColors[this.colorIndex % this.rainbowColors.length]
+  this.colorIndex += 1
+  return '\u001b[38;5;' + color + 'm' + str + '\u001b[0m'
+}
 
 /**
  * Stdout helper.
@@ -3487,32 +3487,32 @@ NyanCat.prototype.rainbowify = function(str) {
  * @param {string} string A message to write to stdout.
  */
 function write(string) {
-  process.stdout.write(string);
+  process.stdout.write(string)
 }
 
-}).call(this,require('_process'))
-},{"../utils":39,"./base":17,"_process":51}],31:[function(require,module,exports){
+}).call(this, require('_process'))
+}, { '../utils': 39, './base': 17, '_process': 51 } ], 31: [ function(require, module, exports){
 (function (process){
 /**
  * Module dependencies.
  */
 
-var Base = require('./base');
-var inherits = require('../utils').inherits;
-var color = Base.color;
-var cursor = Base.cursor;
+var Base = require('./base')
+var inherits = require('../utils').inherits
+var color = Base.color
+var cursor = Base.cursor
 
 /**
  * Expose `Progress`.
  */
 
-exports = module.exports = Progress;
+exports = module.exports = Progress
 
 /**
  * General progress bar color.
  */
 
-Base.colors.progress = 90;
+Base.colors.progress = 90
 
 /**
  * Initialize a new `Progress` bar test reporter.
@@ -3522,83 +3522,83 @@ Base.colors.progress = 90;
  * @param {Object} options
  */
 function Progress(runner, options) {
-  Base.call(this, runner);
+  Base.call(this, runner)
 
-  var self = this;
-  var width = Base.window.width * .50 | 0;
-  var total = runner.total;
-  var complete = 0;
-  var lastN = -1;
+  var self = this
+  var width = Base.window.width * .50 | 0
+  var total = runner.total
+  var complete = 0
+  var lastN = -1
 
   // default chars
-  options = options || {};
-  options.open = options.open || '[';
-  options.complete = options.complete || '?';
-  options.incomplete = options.incomplete || Base.symbols.dot;
-  options.close = options.close || ']';
-  options.verbose = false;
+  options = options || {}
+  options.open = options.open || '['
+  options.complete = options.complete || '?'
+  options.incomplete = options.incomplete || Base.symbols.dot
+  options.close = options.close || ']'
+  options.verbose = false
 
   // tests started
   runner.on('start', function() {
-    console.log();
-    cursor.hide();
-  });
+    console.log()
+    cursor.hide()
+  })
 
   // tests complete
   runner.on('test end', function() {
-    complete++;
+    complete++
 
-    var percent = complete / total;
-    var n = width * percent | 0;
-    var i = width - n;
+    var percent = complete / total
+    var n = width * percent | 0
+    var i = width - n
 
     if (n === lastN && !options.verbose) {
       // Don't re-render the line if it hasn't changed
-      return;
+      return
     }
-    lastN = n;
+    lastN = n
 
-    cursor.CR();
-    process.stdout.write('\u001b[J');
-    process.stdout.write(color('progress', '  ' + options.open));
-    process.stdout.write(Array(n).join(options.complete));
-    process.stdout.write(Array(i).join(options.incomplete));
-    process.stdout.write(color('progress', options.close));
+    cursor.CR()
+    process.stdout.write('\u001b[J')
+    process.stdout.write(color('progress', '  ' + options.open))
+    process.stdout.write(Array(n).join(options.complete))
+    process.stdout.write(Array(i).join(options.incomplete))
+    process.stdout.write(color('progress', options.close))
     if (options.verbose) {
-      process.stdout.write(color('progress', ' ' + complete + ' of ' + total));
+      process.stdout.write(color('progress', ' ' + complete + ' of ' + total))
     }
-  });
+  })
 
   // tests are complete, output some stats
   // and the failures if any
   runner.on('end', function() {
-    cursor.show();
-    console.log();
-    self.epilogue();
-  });
+    cursor.show()
+    console.log()
+    self.epilogue()
+  })
 }
 
 /**
  * Inherit from `Base.prototype`.
  */
-inherits(Progress, Base);
+inherits(Progress, Base)
 
-}).call(this,require('_process'))
-},{"../utils":39,"./base":17,"_process":51}],32:[function(require,module,exports){
+}).call(this, require('_process'))
+}, { '../utils': 39, './base': 17, '_process': 51 } ], 32: [ function(require, module, exports){
 /**
  * Module dependencies.
  */
 
-var Base = require('./base');
-var inherits = require('../utils').inherits;
-var color = Base.color;
-var cursor = Base.cursor;
+var Base = require('./base')
+var inherits = require('../utils').inherits
+var color = Base.color
+var cursor = Base.cursor
 
 /**
  * Expose `Spec`.
  */
 
-exports = module.exports = Spec;
+exports = module.exports = Spec
 
 /**
  * Initialize a new `Spec` test reporter.
@@ -3607,80 +3607,80 @@ exports = module.exports = Spec;
  * @param {Runner} runner
  */
 function Spec(runner) {
-  Base.call(this, runner);
+  Base.call(this, runner)
 
-  var self = this;
-  var indents = 0;
-  var n = 0;
+  var self = this
+  var indents = 0
+  var n = 0
 
   function indent() {
-    return Array(indents).join('  ');
+    return Array(indents).join('  ')
   }
 
   runner.on('start', function() {
-    console.log();
-  });
+    console.log()
+  })
 
   runner.on('suite', function(suite) {
-    ++indents;
-    console.log(color('suite', '%s%s'), indent(), suite.title);
-  });
+    ++indents
+    console.log(color('suite', '%s%s'), indent(), suite.title)
+  })
 
   runner.on('suite end', function() {
-    --indents;
+    --indents
     if (indents === 1) {
-      console.log();
+      console.log()
     }
-  });
+  })
 
   runner.on('pending', function(test) {
-    var fmt = indent() + color('pending', '  - %s');
-    console.log(fmt, test.title);
-  });
+    var fmt = indent() + color('pending', '  - %s')
+    console.log(fmt, test.title)
+  })
 
   runner.on('pass', function(test) {
-    var fmt;
+    var fmt
     if (test.speed === 'fast') {
       fmt = indent()
         + color('checkmark', '  ' + Base.symbols.ok)
-        + color('pass', ' %s');
-      cursor.CR();
-      console.log(fmt, test.title);
+        + color('pass', ' %s')
+      cursor.CR()
+      console.log(fmt, test.title)
     } else {
       fmt = indent()
         + color('checkmark', '  ' + Base.symbols.ok)
         + color('pass', ' %s')
-        + color(test.speed, ' (%dms)');
-      cursor.CR();
-      console.log(fmt, test.title, test.duration);
+        + color(test.speed, ' (%dms)')
+      cursor.CR()
+      console.log(fmt, test.title, test.duration)
     }
-  });
+  })
 
   runner.on('fail', function(test) {
-    cursor.CR();
-    console.log(indent() + color('fail', '  %d) %s'), ++n, test.title);
-  });
+    cursor.CR()
+    console.log(indent() + color('fail', '  %d) %s'), ++n, test.title)
+  })
 
-  runner.on('end', self.epilogue.bind(self));
+  runner.on('end', self.epilogue.bind(self))
 }
 
 /**
  * Inherit from `Base.prototype`.
  */
-inherits(Spec, Base);
+inherits(Spec, Base)
 
-},{"../utils":39,"./base":17}],33:[function(require,module,exports){
+}, { '../utils': 39, './base': 17 } ], 33: [ function(require, module, exports){
 /**
  * Module dependencies.
  */
 
-var Base = require('./base');
+var Base = require('./base')
 
 /**
  * Expose `TAP`.
  */
 
-exports = module.exports = TAP;
+exports = module.exports = TAP
 
 /**
  * Initialize a new `TAP` reporter.
@@ -3689,43 +3689,43 @@ exports = module.exports = TAP;
  * @param {Runner} runner
  */
 function TAP(runner) {
-  Base.call(this, runner);
+  Base.call(this, runner)
 
-  var n = 1;
-  var passes = 0;
-  var failures = 0;
+  var n = 1
+  var passes = 0
+  var failures = 0
 
   runner.on('start', function() {
-    var total = runner.grepTotal(runner.suite);
-    console.log('%d..%d', 1, total);
-  });
+    var total = runner.grepTotal(runner.suite)
+    console.log('%d..%d', 1, total)
+  })
 
   runner.on('test end', function() {
-    ++n;
-  });
+    ++n
+  })
 
   runner.on('pending', function(test) {
-    console.log('ok %d %s # SKIP -', n, title(test));
-  });
+    console.log('ok %d %s # SKIP -', n, title(test))
+  })
 
   runner.on('pass', function(test) {
-    passes++;
-    console.log('ok %d %s', n, title(test));
-  });
+    passes++
+    console.log('ok %d %s', n, title(test))
+  })
 
   runner.on('fail', function(test, err) {
-    failures++;
-    console.log('not ok %d %s', n, title(test));
+    failures++
+    console.log('not ok %d %s', n, title(test))
     if (err.stack) {
-      console.log(err.stack.replace(/^/gm, '  '));
+      console.log(err.stack.replace(/^/gm, '  '))
     }
-  });
+  })
 
   runner.on('end', function() {
-    console.log('# tests ' + (passes + failures));
-    console.log('# pass ' + passes);
-    console.log('# fail ' + failures);
-  });
+    console.log('# tests ' + (passes + failures))
+    console.log('# pass ' + passes)
+    console.log('# fail ' + failures)
+  })
 }
 
 /**
@@ -3736,38 +3736,38 @@ function TAP(runner) {
  * @return {String}
  */
 function title(test) {
-  return test.fullTitle().replace(/#/g, '');
+  return test.fullTitle().replace(/#/g, '')
 }
 
-},{"./base":17}],34:[function(require,module,exports){
+}, { './base': 17 } ], 34: [ function(require, module, exports){
 (function (global){
 /**
  * Module dependencies.
  */
 
-var Base = require('./base');
-var utils = require('../utils');
-var inherits = utils.inherits;
-var fs = require('fs');
-var escape = utils.escape;
+var Base = require('./base')
+var utils = require('../utils')
+var inherits = utils.inherits
+var fs = require('fs')
+var escape = utils.escape
 
 /**
  * Save timer references to avoid Sinon interfering (see GH-237).
  */
 
 /* eslint-disable no-unused-vars, no-native-reassign */
-var Date = global.Date;
-var setTimeout = global.setTimeout;
-var setInterval = global.setInterval;
-var clearTimeout = global.clearTimeout;
-var clearInterval = global.clearInterval;
+var Date = global.Date
+var setTimeout = global.setTimeout
+var setInterval = global.setInterval
+var clearTimeout = global.clearTimeout
+var clearInterval = global.clearInterval
 /* eslint-enable no-unused-vars, no-native-reassign */
 
 /**
  * Expose `XUnit`.
  */
 
-exports = module.exports = XUnit;
+exports = module.exports = XUnit
 
 /**
  * Initialize a new `XUnit` reporter.
@@ -3776,54 +3776,54 @@ exports = module.exports = XUnit;
  * @param {Runner} runner
  */
 function XUnit(runner, options) {
-  Base.call(this, runner);
+  Base.call(this, runner)
 
-  var stats = this.stats;
-  var tests = [];
-  var self = this;
+  var stats = this.stats
+  var tests = []
+  var self = this
 
   if (options.reporterOptions && options.reporterOptions.output) {
     if (!fs.createWriteStream) {
-      throw new Error('file output not supported in browser');
+      throw new Error('file output not supported in browser')
     }
-    self.fileStream = fs.createWriteStream(options.reporterOptions.output);
+    self.fileStream = fs.createWriteStream(options.reporterOptions.output)
   }
 
   runner.on('pending', function(test) {
-    tests.push(test);
-  });
+    tests.push(test)
+  })
 
   runner.on('pass', function(test) {
-    tests.push(test);
-  });
+    tests.push(test)
+  })
 
   runner.on('fail', function(test) {
-    tests.push(test);
-  });
+    tests.push(test)
+  })
 
   runner.on('end', function() {
     self.write(tag('testsuite', {
-      name: 'Mocha Tests',
-      tests: stats.tests,
-      failures: stats.failures,
-      errors: stats.failures,
-      skipped: stats.tests - stats.failures - stats.passes,
-      timestamp: (new Date()).toUTCString(),
-      time: (stats.duration / 1000) || 0
-    }, false));
+      name: 'Mocha Tests'
+      , tests: stats.tests
+      , failures: stats.failures
+      , errors: stats.failures
+      , skipped: stats.tests - stats.failures - stats.passes
+      , timestamp: (new Date()).toUTCString()
+      , time: (stats.duration / 1000) || 0
+    }, false))
 
     tests.forEach(function(t) {
-      self.test(t);
-    });
+      self.test(t)
+    })
 
-    self.write('</testsuite>');
-  });
+    self.write('</testsuite>')
+  })
 }
 
 /**
  * Inherit from `Base.prototype`.
  */
-inherits(XUnit, Base);
+inherits(XUnit, Base)
 
 /**
  * Override done to close the stream (if it's a file).
@@ -3834,12 +3834,12 @@ inherits(XUnit, Base);
 XUnit.prototype.done = function(failures, fn) {
   if (this.fileStream) {
     this.fileStream.end(function() {
-      fn(failures);
-    });
+      fn(failures)
+    })
   } else {
-    fn(failures);
+    fn(failures)
   }
-};
+}
 
 /**
  * Write out the given line.
@@ -3848,11 +3848,11 @@ XUnit.prototype.done = function(failures, fn) {
  */
 XUnit.prototype.write = function(line) {
   if (this.fileStream) {
-    this.fileStream.write(line + '\n');
+    this.fileStream.write(line + '\n')
   } else {
-    console.log(line);
+    console.log(line)
   }
-};
+}
 
 /**
  * Output tag for the given `test.`
@@ -3861,20 +3861,20 @@ XUnit.prototype.write = function(line) {
  */
 XUnit.prototype.test = function(test) {
   var attrs = {
-    classname: test.parent.fullTitle(),
-    name: test.title,
-    time: (test.duration / 1000) || 0
-  };
+    classname: test.parent.fullTitle()
+    , name: test.title
+    , time: (test.duration / 1000) || 0
+  }
 
   if (test.state === 'failed') {
-    var err = test.err;
-    this.write(tag('testcase', attrs, false, tag('failure', {}, false, cdata(escape(err.message) + '\n' + err.stack))));
+    var err = test.err
+    this.write(tag('testcase', attrs, false, tag('failure', {}, false, cdata(escape(err.message) + '\n' + err.stack))))
   } else if (test.pending) {
-    this.write(tag('testcase', attrs, false, tag('skipped', {}, true)));
+    this.write(tag('testcase', attrs, false, tag('skipped', {}, true)))
   } else {
-    this.write(tag('testcase', attrs, true));
+    this.write(tag('testcase', attrs, true))
   }
-};
+}
 
 /**
  * HTML tag helper.
@@ -3886,21 +3886,21 @@ XUnit.prototype.test = function(test) {
  * @return {string}
  */
 function tag(name, attrs, close, content) {
-  var end = close ? '/>' : '>';
-  var pairs = [];
-  var tag;
+  var end = close ? '/>' : '>'
+  var pairs = []
+  var tag
 
   for (var key in attrs) {
     if (Object.prototype.hasOwnProperty.call(attrs, key)) {
-      pairs.push(key + '="' + escape(attrs[key]) + '"');
+      pairs.push(key + '="' + escape(attrs[key]) + '"')
     }
   }
 
-  tag = '<' + name + (pairs.length ? ' ' + pairs.join(' ') : '') + end;
+  tag = '<' + name + (pairs.length ? ' ' + pairs.join(' ') : '') + end
   if (content) {
-    tag += content + '</' + name + end;
+    tag += content + '</' + name + end
   }
-  return tag;
+  return tag
 }
 
 /**
@@ -3908,46 +3908,46 @@ function tag(name, attrs, close, content) {
  */
 
 function cdata(str) {
-  return '<![CDATA[' + escape(str) + ']]>';
+  return '<![CDATA[' + escape(str) + ']]>'
 }
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../utils":39,"./base":17,"fs":41}],35:[function(require,module,exports){
+}).call(this, typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : {})
+}, { '../utils': 39, './base': 17, 'fs': 41 } ], 35: [ function(require, module, exports){
 (function (global){
 /**
  * Module dependencies.
  */
 
-var EventEmitter = require('events').EventEmitter;
-var Pending = require('./pending');
-var debug = require('debug')('mocha:runnable');
-var milliseconds = require('./ms');
-var utils = require('./utils');
-var inherits = utils.inherits;
+var EventEmitter = require('events').EventEmitter
+var Pending = require('./pending')
+var debug = require('debug')('mocha:runnable')
+var milliseconds = require('./ms')
+var utils = require('./utils')
+var inherits = utils.inherits
 
 /**
  * Save timer references to avoid Sinon interfering (see GH-237).
  */
 
 /* eslint-disable no-unused-vars, no-native-reassign */
-var Date = global.Date;
-var setTimeout = global.setTimeout;
-var setInterval = global.setInterval;
-var clearTimeout = global.clearTimeout;
-var clearInterval = global.clearInterval;
+var Date = global.Date
+var setTimeout = global.setTimeout
+var setInterval = global.setInterval
+var clearTimeout = global.clearTimeout
+var clearInterval = global.clearInterval
 /* eslint-enable no-unused-vars, no-native-reassign */
 
 /**
  * Object#toString().
  */
 
-var toString = Object.prototype.toString;
+var toString = Object.prototype.toString
 
 /**
  * Expose `Runnable`.
  */
 
-module.exports = Runnable;
+module.exports = Runnable
 
 /**
  * Initialize a new `Runnable` with the given `title` and callback `fn`.
@@ -3959,21 +3959,21 @@ module.exports = Runnable;
  * @param {Function} fn
  */
 function Runnable(title, fn) {
-  this.title = title;
-  this.fn = fn;
-  this.async = fn && fn.length;
-  this.sync = !this.async;
-  this._timeout = 2000;
-  this._slow = 75;
-  this._enableTimeouts = true;
-  this.timedOut = false;
-  this._trace = new Error('done() called multiple times');
+  this.title = title
+  this.fn = fn
+  this.async = fn && fn.length
+  this.sync = !this.async
+  this._timeout = 2000
+  this._slow = 75
+  this._enableTimeouts = true
+  this.timedOut = false
+  this._trace = new Error('done() called multiple times')
 }
 
 /**
  * Inherit from `EventEmitter.prototype`.
  */
-inherits(Runnable, EventEmitter);
+inherits(Runnable, EventEmitter)
 
 /**
  * Set & get timeout `ms`.
@@ -3984,21 +3984,21 @@ inherits(Runnable, EventEmitter);
  */
 Runnable.prototype.timeout = function(ms) {
   if (!arguments.length) {
-    return this._timeout;
+    return this._timeout
   }
   if (ms === 0) {
-    this._enableTimeouts = false;
+    this._enableTimeouts = false
   }
   if (typeof ms === 'string') {
-    ms = milliseconds(ms);
+    ms = milliseconds(ms)
   }
-  debug('timeout %d', ms);
-  this._timeout = ms;
+  debug('timeout %d', ms)
+  this._timeout = ms
   if (this.timer) {
-    this.resetTimeout();
+    this.resetTimeout()
   }
-  return this;
-};
+  return this
+}
 
 /**
  * Set & get slow `ms`.
@@ -4009,15 +4009,15 @@ Runnable.prototype.timeout = function(ms) {
  */
 Runnable.prototype.slow = function(ms) {
   if (!arguments.length) {
-    return this._slow;
+    return this._slow
   }
   if (typeof ms === 'string') {
-    ms = milliseconds(ms);
+    ms = milliseconds(ms)
   }
-  debug('timeout %d', ms);
-  this._slow = ms;
-  return this;
-};
+  debug('timeout %d', ms)
+  this._slow = ms
+  return this
+}
 
 /**
  * Set and get whether timeout is `enabled`.
@@ -4028,12 +4028,12 @@ Runnable.prototype.slow = function(ms) {
  */
 Runnable.prototype.enableTimeouts = function(enabled) {
   if (!arguments.length) {
-    return this._enableTimeouts;
+    return this._enableTimeouts
   }
-  debug('enableTimeouts %s', enabled);
-  this._enableTimeouts = enabled;
-  return this;
-};
+  debug('enableTimeouts %s', enabled)
+  this._enableTimeouts = enabled
+  return this
+}
 
 /**
  * Halt and mark as pending.
@@ -4041,8 +4041,8 @@ Runnable.prototype.enableTimeouts = function(enabled) {
  * @api private
  */
 Runnable.prototype.skip = function() {
-  throw new Pending();
-};
+  throw new Pending()
+}
 
 /**
  * Return the full title generated by recursively concatenating the parent's
@@ -4052,8 +4052,8 @@ Runnable.prototype.skip = function() {
  * @return {string}
  */
 Runnable.prototype.fullTitle = function() {
-  return this.parent.fullTitle() + ' ' + this.title;
-};
+  return this.parent.fullTitle() + ' ' + this.title
+}
 
 /**
  * Clear the timeout.
@@ -4061,8 +4061,8 @@ Runnable.prototype.fullTitle = function() {
  * @api private
  */
 Runnable.prototype.clearTimeout = function() {
-  clearTimeout(this.timer);
-};
+  clearTimeout(this.timer)
+}
 
 /**
  * Inspect the runnable void of private properties.
@@ -4073,17 +4073,17 @@ Runnable.prototype.clearTimeout = function() {
 Runnable.prototype.inspect = function() {
   return JSON.stringify(this, function(key, val) {
     if (key[0] === '_') {
-      return;
+      return
     }
     if (key === 'parent') {
-      return '#<Suite>';
+      return '#<Suite>'
     }
     if (key === 'ctx') {
-      return '#<Context>';
+      return '#<Context>'
     }
-    return val;
-  }, 2);
-};
+    return val
+  }, 2)
+}
 
 /**
  * Reset the timeout.
@@ -4091,21 +4091,21 @@ Runnable.prototype.inspect = function() {
  * @api private
  */
 Runnable.prototype.resetTimeout = function() {
-  var self = this;
-  var ms = this.timeout() || 1e9;
+  var self = this
+  var ms = this.timeout() || 1e9
 
   if (!this._enableTimeouts) {
-    return;
+    return
   }
-  this.clearTimeout();
+  this.clearTimeout()
   this.timer = setTimeout(function() {
     if (!self._enableTimeouts) {
-      return;
+      return
     }
-    self.callback(new Error('timeout of ' + ms + 'ms exceeded. Ensure the done() callback is being called in this test.'));
-    self.timedOut = true;
-  }, ms);
-};
+    self.callback(new Error('timeout of ' + ms + 'ms exceeded. Ensure the done() callback is being called in this test.'))
+    self.timedOut = true
+  }, ms)
+}
 
 /**
  * Whitelist a list of globals for this test run.
@@ -4114,8 +4114,8 @@ Runnable.prototype.resetTimeout = function() {
  * @param {string[]} globals
  */
 Runnable.prototype.globals = function(globals) {
-  this._allowedGlobals = globals;
-};
+  this._allowedGlobals = globals
+}
 
 /**
  * Run the test and invoke `fn(err)`.
@@ -4124,158 +4124,158 @@ Runnable.prototype.globals = function(globals) {
  * @api private
  */
 Runnable.prototype.run = function(fn) {
-  var self = this;
-  var start = new Date();
-  var ctx = this.ctx;
-  var finished;
-  var emitted;
+  var self = this
+  var start = new Date()
+  var ctx = this.ctx
+  var finished
+  var emitted
 
   // Sometimes the ctx exists, but it is not runnable
   if (ctx && ctx.runnable) {
-    ctx.runnable(this);
+    ctx.runnable(this)
   }
 
   // called multiple times
   function multiple(err) {
     if (emitted) {
-      return;
+      return
     }
-    emitted = true;
-    self.emit('error', err || new Error('done() called multiple times; stacktrace may be inaccurate'));
+    emitted = true
+    self.emit('error', err || new Error('done() called multiple times; stacktrace may be inaccurate'))
   }
 
   // finished
   function done(err) {
-    var ms = self.timeout();
+    var ms = self.timeout()
     if (self.timedOut) {
-      return;
+      return
     }
     if (finished) {
-      return multiple(err || self._trace);
+      return multiple(err || self._trace)
     }
 
-    self.clearTimeout();
-    self.duration = new Date() - start;
-    finished = true;
+    self.clearTimeout()
+    self.duration = new Date() - start
+    finished = true
     if (!err && self.duration > ms && self._enableTimeouts) {
-      err = new Error('timeout of ' + ms + 'ms exceeded. Ensure the done() callback is being called in this test.');
+      err = new Error('timeout of ' + ms + 'ms exceeded. Ensure the done() callback is being called in this test.')
     }
-    fn(err);
+    fn(err)
   }
 
   // for .resetTimeout()
-  this.callback = done;
+  this.callback = done
 
   // explicit async with `done` argument
   if (this.async) {
-    this.resetTimeout();
+    this.resetTimeout()
 
     if (this.allowUncaught) {
-      return callFnAsync(this.fn);
+      return callFnAsync(this.fn)
     }
     try {
-      callFnAsync(this.fn);
+      callFnAsync(this.fn)
     } catch (err) {
-      done(utils.getError(err));
+      done(utils.getError(err))
     }
-    return;
+    return
   }
 
   if (this.allowUncaught) {
-    callFn(this.fn);
-    done();
-    return;
+    callFn(this.fn)
+    done()
+    return
   }
 
   // sync or promise-returning
   try {
     if (this.pending) {
-      done();
+      done()
     } else {
-      callFn(this.fn);
+      callFn(this.fn)
     }
   } catch (err) {
-    done(utils.getError(err));
+    done(utils.getError(err))
   }
 
   function callFn(fn) {
-    var result = fn.call(ctx);
+    var result = fn.call(ctx)
     if (result && typeof result.then === 'function') {
-      self.resetTimeout();
+      self.resetTimeout()
       result
         .then(function() {
-          done();
+          done()
         },
         function(reason) {
-          done(reason || new Error('Promise rejected with no or falsy reason'));
-        });
+          done(reason || new Error('Promise rejected with no or falsy reason'))
+        })
     } else {
       if (self.asyncOnly) {
-        return done(new Error('--async-only option in use without declaring `done()` or returning a promise'));
+        return done(new Error('--async-only option in use without declaring `done()` or returning a promise'))
       }
 
-      done();
+      done()
     }
   }
 
   function callFnAsync(fn) {
     fn.call(ctx, function(err) {
       if (err instanceof Error || toString.call(err) === '[object Error]') {
-        return done(err);
+        return done(err)
       }
       if (err) {
         if (Object.prototype.toString.call(err) === '[object Object]') {
           return done(new Error('done() invoked with non-Error: '
-            + JSON.stringify(err)));
+            + JSON.stringify(err)))
         }
-        return done(new Error('done() invoked with non-Error: ' + err));
+        return done(new Error('done() invoked with non-Error: ' + err))
       }
-      done();
-    });
+      done()
+    })
   }
-};
+}
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./ms":15,"./pending":16,"./utils":39,"debug":2,"events":3}],36:[function(require,module,exports){
-(function (process,global){
+}).call(this, typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : {})
+}, { './ms': 15, './pending': 16, './utils': 39, 'debug': 2, 'events': 3 } ], 36: [ function(require, module, exports){
+(function (process, global){
 /**
  * Module dependencies.
  */
 
-var EventEmitter = require('events').EventEmitter;
-var Pending = require('./pending');
-var utils = require('./utils');
-var inherits = utils.inherits;
-var debug = require('debug')('mocha:runner');
-var Runnable = require('./runnable');
-var filter = utils.filter;
-var indexOf = utils.indexOf;
-var keys = utils.keys;
-var stackFilter = utils.stackTraceFilter();
-var stringify = utils.stringify;
-var type = utils.type;
-var undefinedError = utils.undefinedError;
+var EventEmitter = require('events').EventEmitter
+var Pending = require('./pending')
+var utils = require('./utils')
+var inherits = utils.inherits
+var debug = require('debug')('mocha:runner')
+var Runnable = require('./runnable')
+var filter = utils.filter
+var indexOf = utils.indexOf
+var keys = utils.keys
+var stackFilter = utils.stackTraceFilter()
+var stringify = utils.stringify
+var type = utils.type
+var undefinedError = utils.undefinedError
 
 /**
  * Non-enumerable globals.
  */
 
 var globals = [
-  'setTimeout',
-  'clearTimeout',
-  'setInterval',
-  'clearInterval',
-  'XMLHttpRequest',
-  'Date',
-  'setImmediate',
-  'clearImmediate'
-];
+  'setTimeout'
+  , 'clearTimeout'
+  , 'setInterval'
+  , 'clearInterval'
+  , 'XMLHttpRequest'
+  , 'Date'
+  , 'setImmediate'
+  , 'clearImmediate'
+]
 
 /**
  * Expose `Runner`.
  */
 
-module.exports = Runner;
+module.exports = Runner
 
 /**
  * Initialize a `Runner` for the given `suite`.
@@ -4300,23 +4300,23 @@ module.exports = Runner;
  * until ready.
  */
 function Runner(suite, delay) {
-  var self = this;
-  this._globals = [];
-  this._abort = false;
-  this._delay = delay;
-  this.suite = suite;
-  this.started = false;
-  this.total = suite.total();
-  this.failures = 0;
+  var self = this
+  this._globals = []
+  this._abort = false
+  this._delay = delay
+  this.suite = suite
+  this.started = false
+  this.total = suite.total()
+  this.failures = 0
   this.on('test end', function(test) {
-    self.checkGlobals(test);
-  });
+    self.checkGlobals(test)
+  })
   this.on('hook end', function(hook) {
-    self.checkGlobals(hook);
-  });
-  this._defaultGrep = /.*/;
-  this.grep(this._defaultGrep);
-  this.globals(this.globalProps().concat(extraGlobals()));
+    self.checkGlobals(hook)
+  })
+  this._defaultGrep = /.*/
+  this.grep(this._defaultGrep)
+  this.globals(this.globalProps().concat(extraGlobals()))
 }
 
 /**
@@ -4325,12 +4325,12 @@ function Runner(suite, delay) {
  * @param {Function} fn
  * @api private
  */
-Runner.immediately = global.setImmediate || process.nextTick;
+Runner.immediately = global.setImmediate || process.nextTick
 
 /**
  * Inherit from `EventEmitter.prototype`.
  */
-inherits(Runner, EventEmitter);
+inherits(Runner, EventEmitter)
 
 /**
  * Run tests with full titles matching `re`. Updates runner.total
@@ -4345,12 +4345,12 @@ inherits(Runner, EventEmitter);
  * @return {Runner} Runner instance.
  */
 Runner.prototype.grep = function(re, invert) {
-  debug('grep %s', re);
-  this._grep = re;
-  this._invert = invert;
-  this.total = this.grepTotal(this.suite);
-  return this;
-};
+  debug('grep %s', re)
+  this._grep = re
+  this._invert = invert
+  this.total = this.grepTotal(this.suite)
+  return this
+}
 
 /**
  * Returns the number of tests matching the grep search for the
@@ -4363,21 +4363,21 @@ Runner.prototype.grep = function(re, invert) {
  * @return {number}
  */
 Runner.prototype.grepTotal = function(suite) {
-  var self = this;
-  var total = 0;
+  var self = this
+  var total = 0
 
   suite.eachTest(function(test) {
-    var match = self._grep.test(test.fullTitle());
+    var match = self._grep.test(test.fullTitle())
     if (self._invert) {
-      match = !match;
+      match = !match
     }
     if (match) {
-      total++;
+      total++
     }
-  });
+  })
 
-  return total;
-};
+  return total
+}
 
 /**
  * Return a list of global properties.
@@ -4386,18 +4386,18 @@ Runner.prototype.grepTotal = function(suite) {
  * @api private
  */
 Runner.prototype.globalProps = function() {
-  var props = keys(global);
+  var props = keys(global)
 
   // non-enumerables
   for (var i = 0; i < globals.length; ++i) {
     if (~indexOf(props, globals[i])) {
-      continue;
+      continue
     }
-    props.push(globals[i]);
+    props.push(globals[i])
   }
 
-  return props;
-};
+  return props
+}
 
 /**
  * Allow the given `arr` of globals.
@@ -4410,12 +4410,12 @@ Runner.prototype.globalProps = function() {
  */
 Runner.prototype.globals = function(arr) {
   if (!arguments.length) {
-    return this._globals;
+    return this._globals
   }
-  debug('globals %j', arr);
-  this._globals = this._globals.concat(arr);
-  return this;
-};
+  debug('globals %j', arr)
+  this._globals = this._globals.concat(arr)
+  return this
+}
 
 /**
  * Check for global variable leaks.
@@ -4424,31 +4424,31 @@ Runner.prototype.globals = function(arr) {
  */
 Runner.prototype.checkGlobals = function(test) {
   if (this.ignoreLeaks) {
-    return;
+    return
   }
-  var ok = this._globals;
+  var ok = this._globals
 
-  var globals = this.globalProps();
-  var leaks;
+  var globals = this.globalProps()
+  var leaks
 
   if (test) {
-    ok = ok.concat(test._allowedGlobals || []);
+    ok = ok.concat(test._allowedGlobals || [])
   }
 
   if (this.prevGlobalsLength === globals.length) {
-    return;
+    return
   }
-  this.prevGlobalsLength = globals.length;
+  this.prevGlobalsLength = globals.length
 
-  leaks = filterLeaks(ok, globals);
-  this._globals = this._globals.concat(leaks);
+  leaks = filterLeaks(ok, globals)
+  this._globals = this._globals.concat(leaks)
 
   if (leaks.length > 1) {
-    this.fail(test, new Error('global leaks detected: ' + leaks.join(', ') + ''));
+    this.fail(test, new Error('global leaks detected: ' + leaks.join(', ') + ''))
   } else if (leaks.length) {
-    this.fail(test, new Error('global leak detected: ' + leaks[0]));
+    this.fail(test, new Error('global leak detected: ' + leaks[0]))
   }
-};
+}
 
 /**
  * Fail the given `test`.
@@ -4458,19 +4458,19 @@ Runner.prototype.checkGlobals = function(test) {
  * @param {Error} err
  */
 Runner.prototype.fail = function(test, err) {
-  ++this.failures;
-  test.state = 'failed';
+  ++this.failures
+  test.state = 'failed'
 
   if (!(err instanceof Error || err && typeof err.message === 'string')) {
-    err = new Error('the ' + type(err) + ' ' + stringify(err) + ' was thrown, throw an Error :)');
+    err = new Error('the ' + type(err) + ' ' + stringify(err) + ' was thrown, throw an Error :)')
   }
 
   err.stack = (this.fullStackTrace || !err.stack)
     ? err.stack
-    : stackFilter(err.stack);
+    : stackFilter(err.stack)
 
-  this.emit('fail', test, err);
-};
+  this.emit('fail', test, err)
+}
 
 /**
  * Fail the given `hook` with `err`.
@@ -4494,15 +4494,15 @@ Runner.prototype.fail = function(test, err) {
  */
 Runner.prototype.failHook = function(hook, err) {
   if (hook.ctx && hook.ctx.currentTest) {
-    hook.originalTitle = hook.originalTitle || hook.title;
-    hook.title = hook.originalTitle + ' for "' + hook.ctx.currentTest.title + '"';
+    hook.originalTitle = hook.originalTitle || hook.title
+    hook.title = hook.originalTitle + ' for "' + hook.ctx.currentTest.title + '"'
   }
 
-  this.fail(hook, err);
+  this.fail(hook, err)
   if (this.suite.bail()) {
-    this.emit('end');
+    this.emit('end')
   }
-};
+}
 
 /**
  * Run hook `name` callbacks and then invoke `fn()`.
@@ -4513,52 +4513,52 @@ Runner.prototype.failHook = function(hook, err) {
  */
 
 Runner.prototype.hook = function(name, fn) {
-  var suite = this.suite;
-  var hooks = suite['_' + name];
-  var self = this;
+  var suite = this.suite
+  var hooks = suite['_' + name]
+  var self = this
 
   function next(i) {
-    var hook = hooks[i];
+    var hook = hooks[i]
     if (!hook) {
-      return fn();
+      return fn()
     }
-    self.currentRunnable = hook;
+    self.currentRunnable = hook
 
-    hook.ctx.currentTest = self.test;
+    hook.ctx.currentTest = self.test
 
-    self.emit('hook', hook);
+    self.emit('hook', hook)
 
     if (!hook.listeners('error').length) {
       hook.on('error', function(err) {
-        self.failHook(hook, err);
-      });
+        self.failHook(hook, err)
+      })
     }
 
     hook.run(function(err) {
-      var testError = hook.error();
+      var testError = hook.error()
       if (testError) {
-        self.fail(self.test, testError);
+        self.fail(self.test, testError)
       }
       if (err) {
         if (err instanceof Pending) {
-          suite.pending = true;
+          suite.pending = true
         } else {
-          self.failHook(hook, err);
+          self.failHook(hook, err)
 
           // stop executing hooks, notify callee of hook err
-          return fn(err);
+          return fn(err)
         }
       }
-      self.emit('hook end', hook);
-      delete hook.ctx.currentTest;
-      next(++i);
-    });
+      self.emit('hook end', hook)
+      delete hook.ctx.currentTest
+      next(++i)
+    })
   }
 
   Runner.immediately(function() {
-    next(0);
-  });
-};
+    next(0)
+  })
+}
 
 /**
  * Run hook `name` for the given array of `suites`
@@ -4570,30 +4570,30 @@ Runner.prototype.hook = function(name, fn) {
  * @param {Function} fn
  */
 Runner.prototype.hooks = function(name, suites, fn) {
-  var self = this;
-  var orig = this.suite;
+  var self = this
+  var orig = this.suite
 
   function next(suite) {
-    self.suite = suite;
+    self.suite = suite
 
     if (!suite) {
-      self.suite = orig;
-      return fn();
+      self.suite = orig
+      return fn()
     }
 
     self.hook(name, function(err) {
       if (err) {
-        var errSuite = self.suite;
-        self.suite = orig;
-        return fn(err, errSuite);
+        var errSuite = self.suite
+        self.suite = orig
+        return fn(err, errSuite)
       }
 
-      next(suites.pop());
-    });
+      next(suites.pop())
+    })
   }
 
-  next(suites.pop());
-};
+  next(suites.pop())
+}
 
 /**
  * Run hooks from the top level down.
@@ -4603,9 +4603,9 @@ Runner.prototype.hooks = function(name, suites, fn) {
  * @api private
  */
 Runner.prototype.hookUp = function(name, fn) {
-  var suites = [this.suite].concat(this.parents()).reverse();
-  this.hooks(name, suites, fn);
-};
+  var suites = [ this.suite ].concat(this.parents()).reverse()
+  this.hooks(name, suites, fn)
+}
 
 /**
  * Run hooks from the bottom up.
@@ -4615,9 +4615,9 @@ Runner.prototype.hookUp = function(name, fn) {
  * @api private
  */
 Runner.prototype.hookDown = function(name, fn) {
-  var suites = [this.suite].concat(this.parents());
-  this.hooks(name, suites, fn);
-};
+  var suites = [ this.suite ].concat(this.parents())
+  this.hooks(name, suites, fn)
+}
 
 /**
  * Return an array of parent Suites from
@@ -4627,14 +4627,14 @@ Runner.prototype.hookDown = function(name, fn) {
  * @api private
  */
 Runner.prototype.parents = function() {
-  var suite = this.suite;
-  var suites = [];
+  var suite = this.suite
+  var suites = []
   while (suite.parent) {
-    suite = suite.parent;
-    suites.push(suite);
+    suite = suite.parent
+    suites.push(suite)
   }
-  return suites;
-};
+  return suites
+}
 
 /**
  * Run the current test and callback `fn(err)`.
@@ -4643,26 +4643,26 @@ Runner.prototype.parents = function() {
  * @api private
  */
 Runner.prototype.runTest = function(fn) {
-  var self = this;
-  var test = this.test;
+  var self = this
+  var test = this.test
 
   if (this.asyncOnly) {
-    test.asyncOnly = true;
+    test.asyncOnly = true
   }
 
   if (this.allowUncaught) {
-    test.allowUncaught = true;
-    return test.run(fn);
+    test.allowUncaught = true
+    return test.run(fn)
   }
   try {
     test.on('error', function(err) {
-      self.fail(test, err);
-    });
-    test.run(fn);
+      self.fail(test, err)
+    })
+    test.run(fn)
   } catch (err) {
-    fn(err);
+    fn(err)
   }
-};
+}
 
 /**
  * Run tests in the given `suite` and invoke the callback `fn()` when complete.
@@ -4672,66 +4672,66 @@ Runner.prototype.runTest = function(fn) {
  * @param {Function} fn
  */
 Runner.prototype.runTests = function(suite, fn) {
-  var self = this;
-  var tests = suite.tests.slice();
-  var test;
+  var self = this
+  var tests = suite.tests.slice()
+  var test
 
   function hookErr(_, errSuite, after) {
     // before/after Each hook for errSuite failed:
-    var orig = self.suite;
+    var orig = self.suite
 
     // for failed 'after each' hook start from errSuite parent,
     // otherwise start from errSuite itself
-    self.suite = after ? errSuite.parent : errSuite;
+    self.suite = after ? errSuite.parent : errSuite
 
     if (self.suite) {
       // call hookUp afterEach
       self.hookUp('afterEach', function(err2, errSuite2) {
-        self.suite = orig;
+        self.suite = orig
         // some hooks may fail even now
         if (err2) {
-          return hookErr(err2, errSuite2, true);
+          return hookErr(err2, errSuite2, true)
         }
         // report error suite
-        fn(errSuite);
-      });
+        fn(errSuite)
+      })
     } else {
       // there is no need calling other 'after each' hooks
-      self.suite = orig;
-      fn(errSuite);
+      self.suite = orig
+      fn(errSuite)
     }
   }
 
   function next(err, errSuite) {
     // if we bail after first err
     if (self.failures && suite._bail) {
-      return fn();
+      return fn()
     }
 
     if (self._abort) {
-      return fn();
+      return fn()
     }
 
     if (err) {
-      return hookErr(err, errSuite, true);
+      return hookErr(err, errSuite, true)
     }
 
     // next test
-    test = tests.shift();
+    test = tests.shift()
 
     // all done
     if (!test) {
-      return fn();
+      return fn()
     }
 
     // grep
-    var match = self._grep.test(test.fullTitle());
+    var match = self._grep.test(test.fullTitle())
     if (self._invert) {
-      match = !match;
+      match = !match
     }
     if (!match) {
       // Run immediately only if we have defined a grep. When we
-      // define a grep — It can cause maximum callstack error if
+      // define a grep ï¿½ It can cause maximum callstack error if
       // the grep is doing a large recursive loop by neglecting
       // all tests. The run immediately function also comes with
       // a performance cost. So we don't want to run immediately
@@ -4739,62 +4739,62 @@ Runner.prototype.runTests = function(suite, fn) {
       // test suite don't do any immediate recursive loops. Thus,
       // allowing a JS runtime to breathe.
       if (self._grep !== self._defaultGrep) {
-        Runner.immediately(next);
+        Runner.immediately(next)
       } else {
-        next();
+        next()
       }
-      return;
+      return
     }
 
     // pending
     if (test.pending) {
-      self.emit('pending', test);
-      self.emit('test end', test);
-      return next();
+      self.emit('pending', test)
+      self.emit('test end', test)
+      return next()
     }
 
     // execute test and hook(s)
-    self.emit('test', self.test = test);
+    self.emit('test', self.test = test)
     self.hookDown('beforeEach', function(err, errSuite) {
       if (suite.pending) {
-        self.emit('pending', test);
-        self.emit('test end', test);
-        return next();
+        self.emit('pending', test)
+        self.emit('test end', test)
+        return next()
       }
       if (err) {
-        return hookErr(err, errSuite, false);
+        return hookErr(err, errSuite, false)
       }
-      self.currentRunnable = self.test;
+      self.currentRunnable = self.test
       self.runTest(function(err) {
-        test = self.test;
+        test = self.test
 
         if (err) {
           if (err instanceof Pending) {
-            self.emit('pending', test);
+            self.emit('pending', test)
           } else {
-            self.fail(test, err);
+            self.fail(test, err)
           }
-          self.emit('test end', test);
+          self.emit('test end', test)
 
           if (err instanceof Pending) {
-            return next();
+            return next()
           }
 
-          return self.hookUp('afterEach', next);
+          return self.hookUp('afterEach', next)
         }
 
-        test.state = 'passed';
-        self.emit('pass', test);
-        self.emit('test end', test);
-        self.hookUp('afterEach', next);
-      });
-    });
+        test.state = 'passed'
+        self.emit('pass', test)
+        self.emit('test end', test)
+        self.hookUp('afterEach', next)
+      })
+    })
   }
 
-  this.next = next;
-  this.hookErr = hookErr;
-  next();
-};
+  this.next = next
+  this.hookErr = hookErr
+  next()
+}
 
 /**
  * Run the given `suite` and invoke the callback `fn()` when complete.
@@ -4804,18 +4804,18 @@ Runner.prototype.runTests = function(suite, fn) {
  * @param {Function} fn
  */
 Runner.prototype.runSuite = function(suite, fn) {
-  var i = 0;
-  var self = this;
-  var total = this.grepTotal(suite);
-  var afterAllHookCalled = false;
+  var i = 0
+  var self = this
+  var total = this.grepTotal(suite)
+  var afterAllHookCalled = false
 
-  debug('run suite %s', suite.fullTitle());
+  debug('run suite %s', suite.fullTitle())
 
   if (!total || (self.failures && suite._bail)) {
-    return fn();
+    return fn()
   }
 
-  this.emit('suite', this.suite = suite);
+  this.emit('suite', this.suite = suite)
 
   function next(errSuite) {
     if (errSuite) {
@@ -4823,20 +4823,20 @@ Runner.prototype.runSuite = function(suite, fn) {
       if (errSuite === suite) {
         // if errSuite is current suite
         // continue to the next sibling suite
-        return done();
+        return done()
       }
       // errSuite is among the parents of current suite
       // stop execution of errSuite and all sub-suites
-      return done(errSuite);
+      return done(errSuite)
     }
 
     if (self._abort) {
-      return done();
+      return done()
     }
 
-    var curr = suite.suites[i++];
+    var curr = suite.suites[i++]
     if (!curr) {
-      return done();
+      return done()
     }
 
     // Avoid grep neglecting large number of tests causing a
@@ -4844,39 +4844,39 @@ Runner.prototype.runSuite = function(suite, fn) {
     // See comment in `this.runTests()` for more information.
     if (self._grep !== self._defaultGrep) {
       Runner.immediately(function() {
-        self.runSuite(curr, next);
-      });
+        self.runSuite(curr, next)
+      })
     } else {
-      self.runSuite(curr, next);
+      self.runSuite(curr, next)
     }
   }
 
   function done(errSuite) {
-    self.suite = suite;
-    self.nextSuite = next;
+    self.suite = suite
+    self.nextSuite = next
 
     if (afterAllHookCalled) {
-      fn(errSuite);
+      fn(errSuite)
     } else {
       // mark that the afterAll block has been called once
       // and so can be skipped if there is an error in it.
-      afterAllHookCalled = true;
+      afterAllHookCalled = true
       self.hook('afterAll', function() {
-        self.emit('suite end', suite);
-        fn(errSuite);
-      });
+        self.emit('suite end', suite)
+        fn(errSuite)
+      })
     }
   }
 
-  this.nextSuite = next;
+  this.nextSuite = next
 
   this.hook('beforeAll', function(err) {
     if (err) {
-      return done();
+      return done()
     }
-    self.runTests(suite, next);
-  });
-};
+    self.runTests(suite, next)
+  })
+}
 
 /**
  * Handle uncaught exceptions.
@@ -4887,65 +4887,65 @@ Runner.prototype.runSuite = function(suite, fn) {
 Runner.prototype.uncaught = function(err) {
   if (err) {
     debug('uncaught exception %s', err !== function() {
-      return this;
-    }.call(err) ? err : (err.message || err));
+      return this
+    }.call(err) ? err : (err.message || err))
   } else {
-    debug('uncaught undefined exception');
-    err = undefinedError();
+    debug('uncaught undefined exception')
+    err = undefinedError()
   }
-  err.uncaught = true;
+  err.uncaught = true
 
-  var runnable = this.currentRunnable;
+  var runnable = this.currentRunnable
 
   if (!runnable) {
-    runnable = new Runnable('Uncaught error outside test suite');
-    runnable.parent = this.suite;
+    runnable = new Runnable('Uncaught error outside test suite')
+    runnable.parent = this.suite
 
     if (this.started) {
-      this.fail(runnable, err);
+      this.fail(runnable, err)
     } else {
       // Can't recover from this failure
-      this.emit('start');
-      this.fail(runnable, err);
-      this.emit('end');
+      this.emit('start')
+      this.fail(runnable, err)
+      this.emit('end')
     }
 
-    return;
+    return
   }
 
-  runnable.clearTimeout();
+  runnable.clearTimeout()
 
   // Ignore errors if complete
   if (runnable.state) {
-    return;
+    return
   }
-  this.fail(runnable, err);
+  this.fail(runnable, err)
 
   // recover from test
   if (runnable.type === 'test') {
-    this.emit('test end', runnable);
-    this.hookUp('afterEach', this.next);
-    return;
+    this.emit('test end', runnable)
+    this.hookUp('afterEach', this.next)
+    return
   }
 
  // recover from hooks
   if (runnable.type === 'hook') {
-    var errSuite = this.suite;
+    var errSuite = this.suite
     // if hook failure is in afterEach block
     if (runnable.fullTitle().indexOf('after each') > -1) {
-      return this.hookErr(err, errSuite, true);
+      return this.hookErr(err, errSuite, true)
     }
     // if hook failure is in beforeEach block
     if (runnable.fullTitle().indexOf('before each') > -1) {
-      return this.hookErr(err, errSuite, false);
+      return this.hookErr(err, errSuite, false)
     }
     // if hook failure is in after or before blocks
-    return this.nextSuite(errSuite);
+    return this.nextSuite(errSuite)
   }
 
   // bail
-  this.emit('end');
-};
+  this.emit('end')
+}
 
 /**
  * Run the root suite and invoke `fn(failures)`
@@ -4958,47 +4958,47 @@ Runner.prototype.uncaught = function(err) {
  * @return {Runner} Runner instance.
  */
 Runner.prototype.run = function(fn) {
-  var self = this;
-  var rootSuite = this.suite;
+  var self = this
+  var rootSuite = this.suite
 
-  fn = fn || function() {};
+  fn = fn || function() {}
 
   function uncaught(err) {
-    self.uncaught(err);
+    self.uncaught(err)
   }
 
   function start() {
-    self.started = true;
-    self.emit('start');
+    self.started = true
+    self.emit('start')
     self.runSuite(rootSuite, function() {
-      debug('finished running');
-      self.emit('end');
-    });
+      debug('finished running')
+      self.emit('end')
+    })
   }
 
-  debug('start');
+  debug('start')
 
   // callback
   this.on('end', function() {
-    debug('end');
-    process.removeListener('uncaughtException', uncaught);
-    fn(self.failures);
-  });
+    debug('end')
+    process.removeListener('uncaughtException', uncaught)
+    fn(self.failures)
+  })
 
   // uncaught exception
-  process.on('uncaughtException', uncaught);
+  process.on('uncaughtException', uncaught)
 
   if (this._delay) {
     // for reporters, I guess.
     // might be nice to debounce some dots while we wait.
-    this.emit('waiting', rootSuite);
-    rootSuite.once('run', start);
+    this.emit('waiting', rootSuite)
+    rootSuite.once('run', start)
   } else {
-    start();
+    start()
   }
 
-  return this;
-};
+  return this
+}
 
 /**
  * Cleanly abort execution.
@@ -5007,11 +5007,11 @@ Runner.prototype.run = function(fn) {
  * @return {Runner} Runner instance.
  */
 Runner.prototype.abort = function() {
-  debug('aborting');
-  this._abort = true;
+  debug('aborting')
+  this._abort = true
 
-  return this;
-};
+  return this
+}
 
 /**
  * Filter leaks with the given globals flagged as `ok`.
@@ -5025,35 +5025,35 @@ function filterLeaks(ok, globals) {
   return filter(globals, function(key) {
     // Firefox and Chrome exposes iframes as index inside the window object
     if (/^d+/.test(key)) {
-      return false;
+      return false
     }
 
     // in firefox
     // if runner runs in an iframe, this iframe's window.getInterface method not init at first
     // it is assigned in some seconds
     if (global.navigator && (/^getInterface/).test(key)) {
-      return false;
+      return false
     }
 
     // an iframe could be approached by window[iframeIndex]
     // in ie6,7,8 and opera, iframeIndex is enumerable, this could cause leak
     if (global.navigator && (/^\d+/).test(key)) {
-      return false;
+      return false
     }
 
     // Opera and IE expose global variables for HTML element IDs (issue #243)
     if (/^mocha-/.test(key)) {
-      return false;
+      return false
     }
 
     var matched = filter(ok, function(ok) {
       if (~ok.indexOf('*')) {
-        return key.indexOf(ok.split('*')[0]) === 0;
+        return key.indexOf(ok.split('*')[0]) === 0
       }
-      return key === ok;
-    });
-    return !matched.length && (!global.navigator || key !== 'onerror');
-  });
+      return key === ok
+    })
+    return !matched.length && (!global.navigator || key !== 'onerror')
+  })
 }
 
 /**
@@ -5064,39 +5064,39 @@ function filterLeaks(ok, globals) {
  */
 function extraGlobals() {
   if (typeof process === 'object' && typeof process.version === 'string') {
-    var parts = process.version.split('.');
+    var parts = process.version.split('.')
     var nodeVersion = utils.reduce(parts, function(a, v) {
-      return a << 8 | v;
-    });
+      return a << 8 | v
+    })
 
     // 'errno' was renamed to process._errno in v0.9.11.
 
     if (nodeVersion < 0x00090B) {
-      return ['errno'];
+      return [ 'errno' ]
     }
   }
 
-  return [];
+  return []
 }
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./pending":16,"./runnable":35,"./utils":39,"_process":51,"debug":2,"events":3}],37:[function(require,module,exports){
+}).call(this, require('_process'), typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : {})
+}, { './pending': 16, './runnable': 35, './utils': 39, '_process': 51, 'debug': 2, 'events': 3 } ], 37: [ function(require, module, exports){
 /**
  * Module dependencies.
  */
 
-var EventEmitter = require('events').EventEmitter;
-var Hook = require('./hook');
-var utils = require('./utils');
-var inherits = utils.inherits;
-var debug = require('debug')('mocha:suite');
-var milliseconds = require('./ms');
+var EventEmitter = require('events').EventEmitter
+var Hook = require('./hook')
+var utils = require('./utils')
+var inherits = utils.inherits
+var debug = require('debug')('mocha:suite')
+var milliseconds = require('./ms')
 
 /**
  * Expose `Suite`.
  */
 
-exports = module.exports = Suite;
+exports = module.exports = Suite
 
 /**
  * Create a new `Suite` with the given `title` and parent `Suite`. When a suite
@@ -5109,15 +5109,15 @@ exports = module.exports = Suite;
  * @return {Suite}
  */
 exports.create = function(parent, title) {
-  var suite = new Suite(title, parent.ctx);
-  suite.parent = parent;
+  var suite = new Suite(title, parent.ctx)
+  suite.parent = parent
   if (parent.pending) {
-    suite.pending = true;
+    suite.pending = true
   }
-  title = suite.fullTitle();
-  parent.addSuite(suite);
-  return suite;
-};
+  title = suite.fullTitle()
+  parent.addSuite(suite)
+  return suite
+}
 
 /**
  * Initialize a new `Suite` with the given `title` and `ctx`.
@@ -5127,29 +5127,29 @@ exports.create = function(parent, title) {
  * @param {Context} parentContext
  */
 function Suite(title, parentContext) {
-  this.title = title;
+  this.title = title
   function Context() {}
-  Context.prototype = parentContext;
-  this.ctx = new Context();
-  this.suites = [];
-  this.tests = [];
-  this.pending = false;
-  this._beforeEach = [];
-  this._beforeAll = [];
-  this._afterEach = [];
-  this._afterAll = [];
-  this.root = !title;
-  this._timeout = 2000;
-  this._enableTimeouts = true;
-  this._slow = 75;
-  this._bail = false;
-  this.delayed = false;
+  Context.prototype = parentContext
+  this.ctx = new Context()
+  this.suites = []
+  this.tests = []
+  this.pending = false
+  this._beforeEach = []
+  this._beforeAll = []
+  this._afterEach = []
+  this._afterAll = []
+  this.root = !title
+  this._timeout = 2000
+  this._enableTimeouts = true
+  this._slow = 75
+  this._bail = false
+  this.delayed = false
 }
 
 /**
  * Inherit from `EventEmitter.prototype`.
  */
-inherits(Suite, EventEmitter);
+inherits(Suite, EventEmitter)
 
 /**
  * Return a clone of this `Suite`.
@@ -5158,15 +5158,15 @@ inherits(Suite, EventEmitter);
  * @return {Suite}
  */
 Suite.prototype.clone = function() {
-  var suite = new Suite(this.title);
-  debug('clone');
-  suite.ctx = this.ctx;
-  suite.timeout(this.timeout());
-  suite.enableTimeouts(this.enableTimeouts());
-  suite.slow(this.slow());
-  suite.bail(this.bail());
-  return suite;
-};
+  var suite = new Suite(this.title)
+  debug('clone')
+  suite.ctx = this.ctx
+  suite.timeout(this.timeout())
+  suite.enableTimeouts(this.enableTimeouts())
+  suite.slow(this.slow())
+  suite.bail(this.bail())
+  return suite
+}
 
 /**
  * Set timeout `ms` or short-hand such as "2s".
@@ -5177,18 +5177,18 @@ Suite.prototype.clone = function() {
  */
 Suite.prototype.timeout = function(ms) {
   if (!arguments.length) {
-    return this._timeout;
+    return this._timeout
   }
   if (ms.toString() === '0') {
-    this._enableTimeouts = false;
+    this._enableTimeouts = false
   }
   if (typeof ms === 'string') {
-    ms = milliseconds(ms);
+    ms = milliseconds(ms)
   }
-  debug('timeout %d', ms);
-  this._timeout = parseInt(ms, 10);
-  return this;
-};
+  debug('timeout %d', ms)
+  this._timeout = parseInt(ms, 10)
+  return this
+}
 
 /**
   * Set timeout to `enabled`.
@@ -5199,12 +5199,12 @@ Suite.prototype.timeout = function(ms) {
   */
 Suite.prototype.enableTimeouts = function(enabled) {
   if (!arguments.length) {
-    return this._enableTimeouts;
+    return this._enableTimeouts
   }
-  debug('enableTimeouts %s', enabled);
-  this._enableTimeouts = enabled;
-  return this;
-};
+  debug('enableTimeouts %s', enabled)
+  this._enableTimeouts = enabled
+  return this
+}
 
 /**
  * Set slow `ms` or short-hand such as "2s".
@@ -5215,15 +5215,15 @@ Suite.prototype.enableTimeouts = function(enabled) {
  */
 Suite.prototype.slow = function(ms) {
   if (!arguments.length) {
-    return this._slow;
+    return this._slow
   }
   if (typeof ms === 'string') {
-    ms = milliseconds(ms);
+    ms = milliseconds(ms)
   }
-  debug('slow %d', ms);
-  this._slow = ms;
-  return this;
-};
+  debug('slow %d', ms)
+  this._slow = ms
+  return this
+}
 
 /**
  * Sets whether to bail after first error.
@@ -5234,12 +5234,12 @@ Suite.prototype.slow = function(ms) {
  */
 Suite.prototype.bail = function(bail) {
   if (!arguments.length) {
-    return this._bail;
+    return this._bail
   }
-  debug('bail %s', bail);
-  this._bail = bail;
-  return this;
-};
+  debug('bail %s', bail)
+  this._bail = bail
+  return this
+}
 
 /**
  * Run `fn(test[, done])` before running tests.
@@ -5251,24 +5251,24 @@ Suite.prototype.bail = function(bail) {
  */
 Suite.prototype.beforeAll = function(title, fn) {
   if (this.pending) {
-    return this;
+    return this
   }
   if (typeof title === 'function') {
-    fn = title;
-    title = fn.name;
+    fn = title
+    title = fn.name
   }
-  title = '"before all" hook' + (title ? ': ' + title : '');
+  title = '"before all" hook' + (title ? ': ' + title : '')
 
-  var hook = new Hook(title, fn);
-  hook.parent = this;
-  hook.timeout(this.timeout());
-  hook.enableTimeouts(this.enableTimeouts());
-  hook.slow(this.slow());
-  hook.ctx = this.ctx;
-  this._beforeAll.push(hook);
-  this.emit('beforeAll', hook);
-  return this;
-};
+  var hook = new Hook(title, fn)
+  hook.parent = this
+  hook.timeout(this.timeout())
+  hook.enableTimeouts(this.enableTimeouts())
+  hook.slow(this.slow())
+  hook.ctx = this.ctx
+  this._beforeAll.push(hook)
+  this.emit('beforeAll', hook)
+  return this
+}
 
 /**
  * Run `fn(test[, done])` after running tests.
@@ -5280,24 +5280,24 @@ Suite.prototype.beforeAll = function(title, fn) {
  */
 Suite.prototype.afterAll = function(title, fn) {
   if (this.pending) {
-    return this;
+    return this
   }
   if (typeof title === 'function') {
-    fn = title;
-    title = fn.name;
+    fn = title
+    title = fn.name
   }
-  title = '"after all" hook' + (title ? ': ' + title : '');
+  title = '"after all" hook' + (title ? ': ' + title : '')
 
-  var hook = new Hook(title, fn);
-  hook.parent = this;
-  hook.timeout(this.timeout());
-  hook.enableTimeouts(this.enableTimeouts());
-  hook.slow(this.slow());
-  hook.ctx = this.ctx;
-  this._afterAll.push(hook);
-  this.emit('afterAll', hook);
-  return this;
-};
+  var hook = new Hook(title, fn)
+  hook.parent = this
+  hook.timeout(this.timeout())
+  hook.enableTimeouts(this.enableTimeouts())
+  hook.slow(this.slow())
+  hook.ctx = this.ctx
+  this._afterAll.push(hook)
+  this.emit('afterAll', hook)
+  return this
+}
 
 /**
  * Run `fn(test[, done])` before each test case.
@@ -5309,24 +5309,24 @@ Suite.prototype.afterAll = function(title, fn) {
  */
 Suite.prototype.beforeEach = function(title, fn) {
   if (this.pending) {
-    return this;
+    return this
   }
   if (typeof title === 'function') {
-    fn = title;
-    title = fn.name;
+    fn = title
+    title = fn.name
   }
-  title = '"before each" hook' + (title ? ': ' + title : '');
+  title = '"before each" hook' + (title ? ': ' + title : '')
 
-  var hook = new Hook(title, fn);
-  hook.parent = this;
-  hook.timeout(this.timeout());
-  hook.enableTimeouts(this.enableTimeouts());
-  hook.slow(this.slow());
-  hook.ctx = this.ctx;
-  this._beforeEach.push(hook);
-  this.emit('beforeEach', hook);
-  return this;
-};
+  var hook = new Hook(title, fn)
+  hook.parent = this
+  hook.timeout(this.timeout())
+  hook.enableTimeouts(this.enableTimeouts())
+  hook.slow(this.slow())
+  hook.ctx = this.ctx
+  this._beforeEach.push(hook)
+  this.emit('beforeEach', hook)
+  return this
+}
 
 /**
  * Run `fn(test[, done])` after each test case.
@@ -5338,24 +5338,24 @@ Suite.prototype.beforeEach = function(title, fn) {
  */
 Suite.prototype.afterEach = function(title, fn) {
   if (this.pending) {
-    return this;
+    return this
   }
   if (typeof title === 'function') {
-    fn = title;
-    title = fn.name;
+    fn = title
+    title = fn.name
   }
-  title = '"after each" hook' + (title ? ': ' + title : '');
+  title = '"after each" hook' + (title ? ': ' + title : '')
 
-  var hook = new Hook(title, fn);
-  hook.parent = this;
-  hook.timeout(this.timeout());
-  hook.enableTimeouts(this.enableTimeouts());
-  hook.slow(this.slow());
-  hook.ctx = this.ctx;
-  this._afterEach.push(hook);
-  this.emit('afterEach', hook);
-  return this;
-};
+  var hook = new Hook(title, fn)
+  hook.parent = this
+  hook.timeout(this.timeout())
+  hook.enableTimeouts(this.enableTimeouts())
+  hook.slow(this.slow())
+  hook.ctx = this.ctx
+  this._afterEach.push(hook)
+  this.emit('afterEach', hook)
+  return this
+}
 
 /**
  * Add a test `suite`.
@@ -5365,15 +5365,15 @@ Suite.prototype.afterEach = function(title, fn) {
  * @return {Suite} for chaining
  */
 Suite.prototype.addSuite = function(suite) {
-  suite.parent = this;
-  suite.timeout(this.timeout());
-  suite.enableTimeouts(this.enableTimeouts());
-  suite.slow(this.slow());
-  suite.bail(this.bail());
-  this.suites.push(suite);
-  this.emit('suite', suite);
-  return this;
-};
+  suite.parent = this
+  suite.timeout(this.timeout())
+  suite.enableTimeouts(this.enableTimeouts())
+  suite.slow(this.slow())
+  suite.bail(this.bail())
+  this.suites.push(suite)
+  this.emit('suite', suite)
+  return this
+}
 
 /**
  * Add a `test` to this suite.
@@ -5383,15 +5383,15 @@ Suite.prototype.addSuite = function(suite) {
  * @return {Suite} for chaining
  */
 Suite.prototype.addTest = function(test) {
-  test.parent = this;
-  test.timeout(this.timeout());
-  test.enableTimeouts(this.enableTimeouts());
-  test.slow(this.slow());
-  test.ctx = this.ctx;
-  this.tests.push(test);
-  this.emit('test', test);
-  return this;
-};
+  test.parent = this
+  test.timeout(this.timeout())
+  test.enableTimeouts(this.enableTimeouts())
+  test.slow(this.slow())
+  test.ctx = this.ctx
+  this.tests.push(test)
+  this.emit('test', test)
+  return this
+}
 
 /**
  * Return the full title generated by recursively concatenating the parent's
@@ -5402,13 +5402,13 @@ Suite.prototype.addTest = function(test) {
  */
 Suite.prototype.fullTitle = function() {
   if (this.parent) {
-    var full = this.parent.fullTitle();
+    var full = this.parent.fullTitle()
     if (full) {
-      return full + ' ' + this.title;
+      return full + ' ' + this.title
     }
   }
-  return this.title;
-};
+  return this.title
+}
 
 /**
  * Return the total number of tests.
@@ -5418,9 +5418,9 @@ Suite.prototype.fullTitle = function() {
  */
 Suite.prototype.total = function() {
   return utils.reduce(this.suites, function(sum, suite) {
-    return sum + suite.total();
-  }, 0) + this.tests.length;
-};
+    return sum + suite.total()
+  }, 0) + this.tests.length
+}
 
 /**
  * Iterates through each suite recursively to find all tests. Applies a
@@ -5431,35 +5431,35 @@ Suite.prototype.total = function() {
  * @return {Suite}
  */
 Suite.prototype.eachTest = function(fn) {
-  utils.forEach(this.tests, fn);
+  utils.forEach(this.tests, fn)
   utils.forEach(this.suites, function(suite) {
-    suite.eachTest(fn);
-  });
-  return this;
-};
+    suite.eachTest(fn)
+  })
+  return this
+}
 
 /**
  * This will run the root suite if we happen to be running in delayed mode.
  */
 Suite.prototype.run = function run() {
   if (this.root) {
-    this.emit('run');
+    this.emit('run')
   }
-};
+}
 
-},{"./hook":7,"./ms":15,"./utils":39,"debug":2,"events":3}],38:[function(require,module,exports){
+}, { './hook': 7, './ms': 15, './utils': 39, 'debug': 2, 'events': 3 } ], 38: [ function(require, module, exports){
 /**
  * Module dependencies.
  */
 
-var Runnable = require('./runnable');
-var inherits = require('./utils').inherits;
+var Runnable = require('./runnable')
+var inherits = require('./utils').inherits
 
 /**
  * Expose `Test`.
  */
 
-module.exports = Test;
+module.exports = Test
 
 /**
  * Initialize a new `Test` with the given `title` and callback `fn`.
@@ -5469,40 +5469,40 @@ module.exports = Test;
  * @param {Function} fn
  */
 function Test(title, fn) {
-  Runnable.call(this, title, fn);
-  this.pending = !fn;
-  this.type = 'test';
+  Runnable.call(this, title, fn)
+  this.pending = !fn
+  this.type = 'test'
 }
 
 /**
  * Inherit from `Runnable.prototype`.
  */
-inherits(Test, Runnable);
+inherits(Test, Runnable)
 
-},{"./runnable":35,"./utils":39}],39:[function(require,module,exports){
-(function (process,Buffer){
+}, { './runnable': 35, './utils': 39 } ], 39: [ function(require, module, exports){
+(function (process, Buffer){
 /* eslint-env browser */
 
 /**
  * Module dependencies.
  */
 
-var basename = require('path').basename;
-var debug = require('debug')('mocha:watch');
-var exists = require('fs').existsSync || require('path').existsSync;
-var glob = require('glob');
-var join = require('path').join;
-var readdirSync = require('fs').readdirSync;
-var statSync = require('fs').statSync;
-var watchFile = require('fs').watchFile;
+var basename = require('path').basename
+var debug = require('debug')('mocha:watch')
+var exists = require('fs').existsSync || require('path').existsSync
+var glob = require('glob')
+var join = require('path').join
+var readdirSync = require('fs').readdirSync
+var statSync = require('fs').statSync
+var watchFile = require('fs').watchFile
 
 /**
  * Ignored directories.
  */
 
-var ignore = ['node_modules', '.git'];
+var ignore = [ 'node_modules', '.git' ]
 
-exports.inherits = require('util').inherits;
+exports.inherits = require('util').inherits
 
 /**
  * Escape special characters in the given string of html.
@@ -5516,8 +5516,8 @@ exports.escape = function(html) {
     .replace(/&/g, '&amp;')
     .replace(/"/g, '&quot;')
     .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-};
+    .replace(/>/g, '&gt;')
+}
 
 /**
  * Array#forEach (<=IE8)
@@ -5529,9 +5529,9 @@ exports.escape = function(html) {
  */
 exports.forEach = function(arr, fn, scope) {
   for (var i = 0, l = arr.length; i < l; i++) {
-    fn.call(scope, arr[i], i);
+    fn.call(scope, arr[i], i)
   }
-};
+}
 
 /**
  * Test if the given obj is type of string.
@@ -5541,8 +5541,8 @@ exports.forEach = function(arr, fn, scope) {
  * @return {boolean}
  */
 exports.isString = function(obj) {
-  return typeof obj === 'string';
-};
+  return typeof obj === 'string'
+}
 
 /**
  * Array#map (<=IE8)
@@ -5554,12 +5554,12 @@ exports.isString = function(obj) {
  * @return {Array}
  */
 exports.map = function(arr, fn, scope) {
-  var result = [];
+  var result = []
   for (var i = 0, l = arr.length; i < l; i++) {
-    result.push(fn.call(scope, arr[i], i, arr));
+    result.push(fn.call(scope, arr[i], i, arr))
   }
-  return result;
-};
+  return result
+}
 
 /**
  * Array#indexOf (<=IE8)
@@ -5573,11 +5573,11 @@ exports.map = function(arr, fn, scope) {
 exports.indexOf = function(arr, obj, start) {
   for (var i = start || 0, l = arr.length; i < l; i++) {
     if (arr[i] === obj) {
-      return i;
+      return i
     }
   }
-  return -1;
-};
+  return -1
+}
 
 /**
  * Array#reduce (<=IE8)
@@ -5589,14 +5589,14 @@ exports.indexOf = function(arr, obj, start) {
  * @return {*}
  */
 exports.reduce = function(arr, fn, val) {
-  var rval = val;
+  var rval = val
 
   for (var i = 0, l = arr.length; i < l; i++) {
-    rval = fn(rval, arr[i], i, arr);
+    rval = fn(rval, arr[i], i, arr)
   }
 
-  return rval;
-};
+  return rval
+}
 
 /**
  * Array#filter (<=IE8)
@@ -5607,17 +5607,17 @@ exports.reduce = function(arr, fn, val) {
  * @return {Array}
  */
 exports.filter = function(arr, fn) {
-  var ret = [];
+  var ret = []
 
   for (var i = 0, l = arr.length; i < l; i++) {
-    var val = arr[i];
+    var val = arr[i]
     if (fn(val, i, arr)) {
-      ret.push(val);
+      ret.push(val)
     }
   }
 
-  return ret;
-};
+  return ret
+}
 
 /**
  * Object.keys (<=IE8)
@@ -5627,17 +5627,17 @@ exports.filter = function(arr, fn) {
  * @return {Array} keys
  */
 exports.keys = typeof Object.keys === 'function' ? Object.keys : function(obj) {
-  var keys = [];
-  var has = Object.prototype.hasOwnProperty; // for `window` on <=IE8
+  var keys = []
+  var has = Object.prototype.hasOwnProperty // for `window` on <=IE8
 
   for (var key in obj) {
     if (has.call(obj, key)) {
-      keys.push(key);
+      keys.push(key)
     }
   }
 
-  return keys;
-};
+  return keys
+}
 
 /**
  * Watch the given `files` for changes
@@ -5648,16 +5648,16 @@ exports.keys = typeof Object.keys === 'function' ? Object.keys : function(obj) {
  * @param {Function} fn
  */
 exports.watch = function(files, fn) {
-  var options = { interval: 100 };
+  var options = { interval: 100 }
   files.forEach(function(file) {
-    debug('file %s', file);
+    debug('file %s', file)
     watchFile(file, options, function(curr, prev) {
       if (prev.mtime < curr.mtime) {
-        fn(file);
+        fn(file)
       }
-    });
-  });
-};
+    })
+  })
+}
 
 /**
  * Array.isArray (<=IE8)
@@ -5667,8 +5667,8 @@ exports.watch = function(files, fn) {
  * @return {Boolean}
  */
 var isArray = typeof Array.isArray === 'function' ? Array.isArray : function(obj) {
-  return Object.prototype.toString.call(obj) === '[object Array]';
-};
+  return Object.prototype.toString.call(obj) === '[object Array]'
+}
 
 /**
  * Buffer.prototype.toJSON polyfill.
@@ -5677,8 +5677,8 @@ var isArray = typeof Array.isArray === 'function' ? Array.isArray : function(obj
  */
 if (typeof Buffer !== 'undefined' && Buffer.prototype) {
   Buffer.prototype.toJSON = Buffer.prototype.toJSON || function() {
-    return Array.prototype.slice.call(this, 0);
-  };
+    return Array.prototype.slice.call(this, 0)
+  }
 }
 
 /**
@@ -5689,7 +5689,7 @@ if (typeof Buffer !== 'undefined' && Buffer.prototype) {
  * @return {boolean}
  */
 function ignored(path) {
-  return !~ignore.indexOf(path);
+  return !~ignore.indexOf(path)
 }
 
 /**
@@ -5702,24 +5702,24 @@ function ignored(path) {
  * @return {Array}
  */
 exports.files = function(dir, ext, ret) {
-  ret = ret || [];
-  ext = ext || ['js'];
+  ret = ret || []
+  ext = ext || [ 'js' ]
 
-  var re = new RegExp('\\.(' + ext.join('|') + ')$');
+  var re = new RegExp('\\.(' + ext.join('|') + ')$')
 
   readdirSync(dir)
     .filter(ignored)
     .forEach(function(path) {
-      path = join(dir, path);
+      path = join(dir, path)
       if (statSync(path).isDirectory()) {
-        exports.files(path, ext, ret);
+        exports.files(path, ext, ret)
       } else if (path.match(re)) {
-        ret.push(path);
+        ret.push(path)
       }
-    });
+    })
 
-  return ret;
-};
+  return ret
+}
 
 /**
  * Compute a slug from the given `str`.
@@ -5732,8 +5732,8 @@ exports.slug = function(str) {
   return str
     .toLowerCase()
     .replace(/ +/g, '-')
-    .replace(/[^-\w]/g, '');
-};
+    .replace(/[^-\w]/g, '')
+}
 
 /**
  * Strip the function definition from `str`, and re-indent for pre whitespace.
@@ -5745,16 +5745,16 @@ exports.clean = function(str) {
   str = str
     .replace(/\r\n?|[\n\u2028\u2029]/g, '\n').replace(/^\uFEFF/, '')
     .replace(/^function *\(.*\)\s*{|\(.*\) *=> *{?/, '')
-    .replace(/\s+\}$/, '');
+    .replace(/\s+\}$/, '')
 
-  var spaces = str.match(/^\n?( *)/)[1].length;
-  var tabs = str.match(/^\n?(\t*)/)[1].length;
-  var re = new RegExp('^\n?' + (tabs ? '\t' : ' ') + '{' + (tabs ? tabs : spaces) + '}', 'gm');
+  var spaces = str.match(/^\n?( *)/)[1].length
+  var tabs = str.match(/^\n?(\t*)/)[1].length
+  var re = new RegExp('^\n?' + (tabs ? '\t' : ' ') + '{' + (tabs ? tabs : spaces) + '}', 'gm')
 
-  str = str.replace(re, '');
+  str = str.replace(re, '')
 
-  return exports.trim(str);
-};
+  return exports.trim(str)
+}
 
 /**
  * Trim the given `str`.
@@ -5764,8 +5764,8 @@ exports.clean = function(str) {
  * @return {string}
  */
 exports.trim = function(str) {
-  return str.replace(/^\s+|\s+$/g, '');
-};
+  return str.replace(/^\s+|\s+$/g, '')
+}
 
 /**
  * Parse the given `qs`.
@@ -5776,14 +5776,14 @@ exports.trim = function(str) {
  */
 exports.parseQuery = function(qs) {
   return exports.reduce(qs.replace('?', '').split('&'), function(obj, pair) {
-    var i = pair.indexOf('=');
-    var key = pair.slice(0, i);
-    var val = pair.slice(++i);
+    var i = pair.indexOf('=')
+    var key = pair.slice(0, i)
+    var val = pair.slice(++i)
 
-    obj[key] = decodeURIComponent(val);
-    return obj;
-  }, {});
-};
+    obj[key] = decodeURIComponent(val)
+    return obj
+  }, {})
+}
 
 /**
  * Highlight the given string of `js`.
@@ -5801,7 +5801,7 @@ function highlight(js) {
     .replace(/(\d+\.\d+)/gm, '<span class="number">$1</span>')
     .replace(/(\d+)/gm, '<span class="number">$1</span>')
     .replace(/\bnew[ \t]+(\w+)/gm, '<span class="keyword">new</span> <span class="init">$1</span>')
-    .replace(/\b(function|new|throw|return|var|if|else)\b/gm, '<span class="keyword">$1</span>');
+    .replace(/\b(function|new|throw|return|var|if|else)\b/gm, '<span class="keyword">$1</span>')
 }
 
 /**
@@ -5811,11 +5811,11 @@ function highlight(js) {
  * @param {string} name
  */
 exports.highlightTags = function(name) {
-  var code = document.getElementById('mocha').getElementsByTagName(name);
+  var code = document.getElementById('mocha').getElementsByTagName(name)
   for (var i = 0, len = code.length; i < len; ++i) {
-    code[i].innerHTML = highlight(code[i].innerHTML);
+    code[i].innerHTML = highlight(code[i].innerHTML)
   }
-};
+}
 
 /**
  * If a value could have properties, and has none, this function is called,
@@ -5832,17 +5832,17 @@ exports.highlightTags = function(name) {
  * @returns {string}
  */
 function emptyRepresentation(value, type) {
-  type = type || exports.type(value);
+  type = type || exports.type(value)
 
   switch (type) {
     case 'function':
-      return '[Function]';
+      return '[Function]'
     case 'object':
-      return '{}';
+      return '{}'
     case 'array':
-      return '[]';
+      return '[]'
     default:
-      return value.toString();
+      return value.toString()
   }
 }
 
@@ -5868,16 +5868,16 @@ function emptyRepresentation(value, type) {
  */
 exports.type = function type(value) {
   if (value === undefined) {
-    return 'undefined';
+    return 'undefined'
   } else if (value === null) {
-    return 'null';
+    return 'null'
   } else if (typeof Buffer !== 'undefined' && Buffer.isBuffer(value)) {
-    return 'buffer';
+    return 'buffer'
   }
   return Object.prototype.toString.call(value)
     .replace(/^\[.+\s(.+?)\]$/, '$1')
-    .toLowerCase();
-};
+    .toLowerCase()
+}
 
 /**
  * Stringify `value`. Different behavior depending on type of value:
@@ -5895,26 +5895,26 @@ exports.type = function type(value) {
  * @return {string}
  */
 exports.stringify = function(value) {
-  var type = exports.type(value);
+  var type = exports.type(value)
 
-  if (!~exports.indexOf(['object', 'array', 'function'], type)) {
+  if (!~exports.indexOf([ 'object', 'array', 'function' ], type)) {
     if (type !== 'buffer') {
-      return jsonStringify(value);
+      return jsonStringify(value)
     }
-    var json = value.toJSON();
+    var json = value.toJSON()
     // Based on the toJSON result
     return jsonStringify(json.data && json.type ? json.data : json, 2)
-      .replace(/,(\n|$)/g, '$1');
+      .replace(/,(\n|$)/g, '$1')
   }
 
   for (var prop in value) {
     if (Object.prototype.hasOwnProperty.call(value, prop)) {
-      return jsonStringify(exports.canonicalize(value), 2).replace(/,(\n|$)/g, '$1');
+      return jsonStringify(exports.canonicalize(value), 2).replace(/,(\n|$)/g, '$1')
     }
   }
 
-  return emptyRepresentation(value, type);
-};
+  return emptyRepresentation(value, type)
+}
 
 /**
  * like JSON.stringify but more sense.
@@ -5928,70 +5928,70 @@ exports.stringify = function(value) {
 function jsonStringify(object, spaces, depth) {
   if (typeof spaces === 'undefined') {
     // primitive types
-    return _stringify(object);
+    return _stringify(object)
   }
 
-  depth = depth || 1;
-  var space = spaces * depth;
-  var str = isArray(object) ? '[' : '{';
-  var end = isArray(object) ? ']' : '}';
-  var length = object.length || exports.keys(object).length;
+  depth = depth || 1
+  var space = spaces * depth
+  var str = isArray(object) ? '[' : '{'
+  var end = isArray(object) ? ']' : '}'
+  var length = object.length || exports.keys(object).length
   // `.repeat()` polyfill
   function repeat(s, n) {
-    return new Array(n).join(s);
+    return new Array(n).join(s)
   }
 
   function _stringify(val) {
     switch (exports.type(val)) {
       case 'null':
       case 'undefined':
-        val = '[' + val + ']';
-        break;
+        val = '[' + val + ']'
+        break
       case 'array':
       case 'object':
-        val = jsonStringify(val, spaces, depth + 1);
-        break;
+        val = jsonStringify(val, spaces, depth + 1)
+        break
       case 'boolean':
       case 'regexp':
       case 'number':
         val = val === 0 && (1 / val) === -Infinity // `-0`
           ? '-0'
-          : val.toString();
-        break;
+          : val.toString()
+        break
       case 'date':
         var sDate = isNaN(val.getTime())        // Invalid date
           ? val.toString()
-          : val.toISOString();
-        val = '[Date: ' + sDate + ']';
-        break;
+          : val.toISOString()
+        val = '[Date: ' + sDate + ']'
+        break
       case 'buffer':
-        var json = val.toJSON();
+        var json = val.toJSON()
         // Based on the toJSON result
-        json = json.data && json.type ? json.data : json;
-        val = '[Buffer: ' + jsonStringify(json, 2, depth + 1) + ']';
-        break;
+        json = json.data && json.type ? json.data : json
+        val = '[Buffer: ' + jsonStringify(json, 2, depth + 1) + ']'
+        break
       default:
         val = (val === '[Function]' || val === '[Circular]')
           ? val
-          : JSON.stringify(val); // string
+          : JSON.stringify(val) // string
     }
-    return val;
+    return val
   }
 
   for (var i in object) {
     if (!object.hasOwnProperty(i)) {
-      continue; // not my business
+      continue // not my business
     }
-    --length;
+    --length
     str += '\n ' + repeat(' ', space)
       + (isArray(object) ? '' : '"' + i + '": ') // key
       + _stringify(object[i])                     // value
-      + (length ? ',' : '');                     // comma
+      + (length ? ',' : '')                     // comma
   }
 
   return str
     // [], {}
-    + (str.length !== 1 ? '\n' + repeat(' ', --space) + end : end);
+    + (str.length !== 1 ? '\n' + repeat(' ', --space) + end : end)
 }
 
 /**
@@ -6002,8 +6002,8 @@ function jsonStringify(object, spaces, depth) {
  * @return {boolean} True if `value` is a buffer, otherwise false
  */
 exports.isBuffer = function(value) {
-  return typeof Buffer !== 'undefined' && Buffer.isBuffer(value);
-};
+  return typeof Buffer !== 'undefined' && Buffer.isBuffer(value)
+}
 
 /**
  * Return a new Thing that has the keys in sorted order. Recursive.
@@ -6024,68 +6024,68 @@ exports.isBuffer = function(value) {
  * @return {(Object|Array|Function|string|undefined)}
  */
 exports.canonicalize = function(value, stack) {
-  var canonicalizedObj;
+  var canonicalizedObj
   /* eslint-disable no-unused-vars */
-  var prop;
+  var prop
   /* eslint-enable no-unused-vars */
-  var type = exports.type(value);
+  var type = exports.type(value)
   function withStack(value, fn) {
-    stack.push(value);
-    fn();
-    stack.pop();
+    stack.push(value)
+    fn()
+    stack.pop()
   }
 
-  stack = stack || [];
+  stack = stack || []
 
   if (exports.indexOf(stack, value) !== -1) {
-    return '[Circular]';
+    return '[Circular]'
   }
 
   switch (type) {
     case 'undefined':
     case 'buffer':
     case 'null':
-      canonicalizedObj = value;
-      break;
+      canonicalizedObj = value
+      break
     case 'array':
       withStack(value, function() {
         canonicalizedObj = exports.map(value, function(item) {
-          return exports.canonicalize(item, stack);
-        });
-      });
-      break;
+          return exports.canonicalize(item, stack)
+        })
+      })
+      break
     case 'function':
       /* eslint-disable guard-for-in */
       for (prop in value) {
-        canonicalizedObj = {};
-        break;
+        canonicalizedObj = {}
+        break
       }
       /* eslint-enable guard-for-in */
       if (!canonicalizedObj) {
-        canonicalizedObj = emptyRepresentation(value, type);
-        break;
+        canonicalizedObj = emptyRepresentation(value, type)
+        break
       }
     /* falls through */
     case 'object':
-      canonicalizedObj = canonicalizedObj || {};
+      canonicalizedObj = canonicalizedObj || {}
       withStack(value, function() {
         exports.forEach(exports.keys(value).sort(), function(key) {
-          canonicalizedObj[key] = exports.canonicalize(value[key], stack);
-        });
-      });
-      break;
+          canonicalizedObj[key] = exports.canonicalize(value[key], stack)
+        })
+      })
+      break
     case 'date':
     case 'number':
     case 'regexp':
     case 'boolean':
-      canonicalizedObj = value;
-      break;
+      canonicalizedObj = value
+      break
     default:
-      canonicalizedObj = value.toString();
+      canonicalizedObj = value.toString()
   }
 
-  return canonicalizedObj;
-};
+  return canonicalizedObj
+}
 
 /**
  * Lookup file names at the given `path`.
@@ -6097,53 +6097,53 @@ exports.canonicalize = function(value, stack) {
  * @return {string[]} An array of paths.
  */
 exports.lookupFiles = function lookupFiles(path, extensions, recursive) {
-  var files = [];
-  var re = new RegExp('\\.(' + extensions.join('|') + ')$');
+  var files = []
+  var re = new RegExp('\\.(' + extensions.join('|') + ')$')
 
   if (!exists(path)) {
     if (exists(path + '.js')) {
-      path += '.js';
+      path += '.js'
     } else {
-      files = glob.sync(path);
+      files = glob.sync(path)
       if (!files.length) {
-        throw new Error("cannot resolve path (or pattern) '" + path + "'");
+        throw new Error('cannot resolve path (or pattern) \'' + path + '\'')
       }
-      return files;
+      return files
     }
   }
 
   try {
-    var stat = statSync(path);
+    var stat = statSync(path)
     if (stat.isFile()) {
-      return path;
+      return path
     }
   } catch (err) {
     // ignore error
-    return;
+    return
   }
 
   readdirSync(path).forEach(function(file) {
-    file = join(path, file);
+    file = join(path, file)
     try {
-      var stat = statSync(file);
+      var stat = statSync(file)
       if (stat.isDirectory()) {
         if (recursive) {
-          files = files.concat(lookupFiles(file, extensions, recursive));
+          files = files.concat(lookupFiles(file, extensions, recursive))
         }
-        return;
+        return
       }
     } catch (err) {
       // ignore error
-      return;
+      return
     }
     if (!stat.isFile() || !re.test(file) || basename(file)[0] === '.') {
-      return;
+      return
     }
-    files.push(file);
-  });
+    files.push(file)
+  })
 
-  return files;
-};
+  return files
+}
 
 /**
  * Generate an undefined error with a message warning the user.
@@ -6152,8 +6152,8 @@ exports.lookupFiles = function lookupFiles(path, extensions, recursive) {
  */
 
 exports.undefinedError = function() {
-  return new Error('Caught undefined error, did you throw without specifying what?');
-};
+  return new Error('Caught undefined error, did you throw without specifying what?')
+}
 
 /**
  * Generate an undefined error if `err` is not defined.
@@ -6163,8 +6163,8 @@ exports.undefinedError = function() {
  */
 
 exports.getError = function(err) {
-  return err || exports.undefinedError();
-};
+  return err || exports.undefinedError()
+}
 
 /**
  * @summary
@@ -6177,17 +6177,17 @@ exports.getError = function(err) {
  */
 exports.stackTraceFilter = function() {
   // TODO: Replace with `process.browser`
-  var slash = '/';
-  var is = typeof document === 'undefined' ? { node: true } : { browser: true };
+  var slash = '/'
+  var is = typeof document === 'undefined' ? { node: true } : { browser: true }
   var cwd = is.node
       ? process.cwd() + slash
-      : (typeof location === 'undefined' ? window.location : location).href.replace(/\/[^\/]*$/, '/');
+      : (typeof location === 'undefined' ? window.location : location).href.replace(/\/[^\/]*$/, '/')
 
   function isMochaInternal(line) {
     return (~line.indexOf('node_modules' + slash + 'mocha' + slash))
       || (~line.indexOf('components' + slash + 'mochajs' + slash))
       || (~line.indexOf('components' + slash + 'mocha' + slash))
-      || (~line.indexOf(slash + 'mocha.js'));
+      || (~line.indexOf(slash + 'mocha.js'))
   }
 
   function isNodeInternal(line) {
@@ -6196,32 +6196,32 @@ exports.stackTraceFilter = function() {
       || (~line.indexOf('(node.js:'))
       || (~line.indexOf('(module.js:'))
       || (~line.indexOf('GeneratorFunctionPrototype.next (native)'))
-      || false;
+      || false
   }
 
   return function(stack) {
-    stack = stack.split('\n');
+    stack = stack.split('\n')
 
     stack = exports.reduce(stack, function(list, line) {
       if (isMochaInternal(line)) {
-        return list;
+        return list
       }
 
       if (is.node && isNodeInternal(line)) {
-        return list;
+        return list
       }
 
       // Clean up cwd(absolute)
-      list.push(line.replace(cwd, ''));
-      return list;
-    }, []);
+      list.push(line.replace(cwd, ''))
+      return list
+    }, [])
 
-    return stack.join('\n');
-  };
-};
+    return stack.join('\n')
+  }
+}
 
-}).call(this,require('_process'),require("buffer").Buffer)
-},{"_process":51,"buffer":43,"debug":2,"fs":41,"glob":41,"path":41,"util":66}],40:[function(require,module,exports){
+}).call(this, require('_process'), require('buffer').Buffer)
+}, { '_process': 51, 'buffer': 43, 'debug': 2, 'fs': 41, 'glob': 41, 'path': 41, 'util': 66 } ], 40: [ function(require, module, exports){
 (function (process){
 var WritableStream = require('stream').Writable
 var inherits = require('util').inherits
@@ -6249,12 +6249,12 @@ BrowserStdout.prototype._write = function(chunks, encoding, cb) {
   process.nextTick(cb)
 }
 
-}).call(this,require('_process'))
-},{"_process":51,"stream":63,"util":66}],41:[function(require,module,exports){
+}).call(this, require('_process'))
+}, { '_process': 51, 'stream': 63, 'util': 66 } ], 41: [ function(require, module, exports){
 
-},{}],42:[function(require,module,exports){
-arguments[4][41][0].apply(exports,arguments)
-},{"dup":41}],43:[function(require,module,exports){
+}, {} ], 42: [ function(require, module, exports){
+arguments[4][41][0].apply(exports, arguments)
+}, { 'dup': 41 } ], 43: [ function(require, module, exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -6866,8 +6866,8 @@ Buffer.prototype.write = function write (string, offset, length, encoding) {
 
 Buffer.prototype.toJSON = function toJSON () {
   return {
-    type: 'Buffer',
-    data: Array.prototype.slice.call(this._arr || this, 0)
+    type: 'Buffer'
+    , data: Array.prototype.slice.call(this._arr || this, 0)
   }
 }
 
@@ -7789,11 +7789,11 @@ function blitBuffer (src, dst, offset, length) {
   return i
 }
 
-},{"base64-js":44,"ieee754":45,"is-array":46}],44:[function(require,module,exports){
-var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+}, { 'base64-js': 44, 'ieee754': 45, 'is-array': 46 } ], 44: [ function(require, module, exports){
+var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 
-;(function (exports) {
-	'use strict';
+(function (exports) {
+	
 
   var Arr = (typeof Uint8Array !== 'undefined')
     ? Uint8Array
@@ -7872,10 +7872,10 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	}
 
 	function uint8ToBase64 (uint8) {
-		var i,
-			extraBytes = uint8.length % 3, // if we have 1 byte left, pad 2 bytes
-			output = "",
-			temp, length
+		var i
+			, extraBytes = uint8.length % 3 // if we have 1 byte left, pad 2 bytes
+			, output = ''
+			, temp, length
 
 		function encode (num) {
 			return lookup.charAt(num)
@@ -7915,7 +7915,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-},{}],45:[function(require,module,exports){
+}, {} ], 45: [ function(require, module, exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -8001,19 +8001,19 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],46:[function(require,module,exports){
+}, {} ], 46: [ function(require, module, exports){
 
 /**
  * isArray
  */
 
-var isArray = Array.isArray;
+var isArray = Array.isArray
 
 /**
  * toString
  */
 
-var str = Object.prototype.toString;
+var str = Object.prototype.toString
 
 /**
  * Whether or not the given `val`
@@ -8033,10 +8033,10 @@ var str = Object.prototype.toString;
  */
 
 module.exports = isArray || function (val) {
-  return !! val && '[object Array]' == str.call(val);
-};
+  return !! val && '[object Array]' == str.call(val)
+}
 
-},{}],47:[function(require,module,exports){
+}, {} ], 47: [ function(require, module, exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -8059,300 +8059,300 @@ module.exports = isArray || function (val) {
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 function EventEmitter() {
-  this._events = this._events || {};
-  this._maxListeners = this._maxListeners || undefined;
+  this._events = this._events || {}
+  this._maxListeners = this._maxListeners || undefined
 }
-module.exports = EventEmitter;
+module.exports = EventEmitter
 
 // Backwards-compat with node 0.10.x
-EventEmitter.EventEmitter = EventEmitter;
+EventEmitter.EventEmitter = EventEmitter
 
-EventEmitter.prototype._events = undefined;
-EventEmitter.prototype._maxListeners = undefined;
+EventEmitter.prototype._events = undefined
+EventEmitter.prototype._maxListeners = undefined
 
 // By default EventEmitters will print a warning if more than 10 listeners are
 // added to it. This is a useful default which helps finding memory leaks.
-EventEmitter.defaultMaxListeners = 10;
+EventEmitter.defaultMaxListeners = 10
 
 // Obviously not all Emitters should be limited to 10. This function allows
 // that to be increased. Set to zero for unlimited.
 EventEmitter.prototype.setMaxListeners = function(n) {
   if (!isNumber(n) || n < 0 || isNaN(n))
-    throw TypeError('n must be a positive number');
-  this._maxListeners = n;
-  return this;
-};
+    throw TypeError('n must be a positive number')
+  this._maxListeners = n
+  return this
+}
 
 EventEmitter.prototype.emit = function(type) {
-  var er, handler, len, args, i, listeners;
+  var er, handler, len, args, i, listeners
 
   if (!this._events)
-    this._events = {};
+    this._events = {}
 
   // If there is no 'error' event listener then throw.
   if (type === 'error') {
     if (!this._events.error ||
         (isObject(this._events.error) && !this._events.error.length)) {
-      er = arguments[1];
+      er = arguments[1]
       if (er instanceof Error) {
-        throw er; // Unhandled 'error' event
+        throw er // Unhandled 'error' event
       }
-      throw TypeError('Uncaught, unspecified "error" event.');
+      throw TypeError('Uncaught, unspecified "error" event.')
     }
   }
 
-  handler = this._events[type];
+  handler = this._events[type]
 
   if (isUndefined(handler))
-    return false;
+    return false
 
   if (isFunction(handler)) {
     switch (arguments.length) {
       // fast cases
       case 1:
-        handler.call(this);
-        break;
+        handler.call(this)
+        break
       case 2:
-        handler.call(this, arguments[1]);
-        break;
+        handler.call(this, arguments[1])
+        break
       case 3:
-        handler.call(this, arguments[1], arguments[2]);
-        break;
+        handler.call(this, arguments[1], arguments[2])
+        break
       // slower
       default:
-        len = arguments.length;
-        args = new Array(len - 1);
+        len = arguments.length
+        args = new Array(len - 1)
         for (i = 1; i < len; i++)
-          args[i - 1] = arguments[i];
-        handler.apply(this, args);
+          args[i - 1] = arguments[i]
+        handler.apply(this, args)
     }
   } else if (isObject(handler)) {
-    len = arguments.length;
-    args = new Array(len - 1);
+    len = arguments.length
+    args = new Array(len - 1)
     for (i = 1; i < len; i++)
-      args[i - 1] = arguments[i];
+      args[i - 1] = arguments[i]
 
-    listeners = handler.slice();
-    len = listeners.length;
+    listeners = handler.slice()
+    len = listeners.length
     for (i = 0; i < len; i++)
-      listeners[i].apply(this, args);
+      listeners[i].apply(this, args)
   }
 
-  return true;
-};
+  return true
+}
 
 EventEmitter.prototype.addListener = function(type, listener) {
-  var m;
+  var m
 
   if (!isFunction(listener))
-    throw TypeError('listener must be a function');
+    throw TypeError('listener must be a function')
 
   if (!this._events)
-    this._events = {};
+    this._events = {}
 
   // To avoid recursion in the case that type === "newListener"! Before
   // adding it to the listeners, first emit "newListener".
   if (this._events.newListener)
     this.emit('newListener', type,
               isFunction(listener.listener) ?
-              listener.listener : listener);
+              listener.listener : listener)
 
   if (!this._events[type])
     // Optimize the case of one listener. Don't need the extra array object.
-    this._events[type] = listener;
+    this._events[type] = listener
   else if (isObject(this._events[type]))
     // If we've already got an array, just append.
-    this._events[type].push(listener);
+    this._events[type].push(listener)
   else
     // Adding the second element, need to change to array.
-    this._events[type] = [this._events[type], listener];
+    this._events[type] = [ this._events[type], listener ]
 
   // Check for listener leak
   if (isObject(this._events[type]) && !this._events[type].warned) {
-    var m;
+    var m
     if (!isUndefined(this._maxListeners)) {
-      m = this._maxListeners;
+      m = this._maxListeners
     } else {
-      m = EventEmitter.defaultMaxListeners;
+      m = EventEmitter.defaultMaxListeners
     }
 
     if (m && m > 0 && this._events[type].length > m) {
-      this._events[type].warned = true;
+      this._events[type].warned = true
       console.error('(node) warning: possible EventEmitter memory ' +
                     'leak detected. %d listeners added. ' +
                     'Use emitter.setMaxListeners() to increase limit.',
-                    this._events[type].length);
+                    this._events[type].length)
       if (typeof console.trace === 'function') {
         // not supported in IE 10
-        console.trace();
+        console.trace()
       }
     }
   }
 
-  return this;
-};
+  return this
+}
 
-EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+EventEmitter.prototype.on = EventEmitter.prototype.addListener
 
 EventEmitter.prototype.once = function(type, listener) {
   if (!isFunction(listener))
-    throw TypeError('listener must be a function');
+    throw TypeError('listener must be a function')
 
-  var fired = false;
+  var fired = false
 
   function g() {
-    this.removeListener(type, g);
+    this.removeListener(type, g)
 
     if (!fired) {
-      fired = true;
-      listener.apply(this, arguments);
+      fired = true
+      listener.apply(this, arguments)
     }
   }
 
-  g.listener = listener;
-  this.on(type, g);
+  g.listener = listener
+  this.on(type, g)
 
-  return this;
-};
+  return this
+}
 
 // emits a 'removeListener' event iff the listener was removed
 EventEmitter.prototype.removeListener = function(type, listener) {
-  var list, position, length, i;
+  var list, position, length, i
 
   if (!isFunction(listener))
-    throw TypeError('listener must be a function');
+    throw TypeError('listener must be a function')
 
   if (!this._events || !this._events[type])
-    return this;
+    return this
 
-  list = this._events[type];
-  length = list.length;
-  position = -1;
+  list = this._events[type]
+  length = list.length
+  position = -1
 
   if (list === listener ||
       (isFunction(list.listener) && list.listener === listener)) {
-    delete this._events[type];
+    delete this._events[type]
     if (this._events.removeListener)
-      this.emit('removeListener', type, listener);
+      this.emit('removeListener', type, listener)
 
   } else if (isObject(list)) {
     for (i = length; i-- > 0;) {
       if (list[i] === listener ||
           (list[i].listener && list[i].listener === listener)) {
-        position = i;
-        break;
+        position = i
+        break
       }
     }
 
     if (position < 0)
-      return this;
+      return this
 
     if (list.length === 1) {
-      list.length = 0;
-      delete this._events[type];
+      list.length = 0
+      delete this._events[type]
     } else {
-      list.splice(position, 1);
+      list.splice(position, 1)
     }
 
     if (this._events.removeListener)
-      this.emit('removeListener', type, listener);
+      this.emit('removeListener', type, listener)
   }
 
-  return this;
-};
+  return this
+}
 
 EventEmitter.prototype.removeAllListeners = function(type) {
-  var key, listeners;
+  var key, listeners
 
   if (!this._events)
-    return this;
+    return this
 
   // not listening for removeListener, no need to emit
   if (!this._events.removeListener) {
     if (arguments.length === 0)
-      this._events = {};
+      this._events = {}
     else if (this._events[type])
-      delete this._events[type];
-    return this;
+      delete this._events[type]
+    return this
   }
 
   // emit removeListener for all listeners on all events
   if (arguments.length === 0) {
     for (key in this._events) {
-      if (key === 'removeListener') continue;
-      this.removeAllListeners(key);
+      if (key === 'removeListener') continue
+      this.removeAllListeners(key)
     }
-    this.removeAllListeners('removeListener');
-    this._events = {};
-    return this;
+    this.removeAllListeners('removeListener')
+    this._events = {}
+    return this
   }
 
-  listeners = this._events[type];
+  listeners = this._events[type]
 
   if (isFunction(listeners)) {
-    this.removeListener(type, listeners);
+    this.removeListener(type, listeners)
   } else {
     // LIFO order
     while (listeners.length)
-      this.removeListener(type, listeners[listeners.length - 1]);
+      this.removeListener(type, listeners[listeners.length - 1])
   }
-  delete this._events[type];
+  delete this._events[type]
 
-  return this;
-};
+  return this
+}
 
 EventEmitter.prototype.listeners = function(type) {
-  var ret;
+  var ret
   if (!this._events || !this._events[type])
-    ret = [];
+    ret = []
   else if (isFunction(this._events[type]))
-    ret = [this._events[type]];
+    ret = [ this._events[type] ]
   else
-    ret = this._events[type].slice();
-  return ret;
-};
+    ret = this._events[type].slice()
+  return ret
+}
 
 EventEmitter.listenerCount = function(emitter, type) {
-  var ret;
+  var ret
   if (!emitter._events || !emitter._events[type])
-    ret = 0;
+    ret = 0
   else if (isFunction(emitter._events[type]))
-    ret = 1;
+    ret = 1
   else
-    ret = emitter._events[type].length;
-  return ret;
-};
+    ret = emitter._events[type].length
+  return ret
+}
 
 function isFunction(arg) {
-  return typeof arg === 'function';
+  return typeof arg === 'function'
 }
 
 function isNumber(arg) {
-  return typeof arg === 'number';
+  return typeof arg === 'number'
 }
 
 function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
+  return typeof arg === 'object' && arg !== null
 }
 
 function isUndefined(arg) {
-  return arg === void 0;
+  return arg === void 0
 }
 
-},{}],48:[function(require,module,exports){
+}, {} ], 48: [ function(require, module, exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
     ctor.super_ = superCtor
     ctor.prototype = Object.create(superCtor.prototype, {
       constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
+        value: ctor
+        , enumerable: false
+        , writable: true
+        , configurable: true
       }
-    });
-  };
+    })
+  }
 } else {
   // old school shim for old browsers
   module.exports = function inherits(ctor, superCtor) {
@@ -8364,155 +8364,155 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],49:[function(require,module,exports){
+}, {} ], 49: [ function(require, module, exports){
 module.exports = Array.isArray || function (arr) {
-  return Object.prototype.toString.call(arr) == '[object Array]';
-};
+  return Object.prototype.toString.call(arr) == '[object Array]'
+}
 
-},{}],50:[function(require,module,exports){
-exports.endianness = function () { return 'LE' };
+}, {} ], 50: [ function(require, module, exports){
+exports.endianness = function () { return 'LE' }
 
 exports.hostname = function () {
     if (typeof location !== 'undefined') {
         return location.hostname
     }
-    else return '';
-};
+    else return ''
+}
 
-exports.loadavg = function () { return [] };
+exports.loadavg = function () { return [] }
 
-exports.uptime = function () { return 0 };
+exports.uptime = function () { return 0 }
 
 exports.freemem = function () {
-    return Number.MAX_VALUE;
-};
+    return Number.MAX_VALUE
+}
 
 exports.totalmem = function () {
-    return Number.MAX_VALUE;
-};
+    return Number.MAX_VALUE
+}
 
-exports.cpus = function () { return [] };
+exports.cpus = function () { return [] }
 
-exports.type = function () { return 'Browser' };
+exports.type = function () { return 'Browser' }
 
 exports.release = function () {
     if (typeof navigator !== 'undefined') {
-        return navigator.appVersion;
+        return navigator.appVersion
     }
-    return '';
-};
+    return ''
+}
 
 exports.networkInterfaces
 = exports.getNetworkInterfaces
-= function () { return {} };
+= function () { return {} }
 
-exports.arch = function () { return 'javascript' };
+exports.arch = function () { return 'javascript' }
 
-exports.platform = function () { return 'browser' };
+exports.platform = function () { return 'browser' }
 
 exports.tmpdir = exports.tmpDir = function () {
-    return '/tmp';
-};
+    return '/tmp'
+}
 
-exports.EOL = '\n';
+exports.EOL = '\n'
 
-},{}],51:[function(require,module,exports){
+}, {} ], 51: [ function(require, module, exports){
 // shim for using process in browser
 
-var process = module.exports = {};
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
+var process = module.exports = {}
+var queue = []
+var draining = false
+var currentQueue
+var queueIndex = -1
 
 function cleanUpNextTick() {
-    draining = false;
+    draining = false
     if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
+        queue = currentQueue.concat(queue)
     } else {
-        queueIndex = -1;
+        queueIndex = -1
     }
     if (queue.length) {
-        drainQueue();
+        drainQueue()
     }
 }
 
 function drainQueue() {
     if (draining) {
-        return;
+        return
     }
-    var timeout = setTimeout(cleanUpNextTick);
-    draining = true;
+    var timeout = setTimeout(cleanUpNextTick)
+    draining = true
 
-    var len = queue.length;
+    var len = queue.length
     while(len) {
-        currentQueue = queue;
-        queue = [];
+        currentQueue = queue
+        queue = []
         while (++queueIndex < len) {
             if (currentQueue) {
-                currentQueue[queueIndex].run();
+                currentQueue[queueIndex].run()
             }
         }
-        queueIndex = -1;
-        len = queue.length;
+        queueIndex = -1
+        len = queue.length
     }
-    currentQueue = null;
-    draining = false;
-    clearTimeout(timeout);
+    currentQueue = null
+    draining = false
+    clearTimeout(timeout)
 }
 
 process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
+    var args = new Array(arguments.length - 1)
     if (arguments.length > 1) {
         for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
+            args[i - 1] = arguments[i]
         }
     }
-    queue.push(new Item(fun, args));
+    queue.push(new Item(fun, args))
     if (queue.length === 1 && !draining) {
-        setTimeout(drainQueue, 0);
+        setTimeout(drainQueue, 0)
     }
-};
+}
 
 // v8 likes predictible objects
 function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
+    this.fun = fun
+    this.array = array
 }
 Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
+    this.fun.apply(null, this.array)
+}
+process.title = 'browser'
+process.browser = true
+process.env = {}
+process.argv = []
+process.version = '' // empty string to avoid regexp issues
+process.versions = {}
 
 function noop() {}
 
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
+process.on = noop
+process.addListener = noop
+process.once = noop
+process.off = noop
+process.removeListener = noop
+process.removeAllListeners = noop
+process.emit = noop
 
 process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
+    throw new Error('process.binding is not supported')
+}
 
-process.cwd = function () { return '/' };
+process.cwd = function () { return '/' }
 process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
+    throw new Error('process.chdir is not supported')
+}
+process.umask = function() { return 0 }
 
-},{}],52:[function(require,module,exports){
-module.exports = require("./lib/_stream_duplex.js")
+}, {} ], 52: [ function(require, module, exports){
+module.exports = require('./lib/_stream_duplex.js')
 
-},{"./lib/_stream_duplex.js":53}],53:[function(require,module,exports){
+}, { './lib/_stream_duplex.js': 53 } ], 53: [ function(require, module, exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -8540,50 +8540,50 @@ module.exports = require("./lib/_stream_duplex.js")
 // prototypally inherits from Readable, and then parasitically from
 // Writable.
 
-module.exports = Duplex;
+module.exports = Duplex
 
 /*<replacement>*/
 var objectKeys = Object.keys || function (obj) {
-  var keys = [];
-  for (var key in obj) keys.push(key);
-  return keys;
+  var keys = []
+  for (var key in obj) keys.push(key)
+  return keys
 }
 /*</replacement>*/
 
 
 /*<replacement>*/
-var util = require('core-util-is');
-util.inherits = require('inherits');
+var util = require('core-util-is')
+util.inherits = require('inherits')
 /*</replacement>*/
 
-var Readable = require('./_stream_readable');
-var Writable = require('./_stream_writable');
+var Readable = require('./_stream_readable')
+var Writable = require('./_stream_writable')
 
-util.inherits(Duplex, Readable);
+util.inherits(Duplex, Readable)
 
 forEach(objectKeys(Writable.prototype), function(method) {
   if (!Duplex.prototype[method])
-    Duplex.prototype[method] = Writable.prototype[method];
-});
+    Duplex.prototype[method] = Writable.prototype[method]
+})
 
 function Duplex(options) {
   if (!(this instanceof Duplex))
-    return new Duplex(options);
+    return new Duplex(options)
 
-  Readable.call(this, options);
-  Writable.call(this, options);
+  Readable.call(this, options)
+  Writable.call(this, options)
 
   if (options && options.readable === false)
-    this.readable = false;
+    this.readable = false
 
   if (options && options.writable === false)
-    this.writable = false;
+    this.writable = false
 
-  this.allowHalfOpen = true;
+  this.allowHalfOpen = true
   if (options && options.allowHalfOpen === false)
-    this.allowHalfOpen = false;
+    this.allowHalfOpen = false
 
-  this.once('end', onend);
+  this.once('end', onend)
 }
 
 // the no-half-open enforcer
@@ -8591,21 +8591,21 @@ function onend() {
   // if we allow half-open state, or if the writable side ended,
   // then we're ok.
   if (this.allowHalfOpen || this._writableState.ended)
-    return;
+    return
 
   // no more data can be written.
   // But allow more writes to happen in this tick.
-  process.nextTick(this.end.bind(this));
+  process.nextTick(this.end.bind(this))
 }
 
 function forEach (xs, f) {
   for (var i = 0, l = xs.length; i < l; i++) {
-    f(xs[i], i);
+    f(xs[i], i)
   }
 }
 
-}).call(this,require('_process'))
-},{"./_stream_readable":55,"./_stream_writable":57,"_process":51,"core-util-is":58,"inherits":48}],54:[function(require,module,exports){
+}).call(this, require('_process'))
+}, { './_stream_readable': 55, './_stream_writable': 57, '_process': 51, 'core-util-is': 58, 'inherits': 48 } ], 54: [ function(require, module, exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -8631,29 +8631,29 @@ function forEach (xs, f) {
 // basically just the most minimal sort of Transform stream.
 // Every written chunk gets output as-is.
 
-module.exports = PassThrough;
+module.exports = PassThrough
 
-var Transform = require('./_stream_transform');
+var Transform = require('./_stream_transform')
 
 /*<replacement>*/
-var util = require('core-util-is');
-util.inherits = require('inherits');
+var util = require('core-util-is')
+util.inherits = require('inherits')
 /*</replacement>*/
 
-util.inherits(PassThrough, Transform);
+util.inherits(PassThrough, Transform)
 
 function PassThrough(options) {
   if (!(this instanceof PassThrough))
-    return new PassThrough(options);
+    return new PassThrough(options)
 
-  Transform.call(this, options);
+  Transform.call(this, options)
 }
 
 PassThrough.prototype._transform = function(chunk, encoding, cb) {
-  cb(null, chunk);
-};
+  cb(null, chunk)
+}
 
-},{"./_stream_transform":56,"core-util-is":58,"inherits":48}],55:[function(require,module,exports){
+}, { './_stream_transform': 56, 'core-util-is': 58, 'inherits': 48 } ], 55: [ function(require, module, exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -8676,129 +8676,129 @@ PassThrough.prototype._transform = function(chunk, encoding, cb) {
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-module.exports = Readable;
+module.exports = Readable
 
 /*<replacement>*/
-var isArray = require('isarray');
+var isArray = require('isarray')
 /*</replacement>*/
 
 
 /*<replacement>*/
-var Buffer = require('buffer').Buffer;
+var Buffer = require('buffer').Buffer
 /*</replacement>*/
 
-Readable.ReadableState = ReadableState;
+Readable.ReadableState = ReadableState
 
-var EE = require('events').EventEmitter;
+var EE = require('events').EventEmitter
 
 /*<replacement>*/
 if (!EE.listenerCount) EE.listenerCount = function(emitter, type) {
-  return emitter.listeners(type).length;
-};
+  return emitter.listeners(type).length
+}
 /*</replacement>*/
 
-var Stream = require('stream');
+var Stream = require('stream')
 
 /*<replacement>*/
-var util = require('core-util-is');
-util.inherits = require('inherits');
+var util = require('core-util-is')
+util.inherits = require('inherits')
 /*</replacement>*/
 
-var StringDecoder;
+var StringDecoder
 
 
 /*<replacement>*/
-var debug = require('util');
+var debug = require('util')
 if (debug && debug.debuglog) {
-  debug = debug.debuglog('stream');
+  debug = debug.debuglog('stream')
 } else {
-  debug = function () {};
+  debug = function () {}
 }
 /*</replacement>*/
 
 
-util.inherits(Readable, Stream);
+util.inherits(Readable, Stream)
 
 function ReadableState(options, stream) {
-  var Duplex = require('./_stream_duplex');
+  var Duplex = require('./_stream_duplex')
 
-  options = options || {};
+  options = options || {}
 
   // the point at which it stops calling _read() to fill the buffer
   // Note: 0 is a valid value, means "don't call _read preemptively ever"
-  var hwm = options.highWaterMark;
-  var defaultHwm = options.objectMode ? 16 : 16 * 1024;
-  this.highWaterMark = (hwm || hwm === 0) ? hwm : defaultHwm;
+  var hwm = options.highWaterMark
+  var defaultHwm = options.objectMode ? 16 : 16 * 1024
+  this.highWaterMark = (hwm || hwm === 0) ? hwm : defaultHwm
 
   // cast to ints.
-  this.highWaterMark = ~~this.highWaterMark;
+  this.highWaterMark = ~~this.highWaterMark
 
-  this.buffer = [];
-  this.length = 0;
-  this.pipes = null;
-  this.pipesCount = 0;
-  this.flowing = null;
-  this.ended = false;
-  this.endEmitted = false;
-  this.reading = false;
+  this.buffer = []
+  this.length = 0
+  this.pipes = null
+  this.pipesCount = 0
+  this.flowing = null
+  this.ended = false
+  this.endEmitted = false
+  this.reading = false
 
   // a flag to be able to tell if the onwrite cb is called immediately,
   // or on a later tick.  We set this to true at first, because any
   // actions that shouldn't happen until "later" should generally also
   // not happen before the first write call.
-  this.sync = true;
+  this.sync = true
 
   // whenever we return null, then we set a flag to say
   // that we're awaiting a 'readable' event emission.
-  this.needReadable = false;
-  this.emittedReadable = false;
-  this.readableListening = false;
+  this.needReadable = false
+  this.emittedReadable = false
+  this.readableListening = false
 
 
   // object stream flag. Used to make read(n) ignore n and to
   // make all the buffer merging and length checks go away
-  this.objectMode = !!options.objectMode;
+  this.objectMode = !!options.objectMode
 
   if (stream instanceof Duplex)
-    this.objectMode = this.objectMode || !!options.readableObjectMode;
+    this.objectMode = this.objectMode || !!options.readableObjectMode
 
   // Crypto is kind of old and crusty.  Historically, its default string
   // encoding is 'binary' so we have to make this configurable.
   // Everything else in the universe uses 'utf8', though.
-  this.defaultEncoding = options.defaultEncoding || 'utf8';
+  this.defaultEncoding = options.defaultEncoding || 'utf8'
 
   // when piping, we only care about 'readable' events that happen
   // after read()ing all the bytes and not getting any pushback.
-  this.ranOut = false;
+  this.ranOut = false
 
   // the number of writers that are awaiting a drain event in .pipe()s
-  this.awaitDrain = 0;
+  this.awaitDrain = 0
 
   // if true, a maybeReadMore has been scheduled
-  this.readingMore = false;
+  this.readingMore = false
 
-  this.decoder = null;
-  this.encoding = null;
+  this.decoder = null
+  this.encoding = null
   if (options.encoding) {
     if (!StringDecoder)
-      StringDecoder = require('string_decoder/').StringDecoder;
-    this.decoder = new StringDecoder(options.encoding);
-    this.encoding = options.encoding;
+      StringDecoder = require('string_decoder/').StringDecoder
+    this.decoder = new StringDecoder(options.encoding)
+    this.encoding = options.encoding
   }
 }
 
 function Readable(options) {
-  var Duplex = require('./_stream_duplex');
+  var Duplex = require('./_stream_duplex')
 
   if (!(this instanceof Readable))
-    return new Readable(options);
+    return new Readable(options)
 
-  this._readableState = new ReadableState(options, this);
+  this._readableState = new ReadableState(options, this)
 
   // legacy
-  this.readable = true;
+  this.readable = true
 
-  Stream.call(this);
+  Stream.call(this)
 }
 
 // Manually shove something into the read() buffer.
@@ -8806,70 +8806,70 @@ function Readable(options) {
 // similar to how Writable.write() returns true if you should
 // write() some more.
 Readable.prototype.push = function(chunk, encoding) {
-  var state = this._readableState;
+  var state = this._readableState
 
   if (util.isString(chunk) && !state.objectMode) {
-    encoding = encoding || state.defaultEncoding;
+    encoding = encoding || state.defaultEncoding
     if (encoding !== state.encoding) {
-      chunk = new Buffer(chunk, encoding);
-      encoding = '';
+      chunk = new Buffer(chunk, encoding)
+      encoding = ''
     }
   }
 
-  return readableAddChunk(this, state, chunk, encoding, false);
-};
+  return readableAddChunk(this, state, chunk, encoding, false)
+}
 
 // Unshift should *always* be something directly out of read()
 Readable.prototype.unshift = function(chunk) {
-  var state = this._readableState;
-  return readableAddChunk(this, state, chunk, '', true);
-};
+  var state = this._readableState
+  return readableAddChunk(this, state, chunk, '', true)
+}
 
 function readableAddChunk(stream, state, chunk, encoding, addToFront) {
-  var er = chunkInvalid(state, chunk);
+  var er = chunkInvalid(state, chunk)
   if (er) {
-    stream.emit('error', er);
+    stream.emit('error', er)
   } else if (util.isNullOrUndefined(chunk)) {
-    state.reading = false;
+    state.reading = false
     if (!state.ended)
-      onEofChunk(stream, state);
+      onEofChunk(stream, state)
   } else if (state.objectMode || chunk && chunk.length > 0) {
     if (state.ended && !addToFront) {
-      var e = new Error('stream.push() after EOF');
-      stream.emit('error', e);
+      var e = new Error('stream.push() after EOF')
+      stream.emit('error', e)
     } else if (state.endEmitted && addToFront) {
-      var e = new Error('stream.unshift() after end event');
-      stream.emit('error', e);
+      var e = new Error('stream.unshift() after end event')
+      stream.emit('error', e)
     } else {
       if (state.decoder && !addToFront && !encoding)
-        chunk = state.decoder.write(chunk);
+        chunk = state.decoder.write(chunk)
 
       if (!addToFront)
-        state.reading = false;
+        state.reading = false
 
       // if we want the data now, just emit it.
       if (state.flowing && state.length === 0 && !state.sync) {
-        stream.emit('data', chunk);
-        stream.read(0);
+        stream.emit('data', chunk)
+        stream.read(0)
       } else {
         // update the buffer info.
-        state.length += state.objectMode ? 1 : chunk.length;
+        state.length += state.objectMode ? 1 : chunk.length
         if (addToFront)
-          state.buffer.unshift(chunk);
+          state.buffer.unshift(chunk)
         else
-          state.buffer.push(chunk);
+          state.buffer.push(chunk)
 
         if (state.needReadable)
-          emitReadable(stream);
+          emitReadable(stream)
       }
 
-      maybeReadMore(stream, state);
+      maybeReadMore(stream, state)
     }
   } else if (!addToFront) {
-    state.reading = false;
+    state.reading = false
   }
 
-  return needMoreData(state);
+  return needMoreData(state)
 }
 
 
@@ -8885,77 +8885,77 @@ function needMoreData(state) {
   return !state.ended &&
          (state.needReadable ||
           state.length < state.highWaterMark ||
-          state.length === 0);
+          state.length === 0)
 }
 
 // backwards compatibility.
 Readable.prototype.setEncoding = function(enc) {
   if (!StringDecoder)
-    StringDecoder = require('string_decoder/').StringDecoder;
-  this._readableState.decoder = new StringDecoder(enc);
-  this._readableState.encoding = enc;
-  return this;
-};
+    StringDecoder = require('string_decoder/').StringDecoder
+  this._readableState.decoder = new StringDecoder(enc)
+  this._readableState.encoding = enc
+  return this
+}
 
 // Don't raise the hwm > 128MB
-var MAX_HWM = 0x800000;
+var MAX_HWM = 0x800000
 function roundUpToNextPowerOf2(n) {
   if (n >= MAX_HWM) {
-    n = MAX_HWM;
+    n = MAX_HWM
   } else {
     // Get the next highest power of 2
-    n--;
-    for (var p = 1; p < 32; p <<= 1) n |= n >> p;
-    n++;
+    n--
+    for (var p = 1; p < 32; p <<= 1) n |= n >> p
+    n++
   }
-  return n;
+  return n
 }
 
 function howMuchToRead(n, state) {
   if (state.length === 0 && state.ended)
-    return 0;
+    return 0
 
   if (state.objectMode)
-    return n === 0 ? 0 : 1;
+    return n === 0 ? 0 : 1
 
   if (isNaN(n) || util.isNull(n)) {
     // only flow one buffer at a time
     if (state.flowing && state.buffer.length)
-      return state.buffer[0].length;
+      return state.buffer[0].length
     else
-      return state.length;
+      return state.length
   }
 
   if (n <= 0)
-    return 0;
+    return 0
 
   // If we're asking for more than the target buffer level,
   // then raise the water mark.  Bump up to the next highest
   // power of 2, to prevent increasing it excessively in tiny
   // amounts.
   if (n > state.highWaterMark)
-    state.highWaterMark = roundUpToNextPowerOf2(n);
+    state.highWaterMark = roundUpToNextPowerOf2(n)
 
   // don't have that much.  return null, unless we've ended.
   if (n > state.length) {
     if (!state.ended) {
-      state.needReadable = true;
-      return 0;
+      state.needReadable = true
+      return 0
     } else
-      return state.length;
+      return state.length
   }
 
-  return n;
+  return n
 }
 
 // you can override either this method, or the async _read(n) below.
 Readable.prototype.read = function(n) {
-  debug('read', n);
-  var state = this._readableState;
-  var nOrig = n;
+  debug('read', n)
+  var state = this._readableState
+  var nOrig = n
 
   if (!util.isNumber(n) || n > 0)
-    state.emittedReadable = false;
+    state.emittedReadable = false
 
   // if we're doing read(0) to trigger a readable event, but we
   // already have a bunch of data in the buffer, then just trigger
@@ -8963,21 +8963,21 @@ Readable.prototype.read = function(n) {
   if (n === 0 &&
       state.needReadable &&
       (state.length >= state.highWaterMark || state.ended)) {
-    debug('read: emitReadable', state.length, state.ended);
+    debug('read: emitReadable', state.length, state.ended)
     if (state.length === 0 && state.ended)
-      endReadable(this);
+      endReadable(this)
     else
-      emitReadable(this);
-    return null;
+      emitReadable(this)
+    return null
   }
 
-  n = howMuchToRead(n, state);
+  n = howMuchToRead(n, state)
 
   // if we've ended, and we're now clear, then finish it up.
   if (n === 0 && state.ended) {
     if (state.length === 0)
-      endReadable(this);
-    return null;
+      endReadable(this)
+    return null
   }
 
   // All the actual chunk generation logic needs to be
@@ -9003,115 +9003,115 @@ Readable.prototype.read = function(n) {
   // 3. Actually pull the requested chunks out of the buffer and return.
 
   // if we need a readable event, then we need to do some reading.
-  var doRead = state.needReadable;
-  debug('need readable', doRead);
+  var doRead = state.needReadable
+  debug('need readable', doRead)
 
   // if we currently have less than the highWaterMark, then also read some
   if (state.length === 0 || state.length - n < state.highWaterMark) {
-    doRead = true;
-    debug('length less than watermark', doRead);
+    doRead = true
+    debug('length less than watermark', doRead)
   }
 
   // however, if we've ended, then there's no point, and if we're already
   // reading, then it's unnecessary.
   if (state.ended || state.reading) {
-    doRead = false;
-    debug('reading or ended', doRead);
+    doRead = false
+    debug('reading or ended', doRead)
   }
 
   if (doRead) {
-    debug('do read');
-    state.reading = true;
-    state.sync = true;
+    debug('do read')
+    state.reading = true
+    state.sync = true
     // if the length is currently zero, then we *need* a readable event.
     if (state.length === 0)
-      state.needReadable = true;
+      state.needReadable = true
     // call internal read method
-    this._read(state.highWaterMark);
-    state.sync = false;
+    this._read(state.highWaterMark)
+    state.sync = false
   }
 
   // If _read pushed data synchronously, then `reading` will be false,
   // and we need to re-evaluate how much data we can return to the user.
   if (doRead && !state.reading)
-    n = howMuchToRead(nOrig, state);
+    n = howMuchToRead(nOrig, state)
 
-  var ret;
+  var ret
   if (n > 0)
-    ret = fromList(n, state);
+    ret = fromList(n, state)
   else
-    ret = null;
+    ret = null
 
   if (util.isNull(ret)) {
-    state.needReadable = true;
-    n = 0;
+    state.needReadable = true
+    n = 0
   }
 
-  state.length -= n;
+  state.length -= n
 
   // If we have nothing in the buffer, then we want to know
   // as soon as we *do* get something into the buffer.
   if (state.length === 0 && !state.ended)
-    state.needReadable = true;
+    state.needReadable = true
 
   // If we tried to read() past the EOF, then emit end on the next tick.
   if (nOrig !== n && state.ended && state.length === 0)
-    endReadable(this);
+    endReadable(this)
 
   if (!util.isNull(ret))
-    this.emit('data', ret);
+    this.emit('data', ret)
 
-  return ret;
-};
+  return ret
+}
 
 function chunkInvalid(state, chunk) {
-  var er = null;
+  var er = null
   if (!util.isBuffer(chunk) &&
       !util.isString(chunk) &&
       !util.isNullOrUndefined(chunk) &&
       !state.objectMode) {
-    er = new TypeError('Invalid non-string/buffer chunk');
+    er = new TypeError('Invalid non-string/buffer chunk')
   }
-  return er;
+  return er
 }
 
 
 function onEofChunk(stream, state) {
   if (state.decoder && !state.ended) {
-    var chunk = state.decoder.end();
+    var chunk = state.decoder.end()
     if (chunk && chunk.length) {
-      state.buffer.push(chunk);
-      state.length += state.objectMode ? 1 : chunk.length;
+      state.buffer.push(chunk)
+      state.length += state.objectMode ? 1 : chunk.length
     }
   }
-  state.ended = true;
+  state.ended = true
 
   // emit 'readable' now to make sure it gets picked up.
-  emitReadable(stream);
+  emitReadable(stream)
 }
 
 // Don't emit readable right away in sync mode, because this can trigger
 // another read() call => stack overflow.  This way, it might trigger
 // a nextTick recursion warning, but that's not so bad.
 function emitReadable(stream) {
-  var state = stream._readableState;
-  state.needReadable = false;
+  var state = stream._readableState
+  state.needReadable = false
   if (!state.emittedReadable) {
-    debug('emitReadable', state.flowing);
-    state.emittedReadable = true;
+    debug('emitReadable', state.flowing)
+    state.emittedReadable = true
     if (state.sync)
       process.nextTick(function() {
-        emitReadable_(stream);
-      });
+        emitReadable_(stream)
+      })
     else
-      emitReadable_(stream);
+      emitReadable_(stream)
   }
 }
 
 function emitReadable_(stream) {
-  debug('emit readable');
-  stream.emit('readable');
-  flow(stream);
+  debug('emit readable')
+  stream.emit('readable')
+  flow(stream)
 }
 
 
@@ -9123,26 +9123,26 @@ function emitReadable_(stream) {
 // then go ahead and try to read some more preemptively.
 function maybeReadMore(stream, state) {
   if (!state.readingMore) {
-    state.readingMore = true;
+    state.readingMore = true
     process.nextTick(function() {
-      maybeReadMore_(stream, state);
-    });
+      maybeReadMore_(stream, state)
+    })
   }
 }
 
 function maybeReadMore_(stream, state) {
-  var len = state.length;
+  var len = state.length
   while (!state.reading && !state.flowing && !state.ended &&
          state.length < state.highWaterMark) {
-    debug('maybeReadMore read 0');
-    stream.read(0);
+    debug('maybeReadMore read 0')
+    stream.read(0)
     if (len === state.length)
       // didn't get any data, stop spinning.
-      break;
+      break
     else
-      len = state.length;
+      len = state.length
   }
-  state.readingMore = false;
+  state.readingMore = false
 }
 
 // abstract method.  to be overridden in specific implementation classes.
@@ -9150,68 +9150,68 @@ function maybeReadMore_(stream, state) {
 // for virtual (non-string, non-buffer) streams, "length" is somewhat
 // arbitrary, and perhaps not very meaningful.
 Readable.prototype._read = function(n) {
-  this.emit('error', new Error('not implemented'));
-};
+  this.emit('error', new Error('not implemented'))
+}
 
 Readable.prototype.pipe = function(dest, pipeOpts) {
-  var src = this;
-  var state = this._readableState;
+  var src = this
+  var state = this._readableState
 
   switch (state.pipesCount) {
     case 0:
-      state.pipes = dest;
-      break;
+      state.pipes = dest
+      break
     case 1:
-      state.pipes = [state.pipes, dest];
-      break;
+      state.pipes = [ state.pipes, dest ]
+      break
     default:
-      state.pipes.push(dest);
-      break;
+      state.pipes.push(dest)
+      break
   }
-  state.pipesCount += 1;
-  debug('pipe count=%d opts=%j', state.pipesCount, pipeOpts);
+  state.pipesCount += 1
+  debug('pipe count=%d opts=%j', state.pipesCount, pipeOpts)
 
   var doEnd = (!pipeOpts || pipeOpts.end !== false) &&
               dest !== process.stdout &&
-              dest !== process.stderr;
+              dest !== process.stderr
 
-  var endFn = doEnd ? onend : cleanup;
+  var endFn = doEnd ? onend : cleanup
   if (state.endEmitted)
-    process.nextTick(endFn);
+    process.nextTick(endFn)
   else
-    src.once('end', endFn);
+    src.once('end', endFn)
 
-  dest.on('unpipe', onunpipe);
+  dest.on('unpipe', onunpipe)
   function onunpipe(readable) {
-    debug('onunpipe');
+    debug('onunpipe')
     if (readable === src) {
-      cleanup();
+      cleanup()
     }
   }
 
   function onend() {
-    debug('onend');
-    dest.end();
+    debug('onend')
+    dest.end()
   }
 
   // when the dest drains, it reduces the awaitDrain counter
   // on the source.  This would be more elegant with a .once()
   // handler in flow(), but adding and removing repeatedly is
   // too slow.
-  var ondrain = pipeOnDrain(src);
-  dest.on('drain', ondrain);
+  var ondrain = pipeOnDrain(src)
+  dest.on('drain', ondrain)
 
   function cleanup() {
-    debug('cleanup');
+    debug('cleanup')
     // cleanup event handlers once the pipe is broken
-    dest.removeListener('close', onclose);
-    dest.removeListener('finish', onfinish);
-    dest.removeListener('drain', ondrain);
-    dest.removeListener('error', onerror);
-    dest.removeListener('unpipe', onunpipe);
-    src.removeListener('end', onend);
-    src.removeListener('end', cleanup);
-    src.removeListener('data', ondata);
+    dest.removeListener('close', onclose)
+    dest.removeListener('finish', onfinish)
+    dest.removeListener('drain', ondrain)
+    dest.removeListener('error', onerror)
+    dest.removeListener('unpipe', onunpipe)
+    src.removeListener('end', onend)
+    src.removeListener('end', cleanup)
+    src.removeListener('data', ondata)
 
     // if the reader is waiting for a drain event from this
     // specific writer, then it would cause it to never start
@@ -9220,223 +9220,223 @@ Readable.prototype.pipe = function(dest, pipeOpts) {
     // If we don't know, then assume that we are waiting for one.
     if (state.awaitDrain &&
         (!dest._writableState || dest._writableState.needDrain))
-      ondrain();
+      ondrain()
   }
 
-  src.on('data', ondata);
+  src.on('data', ondata)
   function ondata(chunk) {
-    debug('ondata');
-    var ret = dest.write(chunk);
+    debug('ondata')
+    var ret = dest.write(chunk)
     if (false === ret) {
       debug('false write response, pause',
-            src._readableState.awaitDrain);
-      src._readableState.awaitDrain++;
-      src.pause();
+            src._readableState.awaitDrain)
+      src._readableState.awaitDrain++
+      src.pause()
     }
   }
 
   // if the dest has an error, then stop piping into it.
   // however, don't suppress the throwing behavior for this.
   function onerror(er) {
-    debug('onerror', er);
-    unpipe();
-    dest.removeListener('error', onerror);
+    debug('onerror', er)
+    unpipe()
+    dest.removeListener('error', onerror)
     if (EE.listenerCount(dest, 'error') === 0)
-      dest.emit('error', er);
+      dest.emit('error', er)
   }
   // This is a brutally ugly hack to make sure that our error handler
   // is attached before any userland ones.  NEVER DO THIS.
   if (!dest._events || !dest._events.error)
-    dest.on('error', onerror);
+    dest.on('error', onerror)
   else if (isArray(dest._events.error))
-    dest._events.error.unshift(onerror);
+    dest._events.error.unshift(onerror)
   else
-    dest._events.error = [onerror, dest._events.error];
+    dest._events.error = [ onerror, dest._events.error ]
 
 
 
   // Both close and finish should trigger unpipe, but only once.
   function onclose() {
-    dest.removeListener('finish', onfinish);
-    unpipe();
+    dest.removeListener('finish', onfinish)
+    unpipe()
   }
-  dest.once('close', onclose);
+  dest.once('close', onclose)
   function onfinish() {
-    debug('onfinish');
-    dest.removeListener('close', onclose);
-    unpipe();
+    debug('onfinish')
+    dest.removeListener('close', onclose)
+    unpipe()
   }
-  dest.once('finish', onfinish);
+  dest.once('finish', onfinish)
 
   function unpipe() {
-    debug('unpipe');
-    src.unpipe(dest);
+    debug('unpipe')
+    src.unpipe(dest)
   }
 
   // tell the dest that it's being piped to
-  dest.emit('pipe', src);
+  dest.emit('pipe', src)
 
   // start the flow if it hasn't been started already.
   if (!state.flowing) {
-    debug('pipe resume');
-    src.resume();
+    debug('pipe resume')
+    src.resume()
   }
 
-  return dest;
-};
+  return dest
+}
 
 function pipeOnDrain(src) {
   return function() {
-    var state = src._readableState;
-    debug('pipeOnDrain', state.awaitDrain);
+    var state = src._readableState
+    debug('pipeOnDrain', state.awaitDrain)
     if (state.awaitDrain)
-      state.awaitDrain--;
+      state.awaitDrain--
     if (state.awaitDrain === 0 && EE.listenerCount(src, 'data')) {
-      state.flowing = true;
-      flow(src);
+      state.flowing = true
+      flow(src)
     }
-  };
+  }
 }
 
 
 Readable.prototype.unpipe = function(dest) {
-  var state = this._readableState;
+  var state = this._readableState
 
   // if we're not piping anywhere, then do nothing.
   if (state.pipesCount === 0)
-    return this;
+    return this
 
   // just one destination.  most common case.
   if (state.pipesCount === 1) {
     // passed in one, but it's not the right one.
     if (dest && dest !== state.pipes)
-      return this;
+      return this
 
     if (!dest)
-      dest = state.pipes;
+      dest = state.pipes
 
     // got a match.
-    state.pipes = null;
-    state.pipesCount = 0;
-    state.flowing = false;
+    state.pipes = null
+    state.pipesCount = 0
+    state.flowing = false
     if (dest)
-      dest.emit('unpipe', this);
-    return this;
+      dest.emit('unpipe', this)
+    return this
   }
 
   // slow case. multiple pipe destinations.
 
   if (!dest) {
     // remove all.
-    var dests = state.pipes;
-    var len = state.pipesCount;
-    state.pipes = null;
-    state.pipesCount = 0;
-    state.flowing = false;
+    var dests = state.pipes
+    var len = state.pipesCount
+    state.pipes = null
+    state.pipesCount = 0
+    state.flowing = false
 
     for (var i = 0; i < len; i++)
-      dests[i].emit('unpipe', this);
-    return this;
+      dests[i].emit('unpipe', this)
+    return this
   }
 
   // try to find the right one.
-  var i = indexOf(state.pipes, dest);
+  var i = indexOf(state.pipes, dest)
   if (i === -1)
-    return this;
+    return this
 
-  state.pipes.splice(i, 1);
-  state.pipesCount -= 1;
+  state.pipes.splice(i, 1)
+  state.pipesCount -= 1
   if (state.pipesCount === 1)
-    state.pipes = state.pipes[0];
+    state.pipes = state.pipes[0]
 
-  dest.emit('unpipe', this);
+  dest.emit('unpipe', this)
 
-  return this;
-};
+  return this
+}
 
 // set up data events if they are asked for
 // Ensure readable listeners eventually get something
 Readable.prototype.on = function(ev, fn) {
-  var res = Stream.prototype.on.call(this, ev, fn);
+  var res = Stream.prototype.on.call(this, ev, fn)
 
   // If listening to data, and it has not explicitly been paused,
   // then call resume to start the flow of data on the next tick.
   if (ev === 'data' && false !== this._readableState.flowing) {
-    this.resume();
+    this.resume()
   }
 
   if (ev === 'readable' && this.readable) {
-    var state = this._readableState;
+    var state = this._readableState
     if (!state.readableListening) {
-      state.readableListening = true;
-      state.emittedReadable = false;
-      state.needReadable = true;
+      state.readableListening = true
+      state.emittedReadable = false
+      state.needReadable = true
       if (!state.reading) {
-        var self = this;
+        var self = this
         process.nextTick(function() {
-          debug('readable nexttick read 0');
-          self.read(0);
-        });
+          debug('readable nexttick read 0')
+          self.read(0)
+        })
       } else if (state.length) {
-        emitReadable(this, state);
+        emitReadable(this, state)
       }
     }
   }
 
-  return res;
-};
-Readable.prototype.addListener = Readable.prototype.on;
+  return res
+}
+Readable.prototype.addListener = Readable.prototype.on
 
 // pause() and resume() are remnants of the legacy readable stream API
 // If the user uses them, then switch into old mode.
 Readable.prototype.resume = function() {
-  var state = this._readableState;
+  var state = this._readableState
   if (!state.flowing) {
-    debug('resume');
-    state.flowing = true;
+    debug('resume')
+    state.flowing = true
     if (!state.reading) {
-      debug('resume read 0');
-      this.read(0);
+      debug('resume read 0')
+      this.read(0)
     }
-    resume(this, state);
+    resume(this, state)
   }
-  return this;
-};
+  return this
+}
 
 function resume(stream, state) {
   if (!state.resumeScheduled) {
-    state.resumeScheduled = true;
+    state.resumeScheduled = true
     process.nextTick(function() {
-      resume_(stream, state);
-    });
+      resume_(stream, state)
+    })
   }
 }
 
 function resume_(stream, state) {
-  state.resumeScheduled = false;
-  stream.emit('resume');
-  flow(stream);
+  state.resumeScheduled = false
+  stream.emit('resume')
+  flow(stream)
   if (state.flowing && !state.reading)
-    stream.read(0);
+    stream.read(0)
 }
 
 Readable.prototype.pause = function() {
-  debug('call pause flowing=%j', this._readableState.flowing);
+  debug('call pause flowing=%j', this._readableState.flowing)
   if (false !== this._readableState.flowing) {
-    debug('pause');
-    this._readableState.flowing = false;
-    this.emit('pause');
+    debug('pause')
+    this._readableState.flowing = false
+    this.emit('pause')
   }
-  return this;
-};
+  return this
+}
 
 function flow(stream) {
-  var state = stream._readableState;
-  debug('flow', state.flowing);
+  var state = stream._readableState
+  debug('flow', state.flowing)
   if (state.flowing) {
     do {
-      var chunk = stream.read();
-    } while (null !== chunk && state.flowing);
+      var chunk = stream.read()
+    } while (null !== chunk && state.flowing)
   }
 }
 
@@ -9444,171 +9444,171 @@ function flow(stream) {
 // This is *not* part of the readable stream interface.
 // It is an ugly unfortunate mess of history.
 Readable.prototype.wrap = function(stream) {
-  var state = this._readableState;
-  var paused = false;
+  var state = this._readableState
+  var paused = false
 
-  var self = this;
+  var self = this
   stream.on('end', function() {
-    debug('wrapped end');
+    debug('wrapped end')
     if (state.decoder && !state.ended) {
-      var chunk = state.decoder.end();
+      var chunk = state.decoder.end()
       if (chunk && chunk.length)
-        self.push(chunk);
+        self.push(chunk)
     }
 
-    self.push(null);
-  });
+    self.push(null)
+  })
 
   stream.on('data', function(chunk) {
-    debug('wrapped data');
+    debug('wrapped data')
     if (state.decoder)
-      chunk = state.decoder.write(chunk);
+      chunk = state.decoder.write(chunk)
     if (!chunk || !state.objectMode && !chunk.length)
-      return;
+      return
 
-    var ret = self.push(chunk);
+    var ret = self.push(chunk)
     if (!ret) {
-      paused = true;
-      stream.pause();
+      paused = true
+      stream.pause()
     }
-  });
+  })
 
   // proxy all the other methods.
   // important when wrapping filters and duplexes.
   for (var i in stream) {
     if (util.isFunction(stream[i]) && util.isUndefined(this[i])) {
       this[i] = function(method) { return function() {
-        return stream[method].apply(stream, arguments);
-      }}(i);
+        return stream[method].apply(stream, arguments)
+      }}(i)
     }
   }
 
   // proxy certain important events.
-  var events = ['error', 'close', 'destroy', 'pause', 'resume'];
+  var events = [ 'error', 'close', 'destroy', 'pause', 'resume' ]
   forEach(events, function(ev) {
-    stream.on(ev, self.emit.bind(self, ev));
-  });
+    stream.on(ev, self.emit.bind(self, ev))
+  })
 
   // when we try to consume some more bytes, simply unpause the
   // underlying stream.
   self._read = function(n) {
-    debug('wrapped _read', n);
+    debug('wrapped _read', n)
     if (paused) {
-      paused = false;
-      stream.resume();
+      paused = false
+      stream.resume()
     }
-  };
+  }
 
-  return self;
-};
+  return self
+}
 
 
 
 // exposed for testing purposes only.
-Readable._fromList = fromList;
+Readable._fromList = fromList
 
 // Pluck off n bytes from an array of buffers.
 // Length is the combined lengths of all the buffers in the list.
 function fromList(n, state) {
-  var list = state.buffer;
-  var length = state.length;
-  var stringMode = !!state.decoder;
-  var objectMode = !!state.objectMode;
-  var ret;
+  var list = state.buffer
+  var length = state.length
+  var stringMode = !!state.decoder
+  var objectMode = !!state.objectMode
+  var ret
 
   // nothing in the list, definitely empty.
   if (list.length === 0)
-    return null;
+    return null
 
   if (length === 0)
-    ret = null;
+    ret = null
   else if (objectMode)
-    ret = list.shift();
+    ret = list.shift()
   else if (!n || n >= length) {
     // read it all, truncate the array.
     if (stringMode)
-      ret = list.join('');
+      ret = list.join('')
     else
-      ret = Buffer.concat(list, length);
-    list.length = 0;
+      ret = Buffer.concat(list, length)
+    list.length = 0
   } else {
     // read just some of it.
     if (n < list[0].length) {
       // just take a part of the first list item.
       // slice is the same for buffers and strings.
-      var buf = list[0];
-      ret = buf.slice(0, n);
-      list[0] = buf.slice(n);
+      var buf = list[0]
+      ret = buf.slice(0, n)
+      list[0] = buf.slice(n)
     } else if (n === list[0].length) {
       // first list is a perfect match
-      ret = list.shift();
+      ret = list.shift()
     } else {
       // complex case.
       // we have enough to cover it, but it spans past the first buffer.
       if (stringMode)
-        ret = '';
+        ret = ''
       else
-        ret = new Buffer(n);
+        ret = new Buffer(n)
 
-      var c = 0;
+      var c = 0
       for (var i = 0, l = list.length; i < l && c < n; i++) {
-        var buf = list[0];
-        var cpy = Math.min(n - c, buf.length);
+        var buf = list[0]
+        var cpy = Math.min(n - c, buf.length)
 
         if (stringMode)
-          ret += buf.slice(0, cpy);
+          ret += buf.slice(0, cpy)
         else
-          buf.copy(ret, c, 0, cpy);
+          buf.copy(ret, c, 0, cpy)
 
         if (cpy < buf.length)
-          list[0] = buf.slice(cpy);
+          list[0] = buf.slice(cpy)
         else
-          list.shift();
+          list.shift()
 
-        c += cpy;
+        c += cpy
       }
     }
   }
 
-  return ret;
+  return ret
 }
 
 function endReadable(stream) {
-  var state = stream._readableState;
+  var state = stream._readableState
 
   // If we get here before consuming all the bytes, then that is a
   // bug in node.  Should never happen.
   if (state.length > 0)
-    throw new Error('endReadable called on non-empty stream');
+    throw new Error('endReadable called on non-empty stream')
 
   if (!state.endEmitted) {
-    state.ended = true;
+    state.ended = true
     process.nextTick(function() {
       // Check that we didn't get one last unshift.
       if (!state.endEmitted && state.length === 0) {
-        state.endEmitted = true;
-        stream.readable = false;
-        stream.emit('end');
+        state.endEmitted = true
+        stream.readable = false
+        stream.emit('end')
       }
-    });
+    })
   }
 }
 
 function forEach (xs, f) {
   for (var i = 0, l = xs.length; i < l; i++) {
-    f(xs[i], i);
+    f(xs[i], i)
   }
 }
 
 function indexOf (xs, x) {
   for (var i = 0, l = xs.length; i < l; i++) {
-    if (xs[i] === x) return i;
+    if (xs[i] === x) return i
   }
-  return -1;
+  return -1
 }
 
-}).call(this,require('_process'))
-},{"./_stream_duplex":53,"_process":51,"buffer":43,"core-util-is":58,"events":47,"inherits":48,"isarray":49,"stream":63,"string_decoder/":64,"util":42}],56:[function(require,module,exports){
+}).call(this, require('_process'))
+}, { './_stream_duplex': 53, '_process': 51, 'buffer': 43, 'core-util-is': 58, 'events': 47, 'inherits': 48, 'isarray': 49, 'stream': 63, 'string_decoder/': 64, 'util': 42 } ], 56: [ function(require, module, exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9673,88 +9673,88 @@ function indexOf (xs, x) {
 // would be consumed, and then the rest would wait (un-transformed) until
 // the results of the previous transformed chunk were consumed.
 
-module.exports = Transform;
+module.exports = Transform
 
-var Duplex = require('./_stream_duplex');
+var Duplex = require('./_stream_duplex')
 
 /*<replacement>*/
-var util = require('core-util-is');
-util.inherits = require('inherits');
+var util = require('core-util-is')
+util.inherits = require('inherits')
 /*</replacement>*/
 
-util.inherits(Transform, Duplex);
+util.inherits(Transform, Duplex)
 
 
 function TransformState(options, stream) {
   this.afterTransform = function(er, data) {
-    return afterTransform(stream, er, data);
-  };
+    return afterTransform(stream, er, data)
+  }
 
-  this.needTransform = false;
-  this.transforming = false;
-  this.writecb = null;
-  this.writechunk = null;
+  this.needTransform = false
+  this.transforming = false
+  this.writecb = null
+  this.writechunk = null
 }
 
 function afterTransform(stream, er, data) {
-  var ts = stream._transformState;
-  ts.transforming = false;
+  var ts = stream._transformState
+  ts.transforming = false
 
-  var cb = ts.writecb;
+  var cb = ts.writecb
 
   if (!cb)
-    return stream.emit('error', new Error('no writecb in Transform class'));
+    return stream.emit('error', new Error('no writecb in Transform class'))
 
-  ts.writechunk = null;
-  ts.writecb = null;
+  ts.writechunk = null
+  ts.writecb = null
 
   if (!util.isNullOrUndefined(data))
-    stream.push(data);
+    stream.push(data)
 
   if (cb)
-    cb(er);
+    cb(er)
 
-  var rs = stream._readableState;
-  rs.reading = false;
+  var rs = stream._readableState
+  rs.reading = false
   if (rs.needReadable || rs.length < rs.highWaterMark) {
-    stream._read(rs.highWaterMark);
+    stream._read(rs.highWaterMark)
   }
 }
 
 
 function Transform(options) {
   if (!(this instanceof Transform))
-    return new Transform(options);
+    return new Transform(options)
 
-  Duplex.call(this, options);
+  Duplex.call(this, options)
 
-  this._transformState = new TransformState(options, this);
+  this._transformState = new TransformState(options, this)
 
   // when the writable side finishes, then flush out anything remaining.
-  var stream = this;
+  var stream = this
 
   // start out asking for a readable event once data is transformed.
-  this._readableState.needReadable = true;
+  this._readableState.needReadable = true
 
   // we have implemented the _read method, and done the other things
   // that Readable wants before the first _read call, so unset the
   // sync guard flag.
-  this._readableState.sync = false;
+  this._readableState.sync = false
 
   this.once('prefinish', function() {
     if (util.isFunction(this._flush))
       this._flush(function(er) {
-        done(stream, er);
-      });
+        done(stream, er)
+      })
     else
-      done(stream);
-  });
+      done(stream)
+  })
 }
 
 Transform.prototype.push = function(chunk, encoding) {
-  this._transformState.needTransform = false;
-  return Duplex.prototype.push.call(this, chunk, encoding);
-};
+  this._transformState.needTransform = false
+  return Duplex.prototype.push.call(this, chunk, encoding)
+}
 
 // This is the part where you do stuff!
 // override this function in implementation classes.
@@ -9767,59 +9767,59 @@ Transform.prototype.push = function(chunk, encoding) {
 // an error, then that'll put the hurt on the whole operation.  If you
 // never call cb(), then you'll never get another chunk.
 Transform.prototype._transform = function(chunk, encoding, cb) {
-  throw new Error('not implemented');
-};
+  throw new Error('not implemented')
+}
 
 Transform.prototype._write = function(chunk, encoding, cb) {
-  var ts = this._transformState;
-  ts.writecb = cb;
-  ts.writechunk = chunk;
-  ts.writeencoding = encoding;
+  var ts = this._transformState
+  ts.writecb = cb
+  ts.writechunk = chunk
+  ts.writeencoding = encoding
   if (!ts.transforming) {
-    var rs = this._readableState;
+    var rs = this._readableState
     if (ts.needTransform ||
         rs.needReadable ||
         rs.length < rs.highWaterMark)
-      this._read(rs.highWaterMark);
+      this._read(rs.highWaterMark)
   }
-};
+}
 
 // Doesn't matter what the args are here.
 // _transform does all the work.
 // That we got here means that the readable side wants more data.
 Transform.prototype._read = function(n) {
-  var ts = this._transformState;
+  var ts = this._transformState
 
   if (!util.isNull(ts.writechunk) && ts.writecb && !ts.transforming) {
-    ts.transforming = true;
-    this._transform(ts.writechunk, ts.writeencoding, ts.afterTransform);
+    ts.transforming = true
+    this._transform(ts.writechunk, ts.writeencoding, ts.afterTransform)
   } else {
     // mark that we need a transform, so that any data that comes in
     // will get processed, now that we've asked for it.
-    ts.needTransform = true;
+    ts.needTransform = true
   }
-};
+}
 
 
 function done(stream, er) {
   if (er)
-    return stream.emit('error', er);
+    return stream.emit('error', er)
 
   // if there's nothing in the write buffer, then that means
   // that nothing more will ever be provided
-  var ws = stream._writableState;
-  var ts = stream._transformState;
+  var ws = stream._writableState
+  var ts = stream._transformState
 
   if (ws.length)
-    throw new Error('calling transform done when ws.length != 0');
+    throw new Error('calling transform done when ws.length != 0')
 
   if (ts.transforming)
-    throw new Error('calling transform done when still transforming');
+    throw new Error('calling transform done when still transforming')
 
-  return stream.push(null);
+  return stream.push(null)
 }
 
-},{"./_stream_duplex":53,"core-util-is":58,"inherits":48}],57:[function(require,module,exports){
+}, { './_stream_duplex': 53, 'core-util-is': 58, 'inherits': 48 } ], 57: [ function(require, module, exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -9846,147 +9846,147 @@ function done(stream, er) {
 // Implement an async ._write(chunk, cb), and it'll handle all
 // the drain event emission and buffering.
 
-module.exports = Writable;
+module.exports = Writable
 
 /*<replacement>*/
-var Buffer = require('buffer').Buffer;
+var Buffer = require('buffer').Buffer
 /*</replacement>*/
 
-Writable.WritableState = WritableState;
+Writable.WritableState = WritableState
 
 
 /*<replacement>*/
-var util = require('core-util-is');
-util.inherits = require('inherits');
+var util = require('core-util-is')
+util.inherits = require('inherits')
 /*</replacement>*/
 
-var Stream = require('stream');
+var Stream = require('stream')
 
-util.inherits(Writable, Stream);
+util.inherits(Writable, Stream)
 
 function WriteReq(chunk, encoding, cb) {
-  this.chunk = chunk;
-  this.encoding = encoding;
-  this.callback = cb;
+  this.chunk = chunk
+  this.encoding = encoding
+  this.callback = cb
 }
 
 function WritableState(options, stream) {
-  var Duplex = require('./_stream_duplex');
+  var Duplex = require('./_stream_duplex')
 
-  options = options || {};
+  options = options || {}
 
   // the point at which write() starts returning false
   // Note: 0 is a valid value, means that we always return false if
   // the entire buffer is not flushed immediately on write()
-  var hwm = options.highWaterMark;
-  var defaultHwm = options.objectMode ? 16 : 16 * 1024;
-  this.highWaterMark = (hwm || hwm === 0) ? hwm : defaultHwm;
+  var hwm = options.highWaterMark
+  var defaultHwm = options.objectMode ? 16 : 16 * 1024
+  this.highWaterMark = (hwm || hwm === 0) ? hwm : defaultHwm
 
   // object stream flag to indicate whether or not this stream
   // contains buffers or objects.
-  this.objectMode = !!options.objectMode;
+  this.objectMode = !!options.objectMode
 
   if (stream instanceof Duplex)
-    this.objectMode = this.objectMode || !!options.writableObjectMode;
+    this.objectMode = this.objectMode || !!options.writableObjectMode
 
   // cast to ints.
-  this.highWaterMark = ~~this.highWaterMark;
+  this.highWaterMark = ~~this.highWaterMark
 
-  this.needDrain = false;
+  this.needDrain = false
   // at the start of calling end()
-  this.ending = false;
+  this.ending = false
   // when end() has been called, and returned
-  this.ended = false;
+  this.ended = false
   // when 'finish' is emitted
-  this.finished = false;
+  this.finished = false
 
   // should we decode strings into buffers before passing to _write?
   // this is here so that some node-core streams can optimize string
   // handling at a lower level.
-  var noDecode = options.decodeStrings === false;
-  this.decodeStrings = !noDecode;
+  var noDecode = options.decodeStrings === false
+  this.decodeStrings = !noDecode
 
   // Crypto is kind of old and crusty.  Historically, its default string
   // encoding is 'binary' so we have to make this configurable.
   // Everything else in the universe uses 'utf8', though.
-  this.defaultEncoding = options.defaultEncoding || 'utf8';
+  this.defaultEncoding = options.defaultEncoding || 'utf8'
 
   // not an actual buffer we keep track of, but a measurement
   // of how much we're waiting to get pushed to some underlying
   // socket or file.
-  this.length = 0;
+  this.length = 0
 
   // a flag to see when we're in the middle of a write.
-  this.writing = false;
+  this.writing = false
 
   // when true all writes will be buffered until .uncork() call
-  this.corked = 0;
+  this.corked = 0
 
   // a flag to be able to tell if the onwrite cb is called immediately,
   // or on a later tick.  We set this to true at first, because any
   // actions that shouldn't happen until "later" should generally also
   // not happen before the first write call.
-  this.sync = true;
+  this.sync = true
 
   // a flag to know if we're processing previously buffered items, which
   // may call the _write() callback in the same tick, so that we don't
   // end up in an overlapped onwrite situation.
-  this.bufferProcessing = false;
+  this.bufferProcessing = false
 
   // the callback that's passed to _write(chunk,cb)
   this.onwrite = function(er) {
-    onwrite(stream, er);
-  };
+    onwrite(stream, er)
+  }
 
   // the callback that the user supplies to write(chunk,encoding,cb)
-  this.writecb = null;
+  this.writecb = null
 
   // the amount that is being written when _write is called.
-  this.writelen = 0;
+  this.writelen = 0
 
-  this.buffer = [];
+  this.buffer = []
 
   // number of pending user-supplied write callbacks
   // this must be 0 before 'finish' can be emitted
-  this.pendingcb = 0;
+  this.pendingcb = 0
 
   // emit prefinish if the only thing we're waiting for is _write cbs
   // This is relevant for synchronous Transform streams
-  this.prefinished = false;
+  this.prefinished = false
 
   // True if the error was already emitted and should not be thrown again
-  this.errorEmitted = false;
+  this.errorEmitted = false
 }
 
 function Writable(options) {
-  var Duplex = require('./_stream_duplex');
+  var Duplex = require('./_stream_duplex')
 
   // Writable ctor is applied to Duplexes, though they're not
   // instanceof Writable, they're instanceof Readable.
   if (!(this instanceof Writable) && !(this instanceof Duplex))
-    return new Writable(options);
+    return new Writable(options)
 
-  this._writableState = new WritableState(options, this);
+  this._writableState = new WritableState(options, this)
 
   // legacy.
-  this.writable = true;
+  this.writable = true
 
-  Stream.call(this);
+  Stream.call(this)
 }
 
 // Otherwise people can pipe Writable streams, which is just wrong.
 Writable.prototype.pipe = function() {
-  this.emit('error', new Error('Cannot pipe. Not readable.'));
-};
+  this.emit('error', new Error('Cannot pipe. Not readable.'))
+}
 
 
 function writeAfterEnd(stream, state, cb) {
-  var er = new Error('write after end');
+  var er = new Error('write after end')
   // TODO: defer error events consistently everywhere, not just the cb
-  stream.emit('error', er);
+  stream.emit('error', er)
   process.nextTick(function() {
-    cb(er);
-  });
+    cb(er)
+  })
 }
 
 // If we get something that is not a buffer, string, null, or undefined,
@@ -9995,172 +9995,172 @@ function writeAfterEnd(stream, state, cb) {
 // watermarks determine how many objects to keep in the buffer, rather than
 // how many bytes or characters.
 function validChunk(stream, state, chunk, cb) {
-  var valid = true;
+  var valid = true
   if (!util.isBuffer(chunk) &&
       !util.isString(chunk) &&
       !util.isNullOrUndefined(chunk) &&
       !state.objectMode) {
-    var er = new TypeError('Invalid non-string/buffer chunk');
-    stream.emit('error', er);
+    var er = new TypeError('Invalid non-string/buffer chunk')
+    stream.emit('error', er)
     process.nextTick(function() {
-      cb(er);
-    });
-    valid = false;
+      cb(er)
+    })
+    valid = false
   }
-  return valid;
+  return valid
 }
 
 Writable.prototype.write = function(chunk, encoding, cb) {
-  var state = this._writableState;
-  var ret = false;
+  var state = this._writableState
+  var ret = false
 
   if (util.isFunction(encoding)) {
-    cb = encoding;
-    encoding = null;
+    cb = encoding
+    encoding = null
   }
 
   if (util.isBuffer(chunk))
-    encoding = 'buffer';
+    encoding = 'buffer'
   else if (!encoding)
-    encoding = state.defaultEncoding;
+    encoding = state.defaultEncoding
 
   if (!util.isFunction(cb))
-    cb = function() {};
+    cb = function() {}
 
   if (state.ended)
-    writeAfterEnd(this, state, cb);
+    writeAfterEnd(this, state, cb)
   else if (validChunk(this, state, chunk, cb)) {
-    state.pendingcb++;
-    ret = writeOrBuffer(this, state, chunk, encoding, cb);
+    state.pendingcb++
+    ret = writeOrBuffer(this, state, chunk, encoding, cb)
   }
 
-  return ret;
-};
+  return ret
+}
 
 Writable.prototype.cork = function() {
-  var state = this._writableState;
+  var state = this._writableState
 
-  state.corked++;
-};
+  state.corked++
+}
 
 Writable.prototype.uncork = function() {
-  var state = this._writableState;
+  var state = this._writableState
 
   if (state.corked) {
-    state.corked--;
+    state.corked--
 
     if (!state.writing &&
         !state.corked &&
         !state.finished &&
         !state.bufferProcessing &&
         state.buffer.length)
-      clearBuffer(this, state);
+      clearBuffer(this, state)
   }
-};
+}
 
 function decodeChunk(state, chunk, encoding) {
   if (!state.objectMode &&
       state.decodeStrings !== false &&
       util.isString(chunk)) {
-    chunk = new Buffer(chunk, encoding);
+    chunk = new Buffer(chunk, encoding)
   }
-  return chunk;
+  return chunk
 }
 
 // if we're already writing something, then just put this
 // in the queue, and wait our turn.  Otherwise, call _write
 // If we return false, then we need a drain event, so set that flag.
 function writeOrBuffer(stream, state, chunk, encoding, cb) {
-  chunk = decodeChunk(state, chunk, encoding);
+  chunk = decodeChunk(state, chunk, encoding)
   if (util.isBuffer(chunk))
-    encoding = 'buffer';
-  var len = state.objectMode ? 1 : chunk.length;
+    encoding = 'buffer'
+  var len = state.objectMode ? 1 : chunk.length
 
-  state.length += len;
+  state.length += len
 
-  var ret = state.length < state.highWaterMark;
+  var ret = state.length < state.highWaterMark
   // we must ensure that previous needDrain will not be reset to false.
   if (!ret)
-    state.needDrain = true;
+    state.needDrain = true
 
   if (state.writing || state.corked)
-    state.buffer.push(new WriteReq(chunk, encoding, cb));
+    state.buffer.push(new WriteReq(chunk, encoding, cb))
   else
-    doWrite(stream, state, false, len, chunk, encoding, cb);
+    doWrite(stream, state, false, len, chunk, encoding, cb)
 
-  return ret;
+  return ret
 }
 
 function doWrite(stream, state, writev, len, chunk, encoding, cb) {
-  state.writelen = len;
-  state.writecb = cb;
-  state.writing = true;
-  state.sync = true;
+  state.writelen = len
+  state.writecb = cb
+  state.writing = true
+  state.sync = true
   if (writev)
-    stream._writev(chunk, state.onwrite);
+    stream._writev(chunk, state.onwrite)
   else
-    stream._write(chunk, encoding, state.onwrite);
-  state.sync = false;
+    stream._write(chunk, encoding, state.onwrite)
+  state.sync = false
 }
 
 function onwriteError(stream, state, sync, er, cb) {
   if (sync)
     process.nextTick(function() {
-      state.pendingcb--;
-      cb(er);
-    });
+      state.pendingcb--
+      cb(er)
+    })
   else {
-    state.pendingcb--;
-    cb(er);
+    state.pendingcb--
+    cb(er)
   }
 
-  stream._writableState.errorEmitted = true;
-  stream.emit('error', er);
+  stream._writableState.errorEmitted = true
+  stream.emit('error', er)
 }
 
 function onwriteStateUpdate(state) {
-  state.writing = false;
-  state.writecb = null;
-  state.length -= state.writelen;
-  state.writelen = 0;
+  state.writing = false
+  state.writecb = null
+  state.length -= state.writelen
+  state.writelen = 0
 }
 
 function onwrite(stream, er) {
-  var state = stream._writableState;
-  var sync = state.sync;
-  var cb = state.writecb;
+  var state = stream._writableState
+  var sync = state.sync
+  var cb = state.writecb
 
-  onwriteStateUpdate(state);
+  onwriteStateUpdate(state)
 
   if (er)
-    onwriteError(stream, state, sync, er, cb);
+    onwriteError(stream, state, sync, er, cb)
   else {
     // Check if we're actually ready to finish, but don't emit yet
-    var finished = needFinish(stream, state);
+    var finished = needFinish(stream, state)
 
     if (!finished &&
         !state.corked &&
         !state.bufferProcessing &&
         state.buffer.length) {
-      clearBuffer(stream, state);
+      clearBuffer(stream, state)
     }
 
     if (sync) {
       process.nextTick(function() {
-        afterWrite(stream, state, finished, cb);
-      });
+        afterWrite(stream, state, finished, cb)
+      })
     } else {
-      afterWrite(stream, state, finished, cb);
+      afterWrite(stream, state, finished, cb)
     }
   }
 }
 
 function afterWrite(stream, state, finished, cb) {
   if (!finished)
-    onwriteDrain(stream, state);
-  state.pendingcb--;
-  cb();
-  finishMaybe(stream, state);
+    onwriteDrain(stream, state)
+  state.pendingcb--
+  cb()
+  finishMaybe(stream, state)
 }
 
 // Must force callback to be called on nextTick, so that we don't
@@ -10168,139 +10168,139 @@ function afterWrite(stream, state, finished, cb) {
 // value, and has a chance to attach a 'drain' listener.
 function onwriteDrain(stream, state) {
   if (state.length === 0 && state.needDrain) {
-    state.needDrain = false;
-    stream.emit('drain');
+    state.needDrain = false
+    stream.emit('drain')
   }
 }
 
 
 // if there's something in the buffer waiting, then process it
 function clearBuffer(stream, state) {
-  state.bufferProcessing = true;
+  state.bufferProcessing = true
 
   if (stream._writev && state.buffer.length > 1) {
     // Fast case, write everything using _writev()
-    var cbs = [];
+    var cbs = []
     for (var c = 0; c < state.buffer.length; c++)
-      cbs.push(state.buffer[c].callback);
+      cbs.push(state.buffer[c].callback)
 
     // count the one we are adding, as well.
     // TODO(isaacs) clean this up
-    state.pendingcb++;
+    state.pendingcb++
     doWrite(stream, state, true, state.length, state.buffer, '', function(err) {
       for (var i = 0; i < cbs.length; i++) {
-        state.pendingcb--;
-        cbs[i](err);
+        state.pendingcb--
+        cbs[i](err)
       }
-    });
+    })
 
     // Clear buffer
-    state.buffer = [];
+    state.buffer = []
   } else {
     // Slow case, write chunks one-by-one
     for (var c = 0; c < state.buffer.length; c++) {
-      var entry = state.buffer[c];
-      var chunk = entry.chunk;
-      var encoding = entry.encoding;
-      var cb = entry.callback;
-      var len = state.objectMode ? 1 : chunk.length;
+      var entry = state.buffer[c]
+      var chunk = entry.chunk
+      var encoding = entry.encoding
+      var cb = entry.callback
+      var len = state.objectMode ? 1 : chunk.length
 
-      doWrite(stream, state, false, len, chunk, encoding, cb);
+      doWrite(stream, state, false, len, chunk, encoding, cb)
 
       // if we didn't call the onwrite immediately, then
       // it means that we need to wait until it does.
       // also, that means that the chunk and cb are currently
       // being processed, so move the buffer counter past them.
       if (state.writing) {
-        c++;
-        break;
+        c++
+        break
       }
     }
 
     if (c < state.buffer.length)
-      state.buffer = state.buffer.slice(c);
+      state.buffer = state.buffer.slice(c)
     else
-      state.buffer.length = 0;
+      state.buffer.length = 0
   }
 
-  state.bufferProcessing = false;
+  state.bufferProcessing = false
 }
 
 Writable.prototype._write = function(chunk, encoding, cb) {
-  cb(new Error('not implemented'));
+  cb(new Error('not implemented'))
 
-};
+}
 
-Writable.prototype._writev = null;
+Writable.prototype._writev = null
 
 Writable.prototype.end = function(chunk, encoding, cb) {
-  var state = this._writableState;
+  var state = this._writableState
 
   if (util.isFunction(chunk)) {
-    cb = chunk;
-    chunk = null;
-    encoding = null;
+    cb = chunk
+    chunk = null
+    encoding = null
   } else if (util.isFunction(encoding)) {
-    cb = encoding;
-    encoding = null;
+    cb = encoding
+    encoding = null
   }
 
   if (!util.isNullOrUndefined(chunk))
-    this.write(chunk, encoding);
+    this.write(chunk, encoding)
 
   // .end() fully uncorks
   if (state.corked) {
-    state.corked = 1;
-    this.uncork();
+    state.corked = 1
+    this.uncork()
   }
 
   // ignore unnecessary end() calls.
   if (!state.ending && !state.finished)
-    endWritable(this, state, cb);
-};
+    endWritable(this, state, cb)
+}
 
 
 function needFinish(stream, state) {
   return (state.ending &&
           state.length === 0 &&
           !state.finished &&
-          !state.writing);
+          !state.writing)
 }
 
 function prefinish(stream, state) {
   if (!state.prefinished) {
-    state.prefinished = true;
-    stream.emit('prefinish');
+    state.prefinished = true
+    stream.emit('prefinish')
   }
 }
 
 function finishMaybe(stream, state) {
-  var need = needFinish(stream, state);
+  var need = needFinish(stream, state)
   if (need) {
     if (state.pendingcb === 0) {
-      prefinish(stream, state);
-      state.finished = true;
-      stream.emit('finish');
+      prefinish(stream, state)
+      state.finished = true
+      stream.emit('finish')
     } else
-      prefinish(stream, state);
+      prefinish(stream, state)
   }
-  return need;
+  return need
 }
 
 function endWritable(stream, state, cb) {
-  state.ending = true;
-  finishMaybe(stream, state);
+  state.ending = true
+  finishMaybe(stream, state)
   if (cb) {
     if (state.finished)
-      process.nextTick(cb);
+      process.nextTick(cb)
     else
-      stream.once('finish', cb);
+      stream.once('finish', cb)
   }
-  state.ended = true;
+  state.ended = true
 }
 
-}).call(this,require('_process'))
-},{"./_stream_duplex":53,"_process":51,"buffer":43,"core-util-is":58,"inherits":48,"stream":63}],58:[function(require,module,exports){
+}).call(this, require('_process'))
+}, { './_stream_duplex': 53, '_process': 51, 'buffer': 43, 'core-util-is': 58, 'inherits': 48, 'stream': 63 } ], 58: [ function(require, module, exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -10326,70 +10326,70 @@ function endWritable(stream, state, cb) {
 // NOTE: These type checking functions intentionally don't use `instanceof`
 // because it is fragile and can be easily faked with `Object.create()`.
 function isArray(ar) {
-  return Array.isArray(ar);
+  return Array.isArray(ar)
 }
-exports.isArray = isArray;
+exports.isArray = isArray
 
 function isBoolean(arg) {
-  return typeof arg === 'boolean';
+  return typeof arg === 'boolean'
 }
-exports.isBoolean = isBoolean;
+exports.isBoolean = isBoolean
 
 function isNull(arg) {
-  return arg === null;
+  return arg === null
 }
-exports.isNull = isNull;
+exports.isNull = isNull
 
 function isNullOrUndefined(arg) {
-  return arg == null;
+  return arg == null
 }
-exports.isNullOrUndefined = isNullOrUndefined;
+exports.isNullOrUndefined = isNullOrUndefined
 
 function isNumber(arg) {
-  return typeof arg === 'number';
+  return typeof arg === 'number'
 }
-exports.isNumber = isNumber;
+exports.isNumber = isNumber
 
 function isString(arg) {
-  return typeof arg === 'string';
+  return typeof arg === 'string'
 }
-exports.isString = isString;
+exports.isString = isString
 
 function isSymbol(arg) {
-  return typeof arg === 'symbol';
+  return typeof arg === 'symbol'
 }
-exports.isSymbol = isSymbol;
+exports.isSymbol = isSymbol
 
 function isUndefined(arg) {
-  return arg === void 0;
+  return arg === void 0
 }
-exports.isUndefined = isUndefined;
+exports.isUndefined = isUndefined
 
 function isRegExp(re) {
-  return isObject(re) && objectToString(re) === '[object RegExp]';
+  return isObject(re) && objectToString(re) === '[object RegExp]'
 }
-exports.isRegExp = isRegExp;
+exports.isRegExp = isRegExp
 
 function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
+  return typeof arg === 'object' && arg !== null
 }
-exports.isObject = isObject;
+exports.isObject = isObject
 
 function isDate(d) {
-  return isObject(d) && objectToString(d) === '[object Date]';
+  return isObject(d) && objectToString(d) === '[object Date]'
 }
-exports.isDate = isDate;
+exports.isDate = isDate
 
 function isError(e) {
   return isObject(e) &&
-      (objectToString(e) === '[object Error]' || e instanceof Error);
+      (objectToString(e) === '[object Error]' || e instanceof Error)
 }
-exports.isError = isError;
+exports.isError = isError
 
 function isFunction(arg) {
-  return typeof arg === 'function';
+  return typeof arg === 'function'
 }
-exports.isFunction = isFunction;
+exports.isFunction = isFunction
 
 function isPrimitive(arg) {
   return arg === null ||
@@ -10397,38 +10397,38 @@ function isPrimitive(arg) {
          typeof arg === 'number' ||
          typeof arg === 'string' ||
          typeof arg === 'symbol' ||  // ES6 symbol
-         typeof arg === 'undefined';
+         typeof arg === 'undefined'
 }
-exports.isPrimitive = isPrimitive;
+exports.isPrimitive = isPrimitive
 
 function isBuffer(arg) {
-  return Buffer.isBuffer(arg);
+  return Buffer.isBuffer(arg)
 }
-exports.isBuffer = isBuffer;
+exports.isBuffer = isBuffer
 
 function objectToString(o) {
-  return Object.prototype.toString.call(o);
+  return Object.prototype.toString.call(o)
 }
-}).call(this,require("buffer").Buffer)
-},{"buffer":43}],59:[function(require,module,exports){
-module.exports = require("./lib/_stream_passthrough.js")
+}).call(this, require('buffer').Buffer)
+}, { 'buffer': 43 } ], 59: [ function(require, module, exports){
+module.exports = require('./lib/_stream_passthrough.js')
 
-},{"./lib/_stream_passthrough.js":54}],60:[function(require,module,exports){
-exports = module.exports = require('./lib/_stream_readable.js');
-exports.Stream = require('stream');
-exports.Readable = exports;
-exports.Writable = require('./lib/_stream_writable.js');
-exports.Duplex = require('./lib/_stream_duplex.js');
-exports.Transform = require('./lib/_stream_transform.js');
-exports.PassThrough = require('./lib/_stream_passthrough.js');
+}, { './lib/_stream_passthrough.js': 54 } ], 60: [ function(require, module, exports){
+exports = module.exports = require('./lib/_stream_readable.js')
+exports.Stream = require('stream')
+exports.Readable = exports
+exports.Writable = require('./lib/_stream_writable.js')
+exports.Duplex = require('./lib/_stream_duplex.js')
+exports.Transform = require('./lib/_stream_transform.js')
+exports.PassThrough = require('./lib/_stream_passthrough.js')
 
-},{"./lib/_stream_duplex.js":53,"./lib/_stream_passthrough.js":54,"./lib/_stream_readable.js":55,"./lib/_stream_transform.js":56,"./lib/_stream_writable.js":57,"stream":63}],61:[function(require,module,exports){
-module.exports = require("./lib/_stream_transform.js")
+}, { './lib/_stream_duplex.js': 53, './lib/_stream_passthrough.js': 54, './lib/_stream_readable.js': 55, './lib/_stream_transform.js': 56, './lib/_stream_writable.js': 57, 'stream': 63 } ], 61: [ function(require, module, exports){
+module.exports = require('./lib/_stream_transform.js')
 
-},{"./lib/_stream_transform.js":56}],62:[function(require,module,exports){
-module.exports = require("./lib/_stream_writable.js")
+}, { './lib/_stream_transform.js': 56 } ], 62: [ function(require, module, exports){
+module.exports = require('./lib/_stream_writable.js')
 
-},{"./lib/_stream_writable.js":57}],63:[function(require,module,exports){
+}, { './lib/_stream_writable.js': 57 } ], 63: [ function(require, module, exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10450,20 +10450,20 @@ module.exports = require("./lib/_stream_writable.js")
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-module.exports = Stream;
+module.exports = Stream
 
-var EE = require('events').EventEmitter;
-var inherits = require('inherits');
+var EE = require('events').EventEmitter
+var inherits = require('inherits')
 
-inherits(Stream, EE);
-Stream.Readable = require('readable-stream/readable.js');
-Stream.Writable = require('readable-stream/writable.js');
-Stream.Duplex = require('readable-stream/duplex.js');
-Stream.Transform = require('readable-stream/transform.js');
-Stream.PassThrough = require('readable-stream/passthrough.js');
+inherits(Stream, EE)
+Stream.Readable = require('readable-stream/readable.js')
+Stream.Writable = require('readable-stream/writable.js')
+Stream.Duplex = require('readable-stream/duplex.js')
+Stream.Transform = require('readable-stream/transform.js')
+Stream.PassThrough = require('readable-stream/passthrough.js')
 
 // Backwards-compat with node 0.4.x
-Stream.Stream = Stream;
+Stream.Stream = Stream
 
 
 
@@ -10471,93 +10471,93 @@ Stream.Stream = Stream;
 // part of this class) is overridden in the Readable class.
 
 function Stream() {
-  EE.call(this);
+  EE.call(this)
 }
 
 Stream.prototype.pipe = function(dest, options) {
-  var source = this;
+  var source = this
 
   function ondata(chunk) {
     if (dest.writable) {
       if (false === dest.write(chunk) && source.pause) {
-        source.pause();
+        source.pause()
       }
     }
   }
 
-  source.on('data', ondata);
+  source.on('data', ondata)
 
   function ondrain() {
     if (source.readable && source.resume) {
-      source.resume();
+      source.resume()
     }
   }
 
-  dest.on('drain', ondrain);
+  dest.on('drain', ondrain)
 
   // If the 'end' option is not supplied, dest.end() will be called when
   // source gets the 'end' or 'close' events.  Only dest.end() once.
   if (!dest._isStdio && (!options || options.end !== false)) {
-    source.on('end', onend);
-    source.on('close', onclose);
+    source.on('end', onend)
+    source.on('close', onclose)
   }
 
-  var didOnEnd = false;
+  var didOnEnd = false
   function onend() {
-    if (didOnEnd) return;
-    didOnEnd = true;
+    if (didOnEnd) return
+    didOnEnd = true
 
-    dest.end();
+    dest.end()
   }
 
 
   function onclose() {
-    if (didOnEnd) return;
-    didOnEnd = true;
+    if (didOnEnd) return
+    didOnEnd = true
 
-    if (typeof dest.destroy === 'function') dest.destroy();
+    if (typeof dest.destroy === 'function') dest.destroy()
   }
 
   // don't leave dangling pipes when there are errors.
   function onerror(er) {
-    cleanup();
+    cleanup()
     if (EE.listenerCount(this, 'error') === 0) {
-      throw er; // Unhandled stream error in pipe.
+      throw er // Unhandled stream error in pipe.
     }
   }
 
-  source.on('error', onerror);
-  dest.on('error', onerror);
+  source.on('error', onerror)
+  dest.on('error', onerror)
 
   // remove all the event listeners that were added.
   function cleanup() {
-    source.removeListener('data', ondata);
-    dest.removeListener('drain', ondrain);
+    source.removeListener('data', ondata)
+    dest.removeListener('drain', ondrain)
 
-    source.removeListener('end', onend);
-    source.removeListener('close', onclose);
+    source.removeListener('end', onend)
+    source.removeListener('close', onclose)
 
-    source.removeListener('error', onerror);
-    dest.removeListener('error', onerror);
+    source.removeListener('error', onerror)
+    dest.removeListener('error', onerror)
 
-    source.removeListener('end', cleanup);
-    source.removeListener('close', cleanup);
+    source.removeListener('end', cleanup)
+    source.removeListener('close', cleanup)
 
-    dest.removeListener('close', cleanup);
+    dest.removeListener('close', cleanup)
   }
 
-  source.on('end', cleanup);
-  source.on('close', cleanup);
+  source.on('end', cleanup)
+  source.on('close', cleanup)
 
-  dest.on('close', cleanup);
+  dest.on('close', cleanup)
 
-  dest.emit('pipe', source);
+  dest.emit('pipe', source)
 
   // Allow for unix-like usage: A.pipe(B).pipe(C)
-  return dest;
-};
+  return dest
+}
 
-},{"events":47,"inherits":48,"readable-stream/duplex.js":52,"readable-stream/passthrough.js":59,"readable-stream/readable.js":60,"readable-stream/transform.js":61,"readable-stream/writable.js":62}],64:[function(require,module,exports){
+}, { 'events': 47, 'inherits': 48, 'readable-stream/duplex.js': 52, 'readable-stream/passthrough.js': 59, 'readable-stream/readable.js': 60, 'readable-stream/transform.js': 61, 'readable-stream/writable.js': 62 } ], 64: [ function(require, module, exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10579,20 +10579,20 @@ Stream.prototype.pipe = function(dest, options) {
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-var Buffer = require('buffer').Buffer;
+var Buffer = require('buffer').Buffer
 
 var isBufferEncoding = Buffer.isEncoding
   || function(encoding) {
        switch (encoding && encoding.toLowerCase()) {
-         case 'hex': case 'utf8': case 'utf-8': case 'ascii': case 'binary': case 'base64': case 'ucs2': case 'ucs-2': case 'utf16le': case 'utf-16le': case 'raw': return true;
-         default: return false;
+         case 'hex': case 'utf8': case 'utf-8': case 'ascii': case 'binary': case 'base64': case 'ucs2': case 'ucs-2': case 'utf16le': case 'utf-16le': case 'raw': return true
+         default: return false
        }
      }
 
 
 function assertEncoding(encoding) {
   if (encoding && !isBufferEncoding(encoding)) {
-    throw new Error('Unknown encoding: ' + encoding);
+    throw new Error('Unknown encoding: ' + encoding)
   }
 }
 
@@ -10605,37 +10605,37 @@ function assertEncoding(encoding) {
 // @TODO There should be a utf8-strict encoding that rejects invalid UTF-8 code
 // points as used by CESU-8.
 var StringDecoder = exports.StringDecoder = function(encoding) {
-  this.encoding = (encoding || 'utf8').toLowerCase().replace(/[-_]/, '');
-  assertEncoding(encoding);
+  this.encoding = (encoding || 'utf8').toLowerCase().replace(/[-_]/, '')
+  assertEncoding(encoding)
   switch (this.encoding) {
     case 'utf8':
       // CESU-8 represents each of Surrogate Pair by 3-bytes
-      this.surrogateSize = 3;
-      break;
+      this.surrogateSize = 3
+      break
     case 'ucs2':
     case 'utf16le':
       // UTF-16 represents each of Surrogate Pair by 2-bytes
-      this.surrogateSize = 2;
-      this.detectIncompleteChar = utf16DetectIncompleteChar;
-      break;
+      this.surrogateSize = 2
+      this.detectIncompleteChar = utf16DetectIncompleteChar
+      break
     case 'base64':
       // Base-64 stores 3 bytes in 4 chars, and pads the remainder.
-      this.surrogateSize = 3;
-      this.detectIncompleteChar = base64DetectIncompleteChar;
-      break;
+      this.surrogateSize = 3
+      this.detectIncompleteChar = base64DetectIncompleteChar
+      break
     default:
-      this.write = passThroughWrite;
-      return;
+      this.write = passThroughWrite
+      return
   }
 
   // Enough space to store all bytes of a single character. UTF-8 needs 4
   // bytes, but CESU-8 may require up to 6 (3 bytes per surrogate).
-  this.charBuffer = new Buffer(6);
+  this.charBuffer = new Buffer(6)
   // Number of bytes received for the current incomplete multi-byte character.
-  this.charReceived = 0;
+  this.charReceived = 0
   // Number of bytes expected for the current incomplete multi-byte character.
-  this.charLength = 0;
-};
+  this.charLength = 0
+}
 
 
 // write decodes the given buffer and returns it as JS string that is
@@ -10648,72 +10648,72 @@ var StringDecoder = exports.StringDecoder = function(encoding) {
 // Buffer#write) will replace incomplete surrogates with the unicode
 // replacement character. See https://codereview.chromium.org/121173009/ .
 StringDecoder.prototype.write = function(buffer) {
-  var charStr = '';
+  var charStr = ''
   // if our last write ended with an incomplete multibyte character
   while (this.charLength) {
     // determine how many remaining bytes this buffer has to offer for this char
     var available = (buffer.length >= this.charLength - this.charReceived) ?
         this.charLength - this.charReceived :
-        buffer.length;
+        buffer.length
 
     // add the new bytes to the char buffer
-    buffer.copy(this.charBuffer, this.charReceived, 0, available);
-    this.charReceived += available;
+    buffer.copy(this.charBuffer, this.charReceived, 0, available)
+    this.charReceived += available
 
     if (this.charReceived < this.charLength) {
       // still not enough chars in this buffer? wait for more ...
-      return '';
+      return ''
     }
 
     // remove bytes belonging to the current character from the buffer
-    buffer = buffer.slice(available, buffer.length);
+    buffer = buffer.slice(available, buffer.length)
 
     // get the character that was split
-    charStr = this.charBuffer.slice(0, this.charLength).toString(this.encoding);
+    charStr = this.charBuffer.slice(0, this.charLength).toString(this.encoding)
 
     // CESU-8: lead surrogate (D800-DBFF) is also the incomplete character
-    var charCode = charStr.charCodeAt(charStr.length - 1);
+    var charCode = charStr.charCodeAt(charStr.length - 1)
     if (charCode >= 0xD800 && charCode <= 0xDBFF) {
-      this.charLength += this.surrogateSize;
-      charStr = '';
-      continue;
+      this.charLength += this.surrogateSize
+      charStr = ''
+      continue
     }
-    this.charReceived = this.charLength = 0;
+    this.charReceived = this.charLength = 0
 
     // if there are no more bytes in this buffer, just emit our char
     if (buffer.length === 0) {
-      return charStr;
+      return charStr
     }
-    break;
+    break
   }
 
   // determine and set charLength / charReceived
-  this.detectIncompleteChar(buffer);
+  this.detectIncompleteChar(buffer)
 
-  var end = buffer.length;
+  var end = buffer.length
   if (this.charLength) {
     // buffer the incomplete character bytes we got
-    buffer.copy(this.charBuffer, 0, buffer.length - this.charReceived, end);
-    end -= this.charReceived;
+    buffer.copy(this.charBuffer, 0, buffer.length - this.charReceived, end)
+    end -= this.charReceived
   }
 
-  charStr += buffer.toString(this.encoding, 0, end);
+  charStr += buffer.toString(this.encoding, 0, end)
 
-  var end = charStr.length - 1;
-  var charCode = charStr.charCodeAt(end);
+  var end = charStr.length - 1
+  var charCode = charStr.charCodeAt(end)
   // CESU-8: lead surrogate (D800-DBFF) is also the incomplete character
   if (charCode >= 0xD800 && charCode <= 0xDBFF) {
-    var size = this.surrogateSize;
-    this.charLength += size;
-    this.charReceived += size;
-    this.charBuffer.copy(this.charBuffer, size, 0, size);
-    buffer.copy(this.charBuffer, 0, 0, size);
-    return charStr.substring(0, end);
+    var size = this.surrogateSize
+    this.charLength += size
+    this.charReceived += size
+    this.charBuffer.copy(this.charBuffer, size, 0, size)
+    buffer.copy(this.charBuffer, 0, 0, size)
+    return charStr.substring(0, end)
   }
 
   // or just emit the charStr
-  return charStr;
-};
+  return charStr
+}
 
 // detectIncompleteChar determines if there is an incomplete UTF-8 character at
 // the end of the given buffer. If so, it sets this.charLength to the byte
@@ -10721,74 +10721,74 @@ StringDecoder.prototype.write = function(buffer) {
 // that are available for this character.
 StringDecoder.prototype.detectIncompleteChar = function(buffer) {
   // determine how many bytes we have to check at the end of this buffer
-  var i = (buffer.length >= 3) ? 3 : buffer.length;
+  var i = (buffer.length >= 3) ? 3 : buffer.length
 
   // Figure out if one of the last i bytes of our buffer announces an
   // incomplete char.
   for (; i > 0; i--) {
-    var c = buffer[buffer.length - i];
+    var c = buffer[buffer.length - i]
 
     // See http://en.wikipedia.org/wiki/UTF-8#Description
 
     // 110XXXXX
     if (i == 1 && c >> 5 == 0x06) {
-      this.charLength = 2;
-      break;
+      this.charLength = 2
+      break
     }
 
     // 1110XXXX
     if (i <= 2 && c >> 4 == 0x0E) {
-      this.charLength = 3;
-      break;
+      this.charLength = 3
+      break
     }
 
     // 11110XXX
     if (i <= 3 && c >> 3 == 0x1E) {
-      this.charLength = 4;
-      break;
+      this.charLength = 4
+      break
     }
   }
-  this.charReceived = i;
-};
+  this.charReceived = i
+}
 
 StringDecoder.prototype.end = function(buffer) {
-  var res = '';
+  var res = ''
   if (buffer && buffer.length)
-    res = this.write(buffer);
+    res = this.write(buffer)
 
   if (this.charReceived) {
-    var cr = this.charReceived;
-    var buf = this.charBuffer;
-    var enc = this.encoding;
-    res += buf.slice(0, cr).toString(enc);
+    var cr = this.charReceived
+    var buf = this.charBuffer
+    var enc = this.encoding
+    res += buf.slice(0, cr).toString(enc)
   }
 
-  return res;
-};
+  return res
+}
 
 function passThroughWrite(buffer) {
-  return buffer.toString(this.encoding);
+  return buffer.toString(this.encoding)
 }
 
 function utf16DetectIncompleteChar(buffer) {
-  this.charReceived = buffer.length % 2;
-  this.charLength = this.charReceived ? 2 : 0;
+  this.charReceived = buffer.length % 2
+  this.charLength = this.charReceived ? 2 : 0
 }
 
 function base64DetectIncompleteChar(buffer) {
-  this.charReceived = buffer.length % 3;
-  this.charLength = this.charReceived ? 3 : 0;
+  this.charReceived = buffer.length % 3
+  this.charLength = this.charReceived ? 3 : 0
 }
 
-},{"buffer":43}],65:[function(require,module,exports){
+}, { 'buffer': 43 } ], 65: [ function(require, module, exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
-    && typeof arg.readUInt8 === 'function';
+    && typeof arg.readUInt8 === 'function'
 }
-},{}],66:[function(require,module,exports){
-(function (process,global){
+}, {} ], 66: [ function(require, module, exports){
+(function (process, global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10810,44 +10810,44 @@ module.exports = function isBuffer(arg) {
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-var formatRegExp = /%[sdj%]/g;
+var formatRegExp = /%[sdj%]/g
 exports.format = function(f) {
   if (!isString(f)) {
-    var objects = [];
+    var objects = []
     for (var i = 0; i < arguments.length; i++) {
-      objects.push(inspect(arguments[i]));
+      objects.push(inspect(arguments[i]))
     }
-    return objects.join(' ');
+    return objects.join(' ')
   }
 
-  var i = 1;
-  var args = arguments;
-  var len = args.length;
+  var i = 1
+  var args = arguments
+  var len = args.length
   var str = String(f).replace(formatRegExp, function(x) {
-    if (x === '%%') return '%';
-    if (i >= len) return x;
+    if (x === '%%') return '%'
+    if (i >= len) return x
     switch (x) {
-      case '%s': return String(args[i++]);
-      case '%d': return Number(args[i++]);
+      case '%s': return String(args[i++])
+      case '%d': return Number(args[i++])
       case '%j':
         try {
-          return JSON.stringify(args[i++]);
+          return JSON.stringify(args[i++])
         } catch (_) {
-          return '[Circular]';
+          return '[Circular]'
         }
       default:
-        return x;
+        return x
     }
-  });
+  })
   for (var x = args[i]; i < len; x = args[++i]) {
     if (isNull(x) || !isObject(x)) {
-      str += ' ' + x;
+      str += ' ' + x
     } else {
-      str += ' ' + inspect(x);
+      str += ' ' + inspect(x)
     }
   }
-  return str;
-};
+  return str
+}
 
 
 // Mark that a method should not be used.
@@ -10857,52 +10857,52 @@ exports.deprecate = function(fn, msg) {
   // Allow for deprecating things in the process of starting up.
   if (isUndefined(global.process)) {
     return function() {
-      return exports.deprecate(fn, msg).apply(this, arguments);
-    };
+      return exports.deprecate(fn, msg).apply(this, arguments)
+    }
   }
 
   if (process.noDeprecation === true) {
-    return fn;
+    return fn
   }
 
-  var warned = false;
+  var warned = false
   function deprecated() {
     if (!warned) {
       if (process.throwDeprecation) {
-        throw new Error(msg);
+        throw new Error(msg)
       } else if (process.traceDeprecation) {
-        console.trace(msg);
+        console.trace(msg)
       } else {
-        console.error(msg);
+        console.error(msg)
       }
-      warned = true;
+      warned = true
     }
-    return fn.apply(this, arguments);
+    return fn.apply(this, arguments)
   }
 
-  return deprecated;
-};
+  return deprecated
+}
 
 
-var debugs = {};
-var debugEnviron;
+var debugs = {}
+var debugEnviron
 exports.debuglog = function(set) {
   if (isUndefined(debugEnviron))
-    debugEnviron = process.env.NODE_DEBUG || '';
-  set = set.toUpperCase();
+    debugEnviron = process.env.NODE_DEBUG || ''
+  set = set.toUpperCase()
   if (!debugs[set]) {
     if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
-      var pid = process.pid;
+      var pid = process.pid
       debugs[set] = function() {
-        var msg = exports.format.apply(exports, arguments);
-        console.error('%s %d: %s', set, pid, msg);
-      };
+        var msg = exports.format.apply(exports, arguments)
+        console.error('%s %d: %s', set, pid, msg)
+      }
     } else {
-      debugs[set] = function() {};
+      debugs[set] = function() {}
     }
   }
-  return debugs[set];
-};
+  return debugs[set]
+}
 
 
 /**
@@ -10916,86 +10916,86 @@ exports.debuglog = function(set) {
 function inspect(obj, opts) {
   // default options
   var ctx = {
-    seen: [],
-    stylize: stylizeNoColor
-  };
+    seen: []
+    , stylize: stylizeNoColor
+  }
   // legacy...
-  if (arguments.length >= 3) ctx.depth = arguments[2];
-  if (arguments.length >= 4) ctx.colors = arguments[3];
+  if (arguments.length >= 3) ctx.depth = arguments[2]
+  if (arguments.length >= 4) ctx.colors = arguments[3]
   if (isBoolean(opts)) {
     // legacy...
-    ctx.showHidden = opts;
+    ctx.showHidden = opts
   } else if (opts) {
     // got an "options" object
-    exports._extend(ctx, opts);
+    exports._extend(ctx, opts)
   }
   // set default options
-  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
-  if (isUndefined(ctx.depth)) ctx.depth = 2;
-  if (isUndefined(ctx.colors)) ctx.colors = false;
-  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
-  if (ctx.colors) ctx.stylize = stylizeWithColor;
-  return formatValue(ctx, obj, ctx.depth);
+  if (isUndefined(ctx.showHidden)) ctx.showHidden = false
+  if (isUndefined(ctx.depth)) ctx.depth = 2
+  if (isUndefined(ctx.colors)) ctx.colors = false
+  if (isUndefined(ctx.customInspect)) ctx.customInspect = true
+  if (ctx.colors) ctx.stylize = stylizeWithColor
+  return formatValue(ctx, obj, ctx.depth)
 }
-exports.inspect = inspect;
+exports.inspect = inspect
 
 
 // http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
 inspect.colors = {
-  'bold' : [1, 22],
-  'italic' : [3, 23],
-  'underline' : [4, 24],
-  'inverse' : [7, 27],
-  'white' : [37, 39],
-  'grey' : [90, 39],
-  'black' : [30, 39],
-  'blue' : [34, 39],
-  'cyan' : [36, 39],
-  'green' : [32, 39],
-  'magenta' : [35, 39],
-  'red' : [31, 39],
-  'yellow' : [33, 39]
-};
+  'bold': [ 1, 22 ]
+  , 'italic': [ 3, 23 ]
+  , 'underline': [ 4, 24 ]
+  , 'inverse': [ 7, 27 ]
+  , 'white': [ 37, 39 ]
+  , 'grey': [ 90, 39 ]
+  , 'black': [ 30, 39 ]
+  , 'blue': [ 34, 39 ]
+  , 'cyan': [ 36, 39 ]
+  , 'green': [ 32, 39 ]
+  , 'magenta': [ 35, 39 ]
+  , 'red': [ 31, 39 ]
+  , 'yellow': [ 33, 39 ]
+}
 
 // Don't use 'blue' not visible on cmd.exe
 inspect.styles = {
-  'special': 'cyan',
-  'number': 'yellow',
-  'boolean': 'yellow',
-  'undefined': 'grey',
-  'null': 'bold',
-  'string': 'green',
-  'date': 'magenta',
+  'special': 'cyan'
+  , 'number': 'yellow'
+  , 'boolean': 'yellow'
+  , 'undefined': 'grey'
+  , 'null': 'bold'
+  , 'string': 'green'
+  , 'date': 'magenta'
   // "name": intentionally not styling
-  'regexp': 'red'
-};
+  , 'regexp': 'red'
+}
 
 
 function stylizeWithColor(str, styleType) {
-  var style = inspect.styles[styleType];
+  var style = inspect.styles[styleType]
 
   if (style) {
     return '\u001b[' + inspect.colors[style][0] + 'm' + str +
-           '\u001b[' + inspect.colors[style][1] + 'm';
+           '\u001b[' + inspect.colors[style][1] + 'm'
   } else {
-    return str;
+    return str
   }
 }
 
 
 function stylizeNoColor(str, styleType) {
-  return str;
+  return str
 }
 
 
 function arrayToHash(array) {
-  var hash = {};
+  var hash = {}
 
   array.forEach(function(val, idx) {
-    hash[val] = true;
-  });
+    hash[val] = true
+  })
 
-  return hash;
+  return hash
 }
 
 
@@ -11009,219 +11009,219 @@ function formatValue(ctx, value, recurseTimes) {
       value.inspect !== exports.inspect &&
       // Also filter out any prototype objects using the circular check.
       !(value.constructor && value.constructor.prototype === value)) {
-    var ret = value.inspect(recurseTimes, ctx);
+    var ret = value.inspect(recurseTimes, ctx)
     if (!isString(ret)) {
-      ret = formatValue(ctx, ret, recurseTimes);
+      ret = formatValue(ctx, ret, recurseTimes)
     }
-    return ret;
+    return ret
   }
 
   // Primitive types cannot have properties
-  var primitive = formatPrimitive(ctx, value);
+  var primitive = formatPrimitive(ctx, value)
   if (primitive) {
-    return primitive;
+    return primitive
   }
 
   // Look up the keys of the object.
-  var keys = Object.keys(value);
-  var visibleKeys = arrayToHash(keys);
+  var keys = Object.keys(value)
+  var visibleKeys = arrayToHash(keys)
 
   if (ctx.showHidden) {
-    keys = Object.getOwnPropertyNames(value);
+    keys = Object.getOwnPropertyNames(value)
   }
 
   // IE doesn't make error fields non-enumerable
   // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
   if (isError(value)
       && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
-    return formatError(value);
+    return formatError(value)
   }
 
   // Some type of object without properties can be shortcutted.
   if (keys.length === 0) {
     if (isFunction(value)) {
-      var name = value.name ? ': ' + value.name : '';
-      return ctx.stylize('[Function' + name + ']', 'special');
+      var name = value.name ? ': ' + value.name : ''
+      return ctx.stylize('[Function' + name + ']', 'special')
     }
     if (isRegExp(value)) {
-      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp')
     }
     if (isDate(value)) {
-      return ctx.stylize(Date.prototype.toString.call(value), 'date');
+      return ctx.stylize(Date.prototype.toString.call(value), 'date')
     }
     if (isError(value)) {
-      return formatError(value);
+      return formatError(value)
     }
   }
 
-  var base = '', array = false, braces = ['{', '}'];
+  var base = '', array = false, braces = [ '{', '}' ]
 
   // Make Array say that they are Array
   if (isArray(value)) {
-    array = true;
-    braces = ['[', ']'];
+    array = true
+    braces = [ '[', ']' ]
   }
 
   // Make functions say that they are functions
   if (isFunction(value)) {
-    var n = value.name ? ': ' + value.name : '';
-    base = ' [Function' + n + ']';
+    var n = value.name ? ': ' + value.name : ''
+    base = ' [Function' + n + ']'
   }
 
   // Make RegExps say that they are RegExps
   if (isRegExp(value)) {
-    base = ' ' + RegExp.prototype.toString.call(value);
+    base = ' ' + RegExp.prototype.toString.call(value)
   }
 
   // Make dates with properties first say the date
   if (isDate(value)) {
-    base = ' ' + Date.prototype.toUTCString.call(value);
+    base = ' ' + Date.prototype.toUTCString.call(value)
   }
 
   // Make error with message first say the error
   if (isError(value)) {
-    base = ' ' + formatError(value);
+    base = ' ' + formatError(value)
   }
 
   if (keys.length === 0 && (!array || value.length == 0)) {
-    return braces[0] + base + braces[1];
+    return braces[0] + base + braces[1]
   }
 
   if (recurseTimes < 0) {
     if (isRegExp(value)) {
-      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp')
     } else {
-      return ctx.stylize('[Object]', 'special');
+      return ctx.stylize('[Object]', 'special')
     }
   }
 
-  ctx.seen.push(value);
+  ctx.seen.push(value)
 
-  var output;
+  var output
   if (array) {
-    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
+    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys)
   } else {
     output = keys.map(function(key) {
-      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
-    });
+      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array)
+    })
   }
 
-  ctx.seen.pop();
+  ctx.seen.pop()
 
-  return reduceToSingleString(output, base, braces);
+  return reduceToSingleString(output, base, braces)
 }
 
 
 function formatPrimitive(ctx, value) {
   if (isUndefined(value))
-    return ctx.stylize('undefined', 'undefined');
+    return ctx.stylize('undefined', 'undefined')
   if (isString(value)) {
     var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
-                                             .replace(/'/g, "\\'")
-                                             .replace(/\\"/g, '"') + '\'';
-    return ctx.stylize(simple, 'string');
+                                             .replace(/'/g, '\\\'')
+                                             .replace(/\\"/g, '"') + '\''
+    return ctx.stylize(simple, 'string')
   }
   if (isNumber(value))
-    return ctx.stylize('' + value, 'number');
+    return ctx.stylize('' + value, 'number')
   if (isBoolean(value))
-    return ctx.stylize('' + value, 'boolean');
+    return ctx.stylize('' + value, 'boolean')
   // For some reason typeof null is "object", so special case here.
   if (isNull(value))
-    return ctx.stylize('null', 'null');
+    return ctx.stylize('null', 'null')
 }
 
 
 function formatError(value) {
-  return '[' + Error.prototype.toString.call(value) + ']';
+  return '[' + Error.prototype.toString.call(value) + ']'
 }
 
 
 function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
-  var output = [];
+  var output = []
   for (var i = 0, l = value.length; i < l; ++i) {
     if (hasOwnProperty(value, String(i))) {
       output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-          String(i), true));
+          String(i), true))
     } else {
-      output.push('');
+      output.push('')
     }
   }
   keys.forEach(function(key) {
     if (!key.match(/^\d+$/)) {
       output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-          key, true));
+          key, true))
     }
-  });
-  return output;
+  })
+  return output
 }
 
 
 function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
-  var name, str, desc;
-  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
+  var name, str, desc
+  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] }
   if (desc.get) {
     if (desc.set) {
-      str = ctx.stylize('[Getter/Setter]', 'special');
+      str = ctx.stylize('[Getter/Setter]', 'special')
     } else {
-      str = ctx.stylize('[Getter]', 'special');
+      str = ctx.stylize('[Getter]', 'special')
     }
   } else {
     if (desc.set) {
-      str = ctx.stylize('[Setter]', 'special');
+      str = ctx.stylize('[Setter]', 'special')
     }
   }
   if (!hasOwnProperty(visibleKeys, key)) {
-    name = '[' + key + ']';
+    name = '[' + key + ']'
   }
   if (!str) {
     if (ctx.seen.indexOf(desc.value) < 0) {
       if (isNull(recurseTimes)) {
-        str = formatValue(ctx, desc.value, null);
+        str = formatValue(ctx, desc.value, null)
       } else {
-        str = formatValue(ctx, desc.value, recurseTimes - 1);
+        str = formatValue(ctx, desc.value, recurseTimes - 1)
       }
       if (str.indexOf('\n') > -1) {
         if (array) {
           str = str.split('\n').map(function(line) {
-            return '  ' + line;
-          }).join('\n').substr(2);
+            return '  ' + line
+          }).join('\n').substr(2)
         } else {
           str = '\n' + str.split('\n').map(function(line) {
-            return '   ' + line;
-          }).join('\n');
+            return '   ' + line
+          }).join('\n')
         }
       }
     } else {
-      str = ctx.stylize('[Circular]', 'special');
+      str = ctx.stylize('[Circular]', 'special')
     }
   }
   if (isUndefined(name)) {
     if (array && key.match(/^\d+$/)) {
-      return str;
+      return str
     }
-    name = JSON.stringify('' + key);
+    name = JSON.stringify('' + key)
     if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
-      name = name.substr(1, name.length - 2);
-      name = ctx.stylize(name, 'name');
+      name = name.substr(1, name.length - 2)
+      name = ctx.stylize(name, 'name')
     } else {
-      name = name.replace(/'/g, "\\'")
+      name = name.replace(/'/g, '\\\'')
                  .replace(/\\"/g, '"')
-                 .replace(/(^"|"$)/g, "'");
-      name = ctx.stylize(name, 'string');
+                 .replace(/(^"|"$)/g, '\'')
+      name = ctx.stylize(name, 'string')
     }
   }
 
-  return name + ': ' + str;
+  return name + ': ' + str
 }
 
 
 function reduceToSingleString(output, base, braces) {
-  var numLinesEst = 0;
+  var numLinesEst = 0
   var length = output.reduce(function(prev, cur) {
-    numLinesEst++;
-    if (cur.indexOf('\n') >= 0) numLinesEst++;
-    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
-  }, 0);
+    numLinesEst++
+    if (cur.indexOf('\n') >= 0) numLinesEst++
+    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1
+  }, 0)
 
   if (length > 60) {
     return braces[0] +
@@ -11229,80 +11229,80 @@ function reduceToSingleString(output, base, braces) {
            ' ' +
            output.join(',\n  ') +
            ' ' +
-           braces[1];
+           braces[1]
   }
 
-  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
+  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1]
 }
 
 
 // NOTE: These type checking functions intentionally don't use `instanceof`
 // because it is fragile and can be easily faked with `Object.create()`.
 function isArray(ar) {
-  return Array.isArray(ar);
+  return Array.isArray(ar)
 }
-exports.isArray = isArray;
+exports.isArray = isArray
 
 function isBoolean(arg) {
-  return typeof arg === 'boolean';
+  return typeof arg === 'boolean'
 }
-exports.isBoolean = isBoolean;
+exports.isBoolean = isBoolean
 
 function isNull(arg) {
-  return arg === null;
+  return arg === null
 }
-exports.isNull = isNull;
+exports.isNull = isNull
 
 function isNullOrUndefined(arg) {
-  return arg == null;
+  return arg == null
 }
-exports.isNullOrUndefined = isNullOrUndefined;
+exports.isNullOrUndefined = isNullOrUndefined
 
 function isNumber(arg) {
-  return typeof arg === 'number';
+  return typeof arg === 'number'
 }
-exports.isNumber = isNumber;
+exports.isNumber = isNumber
 
 function isString(arg) {
-  return typeof arg === 'string';
+  return typeof arg === 'string'
 }
-exports.isString = isString;
+exports.isString = isString
 
 function isSymbol(arg) {
-  return typeof arg === 'symbol';
+  return typeof arg === 'symbol'
 }
-exports.isSymbol = isSymbol;
+exports.isSymbol = isSymbol
 
 function isUndefined(arg) {
-  return arg === void 0;
+  return arg === void 0
 }
-exports.isUndefined = isUndefined;
+exports.isUndefined = isUndefined
 
 function isRegExp(re) {
-  return isObject(re) && objectToString(re) === '[object RegExp]';
+  return isObject(re) && objectToString(re) === '[object RegExp]'
 }
-exports.isRegExp = isRegExp;
+exports.isRegExp = isRegExp
 
 function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
+  return typeof arg === 'object' && arg !== null
 }
-exports.isObject = isObject;
+exports.isObject = isObject
 
 function isDate(d) {
-  return isObject(d) && objectToString(d) === '[object Date]';
+  return isObject(d) && objectToString(d) === '[object Date]'
 }
-exports.isDate = isDate;
+exports.isDate = isDate
 
 function isError(e) {
   return isObject(e) &&
-      (objectToString(e) === '[object Error]' || e instanceof Error);
+      (objectToString(e) === '[object Error]' || e instanceof Error)
 }
-exports.isError = isError;
+exports.isError = isError
 
 function isFunction(arg) {
-  return typeof arg === 'function';
+  return typeof arg === 'function'
 }
-exports.isFunction = isFunction;
+exports.isFunction = isFunction
 
 function isPrimitive(arg) {
   return arg === null ||
@@ -11310,39 +11310,39 @@ function isPrimitive(arg) {
          typeof arg === 'number' ||
          typeof arg === 'string' ||
          typeof arg === 'symbol' ||  // ES6 symbol
-         typeof arg === 'undefined';
+         typeof arg === 'undefined'
 }
-exports.isPrimitive = isPrimitive;
+exports.isPrimitive = isPrimitive
 
-exports.isBuffer = require('./support/isBuffer');
+exports.isBuffer = require('./support/isBuffer')
 
 function objectToString(o) {
-  return Object.prototype.toString.call(o);
+  return Object.prototype.toString.call(o)
 }
 
 
 function pad(n) {
-  return n < 10 ? '0' + n.toString(10) : n.toString(10);
+  return n < 10 ? '0' + n.toString(10) : n.toString(10)
 }
 
 
-var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
-              'Oct', 'Nov', 'Dec'];
+var months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'
+              , 'Oct', 'Nov', 'Dec' ]
 
 // 26 Feb 16:19:34
 function timestamp() {
-  var d = new Date();
-  var time = [pad(d.getHours()),
-              pad(d.getMinutes()),
-              pad(d.getSeconds())].join(':');
-  return [d.getDate(), months[d.getMonth()], time].join(' ');
+  var d = new Date()
+  var time = [ pad(d.getHours())
+              , pad(d.getMinutes())
+              , pad(d.getSeconds()) ].join(':')
+  return [ d.getDate(), months[d.getMonth()], time ].join(' ')
 }
 
 
 // log is just a thin wrapper to console.log that prepends a timestamp
 exports.log = function() {
-  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
-};
+  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments))
+}
 
 
 /**
@@ -11358,26 +11358,26 @@ exports.log = function() {
  *     prototype.
  * @param {function} superCtor Constructor function to inherit prototype from.
  */
-exports.inherits = require('inherits');
+exports.inherits = require('inherits')
 
 exports._extend = function(origin, add) {
   // Don't do anything if add isn't an object
-  if (!add || !isObject(add)) return origin;
+  if (!add || !isObject(add)) return origin
 
-  var keys = Object.keys(add);
-  var i = keys.length;
+  var keys = Object.keys(add)
+  var i = keys.length
   while (i--) {
-    origin[keys[i]] = add[keys[i]];
+    origin[keys[i]] = add[keys[i]]
   }
-  return origin;
-};
-
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
+  return origin
 }
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":65,"_process":51,"inherits":48}],67:[function(require,module,exports){
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop)
+}
+
+}).call(this, require('_process'), typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : {})
+}, { './support/isBuffer': 65, '_process': 51, 'inherits': 48 } ], 67: [ function(require, module, exports){
 /* See LICENSE file for terms of use */
 
 /*
@@ -11395,220 +11395,220 @@ function hasOwnProperty(obj, prop) {
  * http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.4.6927
  */
 (function(global, undefined) {
-  var objectPrototypeToString = Object.prototype.toString;
+  var objectPrototypeToString = Object.prototype.toString
 
   /*istanbul ignore next*/
   function map(arr, mapper, that) {
     if (Array.prototype.map) {
-      return Array.prototype.map.call(arr, mapper, that);
+      return Array.prototype.map.call(arr, mapper, that)
     }
 
-    var other = new Array(arr.length);
+    var other = new Array(arr.length)
 
     for (var i = 0, n = arr.length; i < n; i++) {
-      other[i] = mapper.call(that, arr[i], i, arr);
+      other[i] = mapper.call(that, arr[i], i, arr)
     }
-    return other;
+    return other
   }
   function clonePath(path) {
-    return { newPos: path.newPos, components: path.components.slice(0) };
+    return { newPos: path.newPos, components: path.components.slice(0) }
   }
   function removeEmpty(array) {
-    var ret = [];
+    var ret = []
     for (var i = 0; i < array.length; i++) {
       if (array[i]) {
-        ret.push(array[i]);
+        ret.push(array[i])
       }
     }
-    return ret;
+    return ret
   }
   function escapeHTML(s) {
-    var n = s;
-    n = n.replace(/&/g, '&amp;');
-    n = n.replace(/</g, '&lt;');
-    n = n.replace(/>/g, '&gt;');
-    n = n.replace(/"/g, '&quot;');
+    var n = s
+    n = n.replace(/&/g, '&amp;')
+    n = n.replace(/</g, '&lt;')
+    n = n.replace(/>/g, '&gt;')
+    n = n.replace(/"/g, '&quot;')
 
-    return n;
+    return n
   }
 
   // This function handles the presence of circular references by bailing out when encountering an
   // object that is already on the "stack" of items being processed.
   function canonicalize(obj, stack, replacementStack) {
-    stack = stack || [];
-    replacementStack = replacementStack || [];
+    stack = stack || []
+    replacementStack = replacementStack || []
 
-    var i;
+    var i
 
     for (i = 0; i < stack.length; i += 1) {
       if (stack[i] === obj) {
-        return replacementStack[i];
+        return replacementStack[i]
       }
     }
 
-    var canonicalizedObj;
+    var canonicalizedObj
 
     if ('[object Array]' === objectPrototypeToString.call(obj)) {
-      stack.push(obj);
-      canonicalizedObj = new Array(obj.length);
-      replacementStack.push(canonicalizedObj);
+      stack.push(obj)
+      canonicalizedObj = new Array(obj.length)
+      replacementStack.push(canonicalizedObj)
       for (i = 0; i < obj.length; i += 1) {
-        canonicalizedObj[i] = canonicalize(obj[i], stack, replacementStack);
+        canonicalizedObj[i] = canonicalize(obj[i], stack, replacementStack)
       }
-      stack.pop();
-      replacementStack.pop();
+      stack.pop()
+      replacementStack.pop()
     } else if (typeof obj === 'object' && obj !== null) {
-      stack.push(obj);
-      canonicalizedObj = {};
-      replacementStack.push(canonicalizedObj);
-      var sortedKeys = [],
-          key;
+      stack.push(obj)
+      canonicalizedObj = {}
+      replacementStack.push(canonicalizedObj)
+      var sortedKeys = []
+          , key
       for (key in obj) {
-        sortedKeys.push(key);
+        sortedKeys.push(key)
       }
-      sortedKeys.sort();
+      sortedKeys.sort()
       for (i = 0; i < sortedKeys.length; i += 1) {
-        key = sortedKeys[i];
-        canonicalizedObj[key] = canonicalize(obj[key], stack, replacementStack);
+        key = sortedKeys[i]
+        canonicalizedObj[key] = canonicalize(obj[key], stack, replacementStack)
       }
-      stack.pop();
-      replacementStack.pop();
+      stack.pop()
+      replacementStack.pop()
     } else {
-      canonicalizedObj = obj;
+      canonicalizedObj = obj
     }
-    return canonicalizedObj;
+    return canonicalizedObj
   }
 
   function buildValues(components, newString, oldString, useLongestToken) {
-    var componentPos = 0,
-        componentLen = components.length,
-        newPos = 0,
-        oldPos = 0;
+    var componentPos = 0
+        , componentLen = components.length
+        , newPos = 0
+        , oldPos = 0
 
     for (; componentPos < componentLen; componentPos++) {
-      var component = components[componentPos];
+      var component = components[componentPos]
       if (!component.removed) {
         if (!component.added && useLongestToken) {
-          var value = newString.slice(newPos, newPos + component.count);
+          var value = newString.slice(newPos, newPos + component.count)
           value = map(value, function(value, i) {
-            var oldValue = oldString[oldPos + i];
-            return oldValue.length > value.length ? oldValue : value;
-          });
+            var oldValue = oldString[oldPos + i]
+            return oldValue.length > value.length ? oldValue : value
+          })
 
-          component.value = value.join('');
+          component.value = value.join('')
         } else {
-          component.value = newString.slice(newPos, newPos + component.count).join('');
+          component.value = newString.slice(newPos, newPos + component.count).join('')
         }
-        newPos += component.count;
+        newPos += component.count
 
         // Common case
         if (!component.added) {
-          oldPos += component.count;
+          oldPos += component.count
         }
       } else {
-        component.value = oldString.slice(oldPos, oldPos + component.count).join('');
-        oldPos += component.count;
+        component.value = oldString.slice(oldPos, oldPos + component.count).join('')
+        oldPos += component.count
 
         // Reverse add and remove so removes are output first to match common convention
         // The diffing algorithm is tied to add then remove output and this is the simplest
         // route to get the desired output with minimal overhead.
         if (componentPos && components[componentPos - 1].added) {
-          var tmp = components[componentPos - 1];
-          components[componentPos - 1] = components[componentPos];
-          components[componentPos] = tmp;
+          var tmp = components[componentPos - 1]
+          components[componentPos - 1] = components[componentPos]
+          components[componentPos] = tmp
         }
       }
     }
 
-    return components;
+    return components
   }
 
   function Diff(ignoreWhitespace) {
-    this.ignoreWhitespace = ignoreWhitespace;
+    this.ignoreWhitespace = ignoreWhitespace
   }
   Diff.prototype = {
     diff: function(oldString, newString, callback) {
-      var self = this;
+      var self = this
 
       function done(value) {
         if (callback) {
-          setTimeout(function() { callback(undefined, value); }, 0);
-          return true;
+          setTimeout(function() { callback(undefined, value) }, 0)
+          return true
         } else {
-          return value;
+          return value
         }
       }
 
       // Handle the identity case (this is due to unrolling editLength == 0
       if (newString === oldString) {
-        return done([{ value: newString }]);
+        return done([ { value: newString } ])
       }
       if (!newString) {
-        return done([{ value: oldString, removed: true }]);
+        return done([ { value: oldString, removed: true } ])
       }
       if (!oldString) {
-        return done([{ value: newString, added: true }]);
+        return done([ { value: newString, added: true } ])
       }
 
-      newString = this.tokenize(newString);
-      oldString = this.tokenize(oldString);
+      newString = this.tokenize(newString)
+      oldString = this.tokenize(oldString)
 
-      var newLen = newString.length, oldLen = oldString.length;
-      var editLength = 1;
-      var maxEditLength = newLen + oldLen;
-      var bestPath = [{ newPos: -1, components: [] }];
+      var newLen = newString.length, oldLen = oldString.length
+      var editLength = 1
+      var maxEditLength = newLen + oldLen
+      var bestPath = [ { newPos: -1, components: [] } ]
 
       // Seed editLength = 0, i.e. the content starts with the same values
-      var oldPos = this.extractCommon(bestPath[0], newString, oldString, 0);
+      var oldPos = this.extractCommon(bestPath[0], newString, oldString, 0)
       if (bestPath[0].newPos + 1 >= newLen && oldPos + 1 >= oldLen) {
         // Identity per the equality and tokenizer
-        return done([{value: newString.join('')}]);
+        return done([ { value: newString.join('') } ])
       }
 
       // Main worker method. checks all permutations of a given edit length for acceptance.
       function execEditLength() {
         for (var diagonalPath = -1 * editLength; diagonalPath <= editLength; diagonalPath += 2) {
-          var basePath;
-          var addPath = bestPath[diagonalPath - 1],
-              removePath = bestPath[diagonalPath + 1],
-              oldPos = (removePath ? removePath.newPos : 0) - diagonalPath;
+          var basePath
+          var addPath = bestPath[diagonalPath - 1]
+              , removePath = bestPath[diagonalPath + 1]
+              , oldPos = (removePath ? removePath.newPos : 0) - diagonalPath
           if (addPath) {
             // No one else is going to attempt to use this value, clear it
-            bestPath[diagonalPath - 1] = undefined;
+            bestPath[diagonalPath - 1] = undefined
           }
 
-          var canAdd = addPath && addPath.newPos + 1 < newLen,
-              canRemove = removePath && 0 <= oldPos && oldPos < oldLen;
+          var canAdd = addPath && addPath.newPos + 1 < newLen
+              , canRemove = removePath && 0 <= oldPos && oldPos < oldLen
           if (!canAdd && !canRemove) {
             // If this path is a terminal then prune
-            bestPath[diagonalPath] = undefined;
-            continue;
+            bestPath[diagonalPath] = undefined
+            continue
           }
 
           // Select the diagonal that we want to branch from. We select the prior
           // path whose position in the new string is the farthest from the origin
           // and does not pass the bounds of the diff graph
           if (!canAdd || (canRemove && addPath.newPos < removePath.newPos)) {
-            basePath = clonePath(removePath);
-            self.pushComponent(basePath.components, undefined, true);
+            basePath = clonePath(removePath)
+            self.pushComponent(basePath.components, undefined, true)
           } else {
-            basePath = addPath;   // No need to clone, we've pulled it from the list
-            basePath.newPos++;
-            self.pushComponent(basePath.components, true, undefined);
+            basePath = addPath   // No need to clone, we've pulled it from the list
+            basePath.newPos++
+            self.pushComponent(basePath.components, true, undefined)
           }
 
-          oldPos = self.extractCommon(basePath, newString, oldString, diagonalPath);
+          oldPos = self.extractCommon(basePath, newString, oldString, diagonalPath)
 
           // If we have hit the end of both strings, then we are done
           if (basePath.newPos + 1 >= newLen && oldPos + 1 >= oldLen) {
-            return done(buildValues(basePath.components, newString, oldString, self.useLongestToken));
+            return done(buildValues(basePath.components, newString, oldString, self.useLongestToken))
           } else {
             // Otherwise track this path as a potential candidate and continue.
-            bestPath[diagonalPath] = basePath;
+            bestPath[diagonalPath] = basePath
           }
         }
 
-        editLength++;
+        editLength++
       }
 
       // Performs the length of edit iteration. Is a bit fugly as this has to support the
@@ -11620,227 +11620,227 @@ function hasOwnProperty(obj, prop) {
             // This should not happen, but we want to be safe.
             /*istanbul ignore next */
             if (editLength > maxEditLength) {
-              return callback();
+              return callback()
             }
 
             if (!execEditLength()) {
-              exec();
+              exec()
             }
-          }, 0);
-        }());
+          }, 0)
+        }())
       } else {
         while (editLength <= maxEditLength) {
-          var ret = execEditLength();
+          var ret = execEditLength()
           if (ret) {
-            return ret;
+            return ret
           }
         }
       }
-    },
+    }
 
-    pushComponent: function(components, added, removed) {
-      var last = components[components.length - 1];
+    , pushComponent: function(components, added, removed) {
+      var last = components[components.length - 1]
       if (last && last.added === added && last.removed === removed) {
         // We need to clone here as the component clone operation is just
         // as shallow array clone
-        components[components.length - 1] = {count: last.count + 1, added: added, removed: removed };
+        components[components.length - 1] = { count: last.count + 1, added: added, removed: removed }
       } else {
-        components.push({count: 1, added: added, removed: removed });
+        components.push({ count: 1, added: added, removed: removed })
       }
-    },
-    extractCommon: function(basePath, newString, oldString, diagonalPath) {
-      var newLen = newString.length,
-          oldLen = oldString.length,
-          newPos = basePath.newPos,
-          oldPos = newPos - diagonalPath,
+    }
+    , extractCommon: function(basePath, newString, oldString, diagonalPath) {
+      var newLen = newString.length
+          , oldLen = oldString.length
+          , newPos = basePath.newPos
+          , oldPos = newPos - diagonalPath
 
-          commonCount = 0;
+          , commonCount = 0
       while (newPos + 1 < newLen && oldPos + 1 < oldLen && this.equals(newString[newPos + 1], oldString[oldPos + 1])) {
-        newPos++;
-        oldPos++;
-        commonCount++;
+        newPos++
+        oldPos++
+        commonCount++
       }
 
       if (commonCount) {
-        basePath.components.push({count: commonCount});
+        basePath.components.push({ count: commonCount })
       }
 
-      basePath.newPos = newPos;
-      return oldPos;
-    },
-
-    equals: function(left, right) {
-      var reWhitespace = /\S/;
-      return left === right || (this.ignoreWhitespace && !reWhitespace.test(left) && !reWhitespace.test(right));
-    },
-    tokenize: function(value) {
-      return value.split('');
+      basePath.newPos = newPos
+      return oldPos
     }
-  };
 
-  var CharDiff = new Diff();
+    , equals: function(left, right) {
+      var reWhitespace = /\S/
+      return left === right || (this.ignoreWhitespace && !reWhitespace.test(left) && !reWhitespace.test(right))
+    }
+    , tokenize: function(value) {
+      return value.split('')
+    }
+  }
 
-  var WordDiff = new Diff(true);
-  var WordWithSpaceDiff = new Diff();
+  var CharDiff = new Diff()
+
+  var WordDiff = new Diff(true)
+  var WordWithSpaceDiff = new Diff()
   WordDiff.tokenize = WordWithSpaceDiff.tokenize = function(value) {
-    return removeEmpty(value.split(/(\s+|\b)/));
-  };
+    return removeEmpty(value.split(/(\s+|\b)/))
+  }
 
-  var CssDiff = new Diff(true);
+  var CssDiff = new Diff(true)
   CssDiff.tokenize = function(value) {
-    return removeEmpty(value.split(/([{}:;,]|\s+)/));
-  };
+    return removeEmpty(value.split(/([{}:;,]|\s+)/))
+  }
 
-  var LineDiff = new Diff();
+  var LineDiff = new Diff()
 
-  var TrimmedLineDiff = new Diff();
-  TrimmedLineDiff.ignoreTrim = true;
+  var TrimmedLineDiff = new Diff()
+  TrimmedLineDiff.ignoreTrim = true
 
   LineDiff.tokenize = TrimmedLineDiff.tokenize = function(value) {
-    var retLines = [],
-        lines = value.split(/^/m);
+    var retLines = []
+        , lines = value.split(/^/m)
     for (var i = 0; i < lines.length; i++) {
-      var line = lines[i],
-          lastLine = lines[i - 1],
-          lastLineLastChar = lastLine && lastLine[lastLine.length - 1];
+      var line = lines[i]
+          , lastLine = lines[i - 1]
+          , lastLineLastChar = lastLine && lastLine[lastLine.length - 1]
 
       // Merge lines that may contain windows new lines
       if (line === '\n' && lastLineLastChar === '\r') {
-          retLines[retLines.length - 1] = retLines[retLines.length - 1].slice(0, -1) + '\r\n';
+          retLines[retLines.length - 1] = retLines[retLines.length - 1].slice(0, -1) + '\r\n'
       } else {
         if (this.ignoreTrim) {
-          line = line.trim();
+          line = line.trim()
           // add a newline unless this is the last line.
           if (i < lines.length - 1) {
-            line += '\n';
+            line += '\n'
           }
         }
-        retLines.push(line);
+        retLines.push(line)
       }
     }
 
-    return retLines;
-  };
+    return retLines
+  }
 
-  var PatchDiff = new Diff();
+  var PatchDiff = new Diff()
   PatchDiff.tokenize = function(value) {
-    var ret = [],
-        linesAndNewlines = value.split(/(\n|\r\n)/);
+    var ret = []
+        , linesAndNewlines = value.split(/(\n|\r\n)/)
 
     // Ignore the final empty token that occurs if the string ends with a new line
     if (!linesAndNewlines[linesAndNewlines.length - 1]) {
-      linesAndNewlines.pop();
+      linesAndNewlines.pop()
     }
 
     // Merge the content and line separators into single tokens
     for (var i = 0; i < linesAndNewlines.length; i++) {
-      var line = linesAndNewlines[i];
+      var line = linesAndNewlines[i]
 
       if (i % 2) {
-        ret[ret.length - 1] += line;
+        ret[ret.length - 1] += line
       } else {
-        ret.push(line);
+        ret.push(line)
       }
     }
-    return ret;
-  };
+    return ret
+  }
 
-  var SentenceDiff = new Diff();
+  var SentenceDiff = new Diff()
   SentenceDiff.tokenize = function(value) {
-    return removeEmpty(value.split(/(\S.+?[.!?])(?=\s+|$)/));
-  };
+    return removeEmpty(value.split(/(\S.+?[.!?])(?=\s+|$)/))
+  }
 
-  var JsonDiff = new Diff();
+  var JsonDiff = new Diff()
   // Discriminate between two lines of pretty-printed, serialized JSON where one of them has a
   // dangling comma and the other doesn't. Turns out including the dangling comma yields the nicest output:
-  JsonDiff.useLongestToken = true;
-  JsonDiff.tokenize = LineDiff.tokenize;
+  JsonDiff.useLongestToken = true
+  JsonDiff.tokenize = LineDiff.tokenize
   JsonDiff.equals = function(left, right) {
-    return LineDiff.equals(left.replace(/,([\r\n])/g, '$1'), right.replace(/,([\r\n])/g, '$1'));
-  };
+    return LineDiff.equals(left.replace(/,([\r\n])/g, '$1'), right.replace(/,([\r\n])/g, '$1'))
+  }
 
   var JsDiff = {
-    Diff: Diff,
+    Diff: Diff
 
-    diffChars: function(oldStr, newStr, callback) { return CharDiff.diff(oldStr, newStr, callback); },
-    diffWords: function(oldStr, newStr, callback) { return WordDiff.diff(oldStr, newStr, callback); },
-    diffWordsWithSpace: function(oldStr, newStr, callback) { return WordWithSpaceDiff.diff(oldStr, newStr, callback); },
-    diffLines: function(oldStr, newStr, callback) { return LineDiff.diff(oldStr, newStr, callback); },
-    diffTrimmedLines: function(oldStr, newStr, callback) { return TrimmedLineDiff.diff(oldStr, newStr, callback); },
+    , diffChars: function(oldStr, newStr, callback) { return CharDiff.diff(oldStr, newStr, callback) }
+    , diffWords: function(oldStr, newStr, callback) { return WordDiff.diff(oldStr, newStr, callback) }
+    , diffWordsWithSpace: function(oldStr, newStr, callback) { return WordWithSpaceDiff.diff(oldStr, newStr, callback) }
+    , diffLines: function(oldStr, newStr, callback) { return LineDiff.diff(oldStr, newStr, callback) }
+    , diffTrimmedLines: function(oldStr, newStr, callback) { return TrimmedLineDiff.diff(oldStr, newStr, callback) }
 
-    diffSentences: function(oldStr, newStr, callback) { return SentenceDiff.diff(oldStr, newStr, callback); },
+    , diffSentences: function(oldStr, newStr, callback) { return SentenceDiff.diff(oldStr, newStr, callback) }
 
-    diffCss: function(oldStr, newStr, callback) { return CssDiff.diff(oldStr, newStr, callback); },
-    diffJson: function(oldObj, newObj, callback) {
+    , diffCss: function(oldStr, newStr, callback) { return CssDiff.diff(oldStr, newStr, callback) }
+    , diffJson: function(oldObj, newObj, callback) {
       return JsonDiff.diff(
         typeof oldObj === 'string' ? oldObj : JSON.stringify(canonicalize(oldObj), undefined, '  '),
         typeof newObj === 'string' ? newObj : JSON.stringify(canonicalize(newObj), undefined, '  '),
         callback
-      );
-    },
+      )
+    }
 
-    createTwoFilesPatch: function(oldFileName, newFileName, oldStr, newStr, oldHeader, newHeader) {
-      var ret = [];
+    , createTwoFilesPatch: function(oldFileName, newFileName, oldStr, newStr, oldHeader, newHeader) {
+      var ret = []
 
       if (oldFileName == newFileName) {
-        ret.push('Index: ' + oldFileName);
+        ret.push('Index: ' + oldFileName)
       }
-      ret.push('===================================================================');
-      ret.push('--- ' + oldFileName + (typeof oldHeader === 'undefined' ? '' : '\t' + oldHeader));
-      ret.push('+++ ' + newFileName + (typeof newHeader === 'undefined' ? '' : '\t' + newHeader));
+      ret.push('===================================================================')
+      ret.push('--- ' + oldFileName + (typeof oldHeader === 'undefined' ? '' : '\t' + oldHeader))
+      ret.push('+++ ' + newFileName + (typeof newHeader === 'undefined' ? '' : '\t' + newHeader))
 
-      var diff = PatchDiff.diff(oldStr, newStr);
-      diff.push({value: '', lines: []});   // Append an empty value to make cleanup easier
+      var diff = PatchDiff.diff(oldStr, newStr)
+      diff.push({ value: '', lines: [] })   // Append an empty value to make cleanup easier
 
       // Formats a given set of lines for printing as context lines in a patch
       function contextLines(lines) {
-        return map(lines, function(entry) { return ' ' + entry; });
+        return map(lines, function(entry) { return ' ' + entry })
       }
 
       // Outputs the no newline at end of file warning if needed
       function eofNL(curRange, i, current) {
-        var last = diff[diff.length - 2],
-            isLast = i === diff.length - 2,
-            isLastOfType = i === diff.length - 3 && current.added !== last.added;
+        var last = diff[diff.length - 2]
+            , isLast = i === diff.length - 2
+            , isLastOfType = i === diff.length - 3 && current.added !== last.added
 
         // Figure out if this is the last line for the given file and missing NL
         if (!(/\n$/.test(current.value)) && (isLast || isLastOfType)) {
-          curRange.push('\\ No newline at end of file');
+          curRange.push('\\ No newline at end of file')
         }
       }
 
-      var oldRangeStart = 0, newRangeStart = 0, curRange = [],
-          oldLine = 1, newLine = 1;
+      var oldRangeStart = 0, newRangeStart = 0, curRange = []
+          , oldLine = 1, newLine = 1
       for (var i = 0; i < diff.length; i++) {
-        var current = diff[i],
-            lines = current.lines || current.value.replace(/\n$/, '').split('\n');
-        current.lines = lines;
+        var current = diff[i]
+            , lines = current.lines || current.value.replace(/\n$/, '').split('\n')
+        current.lines = lines
 
         if (current.added || current.removed) {
           // If we have previous context, start with that
           if (!oldRangeStart) {
-            var prev = diff[i - 1];
-            oldRangeStart = oldLine;
-            newRangeStart = newLine;
+            var prev = diff[i - 1]
+            oldRangeStart = oldLine
+            newRangeStart = newLine
 
             if (prev) {
-              curRange = contextLines(prev.lines.slice(-4));
-              oldRangeStart -= curRange.length;
-              newRangeStart -= curRange.length;
+              curRange = contextLines(prev.lines.slice(-4))
+              oldRangeStart -= curRange.length
+              newRangeStart -= curRange.length
             }
           }
 
           // Output our changes
           curRange.push.apply(curRange, map(lines, function(entry) {
-            return (current.added ? '+' : '-') + entry;
-          }));
-          eofNL(curRange, i, current);
+            return (current.added ? '+' : '-') + entry
+          }))
+          eofNL(curRange, i, current)
 
           // Track the updated file position
           if (current.added) {
-            newLine += lines.length;
+            newLine += lines.length
           } else {
-            oldLine += lines.length;
+            oldLine += lines.length
           }
         } else {
           // Identical context lines. Track line changes
@@ -11848,170 +11848,170 @@ function hasOwnProperty(obj, prop) {
             // Close out any changes that have been output (or join overlapping)
             if (lines.length <= 8 && i < diff.length - 2) {
               // Overlapping
-              curRange.push.apply(curRange, contextLines(lines));
+              curRange.push.apply(curRange, contextLines(lines))
             } else {
               // end the range and output
-              var contextSize = Math.min(lines.length, 4);
+              var contextSize = Math.min(lines.length, 4)
               ret.push(
                   '@@ -' + oldRangeStart + ',' + (oldLine - oldRangeStart + contextSize)
                   + ' +' + newRangeStart + ',' + (newLine - newRangeStart + contextSize)
-                  + ' @@');
-              ret.push.apply(ret, curRange);
-              ret.push.apply(ret, contextLines(lines.slice(0, contextSize)));
+                  + ' @@')
+              ret.push.apply(ret, curRange)
+              ret.push.apply(ret, contextLines(lines.slice(0, contextSize)))
               if (lines.length <= 4) {
-                eofNL(ret, i, current);
+                eofNL(ret, i, current)
               }
 
-              oldRangeStart = 0;
-              newRangeStart = 0;
-              curRange = [];
+              oldRangeStart = 0
+              newRangeStart = 0
+              curRange = []
             }
           }
-          oldLine += lines.length;
-          newLine += lines.length;
+          oldLine += lines.length
+          newLine += lines.length
         }
       }
 
-      return ret.join('\n') + '\n';
-    },
+      return ret.join('\n') + '\n'
+    }
 
-    createPatch: function(fileName, oldStr, newStr, oldHeader, newHeader) {
-      return JsDiff.createTwoFilesPatch(fileName, fileName, oldStr, newStr, oldHeader, newHeader);
-    },
+    , createPatch: function(fileName, oldStr, newStr, oldHeader, newHeader) {
+      return JsDiff.createTwoFilesPatch(fileName, fileName, oldStr, newStr, oldHeader, newHeader)
+    }
 
-    applyPatch: function(oldStr, uniDiff) {
-      var diffstr = uniDiff.split('\n'),
-          hunks = [],
-          i = 0,
-          remEOFNL = false,
-          addEOFNL = false;
+    , applyPatch: function(oldStr, uniDiff) {
+      var diffstr = uniDiff.split('\n')
+          , hunks = []
+          , i = 0
+          , remEOFNL = false
+          , addEOFNL = false
 
       // Skip to the first change hunk
       while (i < diffstr.length && !(/^@@/.test(diffstr[i]))) {
-        i++;
+        i++
       }
 
       // Parse the unified diff
       for (; i < diffstr.length; i++) {
         if (diffstr[i][0] === '@') {
-          var chnukHeader = diffstr[i].split(/@@ -(\d+),(\d+) \+(\d+),(\d+) @@/);
+          var chnukHeader = diffstr[i].split(/@@ -(\d+),(\d+) \+(\d+),(\d+) @@/)
           hunks.unshift({
-            start: chnukHeader[3],
-            oldlength: +chnukHeader[2],
-            removed: [],
-            newlength: chnukHeader[4],
-            added: []
-          });
+            start: chnukHeader[3]
+            , oldlength: +chnukHeader[2]
+            , removed: []
+            , newlength: chnukHeader[4]
+            , added: []
+          })
         } else if (diffstr[i][0] === '+') {
-          hunks[0].added.push(diffstr[i].substr(1));
+          hunks[0].added.push(diffstr[i].substr(1))
         } else if (diffstr[i][0] === '-') {
-          hunks[0].removed.push(diffstr[i].substr(1));
+          hunks[0].removed.push(diffstr[i].substr(1))
         } else if (diffstr[i][0] === ' ') {
-          hunks[0].added.push(diffstr[i].substr(1));
-          hunks[0].removed.push(diffstr[i].substr(1));
+          hunks[0].added.push(diffstr[i].substr(1))
+          hunks[0].removed.push(diffstr[i].substr(1))
         } else if (diffstr[i][0] === '\\') {
           if (diffstr[i - 1][0] === '+') {
-            remEOFNL = true;
+            remEOFNL = true
           } else if (diffstr[i - 1][0] === '-') {
-            addEOFNL = true;
+            addEOFNL = true
           }
         }
       }
 
       // Apply the diff to the input
-      var lines = oldStr.split('\n');
+      var lines = oldStr.split('\n')
       for (i = hunks.length - 1; i >= 0; i--) {
-        var hunk = hunks[i];
+        var hunk = hunks[i]
         // Sanity check the input string. Bail if we don't match.
         for (var j = 0; j < hunk.oldlength; j++) {
           if (lines[hunk.start - 1 + j] !== hunk.removed[j]) {
-            return false;
+            return false
           }
         }
-        Array.prototype.splice.apply(lines, [hunk.start - 1, hunk.oldlength].concat(hunk.added));
+        Array.prototype.splice.apply(lines, [ hunk.start - 1, hunk.oldlength ].concat(hunk.added))
       }
 
       // Handle EOFNL insertion/removal
       if (remEOFNL) {
         while (!lines[lines.length - 1]) {
-          lines.pop();
+          lines.pop()
         }
       } else if (addEOFNL) {
-        lines.push('');
+        lines.push('')
       }
-      return lines.join('\n');
-    },
+      return lines.join('\n')
+    }
 
-    convertChangesToXML: function(changes) {
-      var ret = [];
+    , convertChangesToXML: function(changes) {
+      var ret = []
       for (var i = 0; i < changes.length; i++) {
-        var change = changes[i];
+        var change = changes[i]
         if (change.added) {
-          ret.push('<ins>');
+          ret.push('<ins>')
         } else if (change.removed) {
-          ret.push('<del>');
+          ret.push('<del>')
         }
 
-        ret.push(escapeHTML(change.value));
+        ret.push(escapeHTML(change.value))
 
         if (change.added) {
-          ret.push('</ins>');
+          ret.push('</ins>')
         } else if (change.removed) {
-          ret.push('</del>');
+          ret.push('</del>')
         }
       }
-      return ret.join('');
-    },
+      return ret.join('')
+    }
 
     // See: http://code.google.com/p/google-diff-match-patch/wiki/API
-    convertChangesToDMP: function(changes) {
-      var ret = [],
-          change,
-          operation;
+    , convertChangesToDMP: function(changes) {
+      var ret = []
+          , change
+          , operation
       for (var i = 0; i < changes.length; i++) {
-        change = changes[i];
+        change = changes[i]
         if (change.added) {
-          operation = 1;
+          operation = 1
         } else if (change.removed) {
-          operation = -1;
+          operation = -1
         } else {
-          operation = 0;
+          operation = 0
         }
 
-        ret.push([operation, change.value]);
+        ret.push([ operation, change.value ])
       }
-      return ret;
-    },
+      return ret
+    }
 
-    canonicalize: canonicalize
-  };
+    , canonicalize: canonicalize
+  }
 
   /*istanbul ignore next */
   /*global module */
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = JsDiff;
+    module.exports = JsDiff
   } else if (typeof define === 'function' && define.amd) {
     /*global define */
-    define([], function() { return JsDiff; });
+    define([], function() { return JsDiff })
   } else if (typeof global.JsDiff === 'undefined') {
-    global.JsDiff = JsDiff;
+    global.JsDiff = JsDiff
   }
-}(this));
+}(this))
 
-},{}],68:[function(require,module,exports){
-'use strict';
+}, {} ], 68: [ function(require, module, exports){
 
-var matchOperatorsRe = /[|\\{}()[\]^$+*?.]/g;
+
+var matchOperatorsRe = /[|\\{}()[\]^$+*?.]/g
 
 module.exports = function (str) {
 	if (typeof str !== 'string') {
-		throw new TypeError('Expected a string');
+		throw new TypeError('Expected a string')
 	}
 
-	return str.replace(matchOperatorsRe,  '\\$&');
-};
+	return str.replace(matchOperatorsRe,  '\\$&')
+}
 
-},{}],69:[function(require,module,exports){
+}, {} ], 69: [ function(require, module, exports){
 (function (process){
 // Growl - Copyright TJ Holowaychuk <tj@vision-media.ca> (MIT Licensed)
 
@@ -12025,15 +12025,15 @@ var exec = require('child_process').exec
   , exists = fs.existsSync || path.existsSync
   , os = require('os')
   , quote = JSON.stringify
-  , cmd;
+  , cmd
 
 function which(name) {
-  var paths = process.env.PATH.split(':');
-  var loc;
+  var paths = process.env.PATH.split(':')
+  var loc
   
   for (var i = 0, len = paths.length; i < len; ++i) {
-    loc = path.join(paths[i], name);
-    if (exists(loc)) return loc;
+    loc = path.join(paths[i], name)
+    if (exists(loc)) return loc
   }
 }
 
@@ -12041,8 +12041,8 @@ switch(os.type()) {
   case 'Darwin':
     if (which('terminal-notifier')) {
       cmd = {
-          type: "Darwin-NotificationCenter"
-        , pkg: "terminal-notifier"
+          type: 'Darwin-NotificationCenter'
+        , pkg: 'terminal-notifier'
         , msg: '-message'
         , title: '-title'
         , subtitle: '-subtitle'
@@ -12050,11 +12050,11 @@ switch(os.type()) {
               cmd: '-execute'
             , range: []
           }
-      };
+      }
     } else {
       cmd = {
-          type: "Darwin-Growl"
-        , pkg: "growlnotify"
+          type: 'Darwin-Growl'
+        , pkg: 'growlnotify'
         , msg: '-m'
         , sticky: '--sticky'
         , priority: {
@@ -12065,37 +12065,37 @@ switch(os.type()) {
               , 0
               , 1
               , 2
-              , "Very Low"
-              , "Moderate"
-              , "Normal"
-              , "High"
-              , "Emergency"
+              , 'Very Low'
+              , 'Moderate'
+              , 'Normal'
+              , 'High'
+              , 'Emergency'
             ]
           }
-      };
+      }
     }
-    break;
+    break
   case 'Linux':
     cmd = {
-        type: "Linux"
-      , pkg: "notify-send"
+        type: 'Linux'
+      , pkg: 'notify-send'
       , msg: ''
       , sticky: '-t 0'
       , icon: '-i'
       , priority: {
           cmd: '-u'
         , range: [
-            "low"
-          , "normal"
-          , "critical"
+            'low'
+          , 'normal'
+          , 'critical'
         ]
       }
-    };
-    break;
+    }
+    break
   case 'Windows_NT':
     cmd = {
-        type: "Windows"
-      , pkg: "growlnotify"
+        type: 'Windows'
+      , pkg: 'growlnotify'
       , msg: ''
       , sticky: '/s:true'
       , title: '/t:'
@@ -12110,15 +12110,15 @@ switch(os.type()) {
             , 2
           ]
         }
-    };
-    break;
+    }
+    break
 }
 
 /**
  * Expose `growl`.
  */
 
-exports = module.exports = growl;
+exports = module.exports = growl
 
 /**
  * Node-growl version.
@@ -12160,11 +12160,11 @@ function growl(msg, options, fn) {
   var image
     , args
     , options = options || {}
-    , fn = fn || function(){};
+    , fn = fn || function(){}
 
   // noop
-  if (!cmd) return fn(new Error('growl not supported on this platform'));
-  args = [cmd.pkg];
+  if (!cmd) return fn(new Error('growl not supported on this platform'))
+  args = [ cmd.pkg ]
 
   // image
   if (image = options.image) {
@@ -12177,87 +12177,87 @@ function growl(msg, options, fn) {
         flag = flag || ext && (image = ext) && 'icon'
         flag = flag || 'icon'
         args.push('--' + flag, quote(image))
-        break;
+        break
       case 'Linux':
-        args.push(cmd.icon, quote(image));
+        args.push(cmd.icon, quote(image))
         // libnotify defaults to sticky, set a hint for transient notifications
-        if (!options.sticky) args.push('--hint=int:transient:1');
-        break;
+        if (!options.sticky) args.push('--hint=int:transient:1')
+        break
       case 'Windows':
-        args.push(cmd.icon + quote(image));
-        break;
+        args.push(cmd.icon + quote(image))
+        break
     }
   }
 
   // sticky
-  if (options.sticky) args.push(cmd.sticky);
+  if (options.sticky) args.push(cmd.sticky)
 
   // priority
   if (options.priority) {
-    var priority = options.priority + '';
-    var checkindexOf = cmd.priority.range.indexOf(priority);
+    var priority = options.priority + ''
+    var checkindexOf = cmd.priority.range.indexOf(priority)
     if (~cmd.priority.range.indexOf(priority)) {
-      args.push(cmd.priority, options.priority);
+      args.push(cmd.priority, options.priority)
     }
   }
 
   // name
-  if (options.name && cmd.type === "Darwin-Growl") {
-    args.push('--name', options.name);
+  if (options.name && cmd.type === 'Darwin-Growl') {
+    args.push('--name', options.name)
   }
 
   switch(cmd.type) {
     case 'Darwin-Growl':
-      args.push(cmd.msg);
-      args.push(quote(msg));
-      if (options.title) args.push(quote(options.title));
-      break;
+      args.push(cmd.msg)
+      args.push(quote(msg))
+      if (options.title) args.push(quote(options.title))
+      break
     case 'Darwin-NotificationCenter':
-      args.push(cmd.msg);
-      args.push(quote(msg));
+      args.push(cmd.msg)
+      args.push(quote(msg))
       if (options.title) {
-        args.push(cmd.title);
-        args.push(quote(options.title));
+        args.push(cmd.title)
+        args.push(quote(options.title))
       }
       if (options.subtitle) {
-        args.push(cmd.subtitle);
-        args.push(quote(options.subtitle));
+        args.push(cmd.subtitle)
+        args.push(quote(options.subtitle))
       }
-      break;
+      break
     case 'Darwin-Growl':
-      args.push(cmd.msg);
-      args.push(quote(msg));
-      if (options.title) args.push(quote(options.title));
-      break;
+      args.push(cmd.msg)
+      args.push(quote(msg))
+      if (options.title) args.push(quote(options.title))
+      break
     case 'Linux':
       if (options.title) {
-        args.push(quote(options.title));
-        args.push(cmd.msg);
-        args.push(quote(msg));
+        args.push(quote(options.title))
+        args.push(cmd.msg)
+        args.push(quote(msg))
       } else {
-        args.push(quote(msg));
+        args.push(quote(msg))
       }
-      break;
+      break
     case 'Windows':
-      args.push(quote(msg));
-      if (options.title) args.push(cmd.title + quote(options.title));
-      break;
+      args.push(quote(msg))
+      if (options.title) args.push(cmd.title + quote(options.title))
+      break
   }
 
   // execute
-  exec(args.join(' '), fn);
-};
+  exec(args.join(' '), fn)
+}
 
-}).call(this,require('_process'))
-},{"_process":51,"child_process":41,"fs":41,"os":50,"path":41}],70:[function(require,module,exports){
-(function (process,global){
+}).call(this, require('_process'))
+}, { '_process': 51, 'child_process': 41, 'fs': 41, 'os': 50, 'path': 41 } ], 70: [ function(require, module, exports){
+(function (process, global){
 /**
  * Shim process.stdout.
  */
 
-process.stdout = require('browser-stdout')();
+process.stdout = require('browser-stdout')()
 
-var Mocha = require('../');
+var Mocha = require('../')
 
 /**
  * Create a Mocha instance.
@@ -12265,21 +12265,21 @@ var Mocha = require('../');
  * @return {undefined}
  */
 
-var mocha = new Mocha({ reporter: 'html' });
+var mocha = new Mocha({ reporter: 'html' })
 
 /**
  * Save timer references to avoid Sinon interfering (see GH-237).
  */
 
-var Date = global.Date;
-var setTimeout = global.setTimeout;
-var setInterval = global.setInterval;
-var clearTimeout = global.clearTimeout;
-var clearInterval = global.clearInterval;
+var Date = global.Date
+var setTimeout = global.setTimeout
+var setInterval = global.setInterval
+var clearTimeout = global.clearTimeout
+var clearInterval = global.clearInterval
 
-var uncaughtExceptionHandlers = [];
+var uncaughtExceptionHandlers = []
 
-var originalOnerrorHandler = global.onerror;
+var originalOnerrorHandler = global.onerror
 
 /**
  * Remove uncaughtException listener.
@@ -12289,14 +12289,14 @@ var originalOnerrorHandler = global.onerror;
 process.removeListener = function(e, fn){
   if ('uncaughtException' == e) {
     if (originalOnerrorHandler) {
-      global.onerror = originalOnerrorHandler;
+      global.onerror = originalOnerrorHandler
     } else {
-      global.onerror = function() {};
+      global.onerror = function() {}
     }
-    var i = Mocha.utils.indexOf(uncaughtExceptionHandlers, fn);
-    if (i != -1) { uncaughtExceptionHandlers.splice(i, 1); }
+    var i = Mocha.utils.indexOf(uncaughtExceptionHandlers, fn)
+    if (i != -1) { uncaughtExceptionHandlers.splice(i, 1) }
   }
-};
+}
 
 /**
  * Implements uncaughtException listener.
@@ -12305,30 +12305,30 @@ process.removeListener = function(e, fn){
 process.on = function(e, fn){
   if ('uncaughtException' == e) {
     global.onerror = function(err, url, line){
-      fn(new Error(err + ' (' + url + ':' + line + ')'));
-      return !mocha.allowUncaught;
-    };
-    uncaughtExceptionHandlers.push(fn);
+      fn(new Error(err + ' (' + url + ':' + line + ')'))
+      return !mocha.allowUncaught
+    }
+    uncaughtExceptionHandlers.push(fn)
   }
-};
+}
 
 // The BDD UI is registered by default, but no UI will be functional in the
 // browser without an explicit call to the overridden `mocha.ui` (see below).
 // Ensure that this default UI does not expose its methods to the global scope.
-mocha.suite.removeAllListeners('pre-require');
+mocha.suite.removeAllListeners('pre-require')
 
 var immediateQueue = []
-  , immediateTimeout;
+  , immediateTimeout
 
 function timeslice() {
-  var immediateStart = new Date().getTime();
+  var immediateStart = new Date().getTime()
   while (immediateQueue.length && (new Date().getTime() - immediateStart) < 100) {
-    immediateQueue.shift()();
+    immediateQueue.shift()()
   }
   if (immediateQueue.length) {
-    immediateTimeout = setTimeout(timeslice, 0);
+    immediateTimeout = setTimeout(timeslice, 0)
   } else {
-    immediateTimeout = null;
+    immediateTimeout = null
   }
 }
 
@@ -12337,11 +12337,11 @@ function timeslice() {
  */
 
 Mocha.Runner.immediately = function(callback) {
-  immediateQueue.push(callback);
+  immediateQueue.push(callback)
   if (!immediateTimeout) {
-    immediateTimeout = setTimeout(timeslice, 0);
+    immediateTimeout = setTimeout(timeslice, 0)
   }
-};
+}
 
 /**
  * Function to allow assertion libraries to throw errors directly into mocha.
@@ -12350,10 +12350,10 @@ Mocha.Runner.immediately = function(callback) {
  */
 mocha.throwError = function(err) {
   Mocha.utils.forEach(uncaughtExceptionHandlers, function (fn) {
-    fn(err);
-  });
-  throw err;
-};
+    fn(err)
+  })
+  throw err
+}
 
 /**
  * Override ui to ensure that the ui functions are initialized.
@@ -12361,58 +12361,58 @@ mocha.throwError = function(err) {
  */
 
 mocha.ui = function(ui){
-  Mocha.prototype.ui.call(this, ui);
-  this.suite.emit('pre-require', global, null, this);
-  return this;
-};
+  Mocha.prototype.ui.call(this, ui)
+  this.suite.emit('pre-require', global, null, this)
+  return this
+}
 
 /**
  * Setup mocha with the given setting options.
  */
 
 mocha.setup = function(opts){
-  if ('string' == typeof opts) opts = { ui: opts };
-  for (var opt in opts) this[opt](opts[opt]);
-  return this;
-};
+  if ('string' == typeof opts) opts = { ui: opts }
+  for (var opt in opts) this[opt](opts[opt])
+  return this
+}
 
 /**
  * Run mocha, returning the Runner.
  */
 
 mocha.run = function(fn){
-  var options = mocha.options;
-  mocha.globals('location');
+  var options = mocha.options
+  mocha.globals('location')
 
-  var query = Mocha.utils.parseQuery(global.location.search || '');
-  if (query.grep) mocha.grep(new RegExp(query.grep));
-  if (query.fgrep) mocha.grep(query.fgrep);
-  if (query.invert) mocha.invert();
+  var query = Mocha.utils.parseQuery(global.location.search || '')
+  if (query.grep) mocha.grep(new RegExp(query.grep))
+  if (query.fgrep) mocha.grep(query.fgrep)
+  if (query.invert) mocha.invert()
 
   return Mocha.prototype.run.call(mocha, function(err){
     // The DOM Document is not available in Web Workers.
-    var document = global.document;
+    var document = global.document
     if (document && document.getElementById('mocha') && options.noHighlighting !== true) {
-      Mocha.utils.highlightTags('code');
+      Mocha.utils.highlightTags('code')
     }
-    if (fn) fn(err);
-  });
-};
+    if (fn) fn(err)
+  })
+}
 
 /**
  * Expose the process shim.
  * https://github.com/mochajs/mocha/pull/916
  */
 
-Mocha.process = process;
+Mocha.process = process
 
 /**
  * Expose mocha.
  */
 if(typeof window !== 'undefined'){
-	window.Mocha = Mocha;
-	window.mocha = mocha;
+	window.Mocha = Mocha
+	window.mocha = mocha
 }
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../":1,"_process":51,"browser-stdout":40}]},{},[70]);
+}).call(this, require('_process'), typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : {})
+}, { '../': 1, '_process': 51, 'browser-stdout': 40 } ] }, {}, [ 70 ])
