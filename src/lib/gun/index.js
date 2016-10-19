@@ -1,5 +1,6 @@
 //console.log("!!!!!!!!!!!!!!!! WARNING THIS IS GUN 0.5 !!!!!!!!!!!!!!!!!!!!!!");
-import Gun from './gun'
+import Gun from './Gun'
+
 function meta(v, f){
   if(obj_has(Gun.__, f)){ return }
   obj_put(this._, f, v)

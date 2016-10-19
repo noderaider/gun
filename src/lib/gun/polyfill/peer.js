@@ -4,7 +4,7 @@ function P(p){
   if(!P.is(this)){ return new P(p) }
   this.peers = p
 }
-P.request = require('./request')
+P.request = request
 P.is = function(p){ return (p instanceof P) }
 P.chain = P.prototype
 function map(peer, url){

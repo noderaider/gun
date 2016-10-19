@@ -1,4 +1,6 @@
 import Gun from '../'
+import polyfillPeer from '../polyfill/peer'
+
 if(typeof window === 'object') {
   if(typeof JSON === 'undefined')
     throw new Error('Include JSON first: ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js') // for old IE use
@@ -10,7 +12,7 @@ if(typeof window === 'object') {
 
   var Tab = {}
   Tab.on = Gun.on//Gun.on.create();
-  Tab.peers = require('../polyfill/peer')
+  Tab.peers = polyfillPeer
   Gun.on('get', function(at){
     var gun = at.gun, opt = gun.Back('opt') || {}, peers = opt.peers
     if(!peers || Gun.obj.empty(peers)){
@@ -68,8 +70,7 @@ if(typeof window === 'object') {
         }
         return
       }
-      if(msg['$'] && msg['$']['#']){ return server.get(req, res) }
-      else { return server.put(req, res) }
+      return msg['$'] && msg['$']['#'] ? server.get(req, res) : server.put(req, res)
     })
     server.get = function(req, cb){
       var body = req.body, lex = body['$'], opt

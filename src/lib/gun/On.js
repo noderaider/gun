@@ -1,7 +1,12 @@
 // On event emitter generic javascript utility.
 function Scope(){
   function On(tag, arg, as, eas, skip){
-    var ctx = this, ons = ctx.ons || (ctx.ons = {}), on = ons[tag] || (ons[tag] = { s: [] }), act, mem, O = On.ons
+    let ctx = this
+    let ons = ctx.ons || (ctx.ons = {})
+    let on = ons[tag] || (ons[tag] = { s: [] })
+    let act
+    let mem
+    let O = On.ons
     if(!arg){
       if(1 === arguments.length){ // Performance drops significantly even though `arguments.length` should be okay to use.
         return on
@@ -30,7 +35,12 @@ function Scope(){
     on.arg = arg
     on.end = as
     on.as = eas
-    var i = 0, acts = on.s, l = acts.length, arr = (arg instanceof Array), gap, off, act
+    let i = 0
+    let acts = on.s
+    let l = acts.length
+    let arr = (arg instanceof Array)
+    let gap
+    let off
     for(; i < l; i++) {
       act = acts[i]
       if(skip){
@@ -66,8 +76,8 @@ function Scope(){
       as.call(eas, arg)
     return
   }
-  On.on = On
-  On.scope = Scope
+  On.on = (...args) => On.apply(this, args)
+  On.scope = (...args) => Scope.apply(this, args)
   return On
 }
 function Act(tag, fn, as, on, ctx){

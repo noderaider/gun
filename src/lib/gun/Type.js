@@ -102,10 +102,17 @@ Type.obj.ify = function(o){
     t.r.push(k)
   }
   Type.obj.map = function(l, c, _){
-    var u, i = 0, x, r, ll, lle, f = fn_is(c)
+    let u
+    let i = 0
+    let x
+    let r
+    let ll
+    let lle
+    let f = fn_is(c)
     t.r = null
-    if(Object.keys && obj_is(l)){
-      ll = Object.keys(l); lle = true
+    if(Object.keys && obj_is(l)) {
+      ll = Object.keys(l);
+      lle = true
     }
     if(list_is(l) || ll){
       x = (ll || l).length

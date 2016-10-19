@@ -4,7 +4,7 @@ export default function Chain(create, opt){
   opt = opt || {}
   opt.id = opt.id || '#'
   opt.rid = opt.rid || '@'
-  opt.uuid = opt.uuid || function() {
+  opt.uuid = opt.uuid || function(){
     return (+new Date()) + Math.random()
   }
   var on = On.scope()

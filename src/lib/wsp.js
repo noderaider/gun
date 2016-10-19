@@ -1,10 +1,13 @@
 import Gun from './gun'
 import formidable from 'formidable'
-import _ws from 'ws'
-import http from './http'
+import { Server } from 'ws'
+import _ws from './ws'
 import url from 'url'
+import jsonp from './jsonp'
+import http from 'http'
+import https from 'https'
+import fs from 'fs'
 
-const ws = _ws.Server
 
 (function(wsp){
   /*
@@ -22,14 +25,20 @@ const ws = _ws.Server
     TODO: SERVER GET!
   */
   Gun.on('opt', function(at){
-    var gun = at.gun, opt = at.opt
+    let gun = at.gun
+    let opt = at.opt
     gun.__ = at.root._
-    gun.__.opt.ws = opt.ws = gun.__.opt.ws || opt.ws || {}
-    function start(server, port, app){
-      if(app && app.use){ app.use(gun.wsp.server) }
+    let optWS = gun.__.opt.ws || opt.ws || {}
+    opt.ws = optWS
+    gun.__.opt.ws = optWS
+    console.warn('HERE')
+    function start(server, port = 80, app){
+      if(app && app.use)
+        app.use(gun.wsp.server)
       server = gun.__.opt.ws.server = gun.__.opt.ws.server || opt.ws.server || server
-      require('./ws')(gun.wsp.ws = gun.wsp.ws || new ws(gun.__.opt.ws), function(req, res){
-        var ws = this
+
+      _ws(gun.wsp.ws = gun.wsp.ws || new Server(gun.__.opt.ws), function(req, res){
+        let ws = this
         req.headers['gun-sid'] = ws.sid = ws.sid? ws.sid : req.headers['gun-sid']
         ws.sub = ws.sub || gun.wsp.on('network', function(msg, ev){
           if(!ws || !ws.send || !ws._socket || !ws._socket.writable){ return ev.off() }
@@ -45,7 +54,7 @@ const ws = _ws.Server
         })
         gun.wsp.wire(req, res)
       }, { headers: { 'ws-rid': 1, 'gun-sid': 1 } })
-      gun.__.opt.ws.port = gun.__.opt.ws.port || opt.ws.port || port || 80
+      gun.__.opt.ws.port = gun.__.opt.ws.port || opt.ws.port || port
     }
     var wsp = gun.wsp = gun.wsp || function(server){
       if(!server){ return gun }
@@ -60,7 +69,7 @@ const ws = _ws.Server
         return gun
       }
       var listen = server.listen
-      server.listen = function(port){
+      server.listen = function(port = 80){
         var serve = listen.apply(server, arguments)
         start(serve, port, server)
         return serve
@@ -82,12 +91,12 @@ const ws = _ws.Server
       if(!gun.wsp.regex.test(msg.url.pathname)){ return next(), false } // TODO: BUG! If the option isn't a regex then this will fail!
       if(msg.url.pathname.replace(gun.wsp.regex, '').slice(0, 3).toLowerCase() === '.js'){
         res.writeHead(200, { 'Content-Type': 'text/javascript' })
-        res.end(gun.wsp.js = gun.wsp.js || require('fs').readFileSync(__dirname + '/../gun.js')) // gun server is caching the gun library for the client
+        res.end(gun.wsp.js = gun.wsp.js || fs.readFileSync(__dirname + '/../gun.js')) // gun server is caching the gun library for the client
         return true
       }
       return http(req, res, function(req, res){
         if(!req){ return next() }
-        var stream, cb = res = require('./jsonp')(req, res)
+        var stream, cb = res = jsonp(req, res)
         if(req.headers && (stream = req.headers['gun-sid'])){
           stream = (gun.wsp.peers = gun.wsp.peers || {})[stream] = gun.wsp.peers[stream] || { sid: stream }
           stream.drain = stream.drain || function(res){
@@ -114,7 +123,7 @@ const ws = _ws.Server
       }), true
     }
     if((gun.__.opt.maxSockets = opt.maxSockets || gun.__.opt.maxSockets) !== false){
-      require('https').globalAgent.maxSockets = require('http').globalAgent.maxSockets = gun.__.opt.maxSockets || Infinity
+      https.globalAgent.maxSockets = http.globalAgent.maxSockets = gun.__.opt.maxSockets || Infinity
     }
     gun.wsp.msg = gun.wsp.msg || function(id){
       if(!id){
@@ -216,7 +225,9 @@ const ws = _ws.Server
       return tran
     }())
     if(opt.server){
+      console.warn('HERRE', opt.server)
       wsp(opt.server)
     }
+    console.warn('HERRRE', opt)
   })
 }({}))

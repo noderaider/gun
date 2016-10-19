@@ -1,28 +1,20 @@
-import Gun from './'
-let obj = Gun.obj
-let obj_is = obj.is
-let obj_put = obj.put
-let obj_map = obj.map
-let obj_empty = obj.empty
-let num = Gun.num
-let num_is = num.is
-let _soul = Gun.val.rel._
-let _field = '.'
-
-(function() {
-  var obj = {}
-  var u
+function applyBack (Gun) {
+  let obj = {}
+  let u
   Gun.chain.Back = function(n, opt) {
-    var tmp
+    let tmp
     if(-1 === n || Infinity === n)
       return this._.root
     else if(1 === n)
       return this._.back
-    var gun = this, at = gun._
+    let gun = this
+    let at = gun._
     if(typeof n === 'string')
       n = n.split('.')
     if(n instanceof Array){
-      var i = 0, l = n.length, tmp = at
+      let i = 0
+      let l = n.length
+      let tmp = at
       for(i; i < l; i++){
         tmp = (tmp||obj)[n[i]]
       }
@@ -33,15 +25,15 @@ let _field = '.'
       return
     }
     if(n instanceof Function){
-      var yes, tmp = { _: { back: gun } }
+      let yes
+      tmp = { _: { back: gun } }
       while((tmp = tmp._) && (tmp = tmp.back) && !(yes = n(tmp, opt))){}
       return yes
     }
   }
-}())
+}
 
-;(function(){
-
+function applyPut (Gun) {
   Gun.chain.put = function(data, cb, opt, as){
     // TODO: BUG! Put probably cannot handle plural chains!
     var gun = this, root = gun.Back(-1), tmp
@@ -100,14 +92,18 @@ let _field = '.'
   function batch() {
     var as = this
     if(!as.graph || obj_map(as.stun, no)){ return }
-    as.ref.on('out', {
-      gun: as.ref, put: as.out = as.env.graph, opt: as.opt
-      , '#': Gun.on.ask(function(ack, ev){
-        if(ack && 0 === ack.ok){ return }
-        ev.off() // One response is good enough for us currently. Later we may want to adjust this.
-        if(!as.opt.any){ return }
-        as.opt.any.call(as.opt.as || as.gun, ack.err, ack.ok)
-      }, as.opt)
+    as.ref.on('out'
+      , { gun: as.ref
+        , put: as.out = as.env.graph
+        , opt: as.opt
+        , '#': Gun.on.ask(function(ack, ev){
+          if(ack && 0 === ack.ok){ return }
+          ev.off() // One response is good enough for us currently. Later we may want to adjust this.
+          if(!as.opt.any){ return }
+          as.opt.any.call(as.opt.as || as.gun, ack.err, ack.ok)
+        }
+      , as.opt
+      )
     })
     if(as.res){ as.res() }
   } function no(v, f){ if(v){ return true } }
@@ -161,7 +157,7 @@ let _field = '.'
         return
       /*
         TODO: THIS WHOLE SECTION NEEDS TO BE CLEANED UP!
-        Implicit behavior should be much cleaner. Right now it is hacky.
+        Implicit behavior should be much cleaner. Right no it is hacky.
       */
       // TODO: BUG!!!!!!! Apparently Gun.node.ify doesn't produce a valid HAM node?
       if(as.ref !== as.gun){ // TODO: CLEAN UP!!!!!
@@ -220,9 +216,13 @@ let _field = '.'
   }
   var obj = Gun.obj, obj_has = obj.has, obj_put = obj.put
   var u, noop = function(){}
-}())
 
-(function() {
+}
+
+
+
+
+function applyGet (Gun) {
   Gun.chain.get = function(lex, cb, opt){
     if(!opt || !opt.path){ var back = this.Back(-1) } // TODO: CHANGING API! Remove this line!
     var gun, back = back || this, cat = back._
@@ -270,7 +270,7 @@ let _field = '.'
     var cat = back._, path = cat.path, gun = back.chain(), at = gun._
     if(!path){ path = cat.path = {} }
     path[at.get = key] = gun
-    at.stun = at.stun || cat.stun // TODO: BUG! Clean up! This is kinda ugly. These need to be attached all the way down regardless of whether a gun chain has been cached or not for the first time.
+    at.stun = at.stun || cat.stun // TODO: BUG! Clean up! This is kinda ugly. These need to be attached all the ay down regardless of whether a gun chain has been cached or not for the first time.
     Gun.on('path', at)
     //gun.on('in', input, at); // For 'in' if I add my own listeners to each then I MUST do it before in gets called. If I listen globally for all incoming data instead though, regardless of individual listeners, I can transform the data there and then as well.
     gun.on('out', output, at) // However for output, there isn't really the global option. I must listen by adding my own listener individually BEFORE this one is ever called.
@@ -490,107 +490,23 @@ let _field = '.'
     link.as.put = at.put
     input.call(link.as, at, ev) // TODO: BUG! What about via? Do we need to clone this?
   }
-  Gun.chain.any = function(any, opt){
-    if(!any){ return this }
-    var chain = this, cat = chain._, opt = opt || {}, last = {}//function(){};
-    if(opt.change){ opt.change = 1 }
-    console.debug(5, 'any')
-    chain.on('out', { get: function(at, ev){
-        //console.log("any!", at);
-        if(!at.gun){ console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%EXPLODE%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%', at) }
-        var gun = at.gun || chain, cat = gun._
-        var data = cat.put || at.put, tmp
-        if((tmp = at.put) && tmp[Gun.val.rel._] && (tmp = Gun.val.rel.is(tmp))){
-          if(null !== opt['.']){
-            return
-          }
-          at = obj_to(at, { put: data = cat.change = cat.put = Gun.state.ify(Gun.node.ify({}, tmp)) })
-        }
-        // TODO: BUG! Need to use at.put > cat.put for merged cache?
-        if(tmp = opt.change){ // TODO: BUG! Opt is outer scope, gun/cat/data might be iterative and thus only inner scope? Aka, we can't use it for all of them.
-          if(1 === tmp){
-            opt.change = true
-          } else {
-            data = cat.change
-            at = obj_to(at, { put: data })
-          }
-        }
-        var id = cat.id+at.get
-        /*
-        if(last[id] == data && obj_has(last, id)){ return }
-        last[id] = data; // TODO: PERF! Memory optimizaiton? Can we avoid this.
-        */
+}
 
-        if(last.put === data && last.get === id){ return }
-        last.get = id
-        last.put = data
 
-        cat.last = data
-        if(opt.as){
-          any.call(opt.as, at, ev)
-        } else {
-          any.call(gun, at.err, data, at.get, cat, ev)
-        }
-      }, opt: opt
-    })
-    return chain
-  }
-  function ack(at, ev) {
-    var lex = this.get, chain = this.gun
-    var s = lex['#'], f = lex['.'], root = at.gun.Back(-1), gun = root.get(s), tmp
-    if(tmp = at.put){
-      if(!f || obj_has(tmp[s], f)) {
-        ev.off()
-        at['@'] = 0
-        return root.on('in', at)
-      }
-      /*
-      if(!tmp[s] && !obj_empty(tmp)){ // TODO: BUG! Seems like it just causes unnecessary data/event to be triggered. Nothing genuinely useful.
-        ev.off(); // TODO: BUG!? It isn't matching data by lex means, but it IS a reply?
-        at['@'] = 0;
-        return root.on('in', at);
-      }
-      */
-      if(f && gun._.put){
-        gun = gun.get(f, null, { path: true })
-        if(!chain){
-          console.log('Please report this as an issue! ack.chain')
-          return
-        }
-        chain.on('in', {
-          err: at.err
-          , get: f
-          , gun: chain
-          , via: { get: s, via: at }
-        })
-        return
-      }
-    }
-    if(gun._.put){
-      gun = gun.get(f, null, { path: true })
-      gun.on('in', {
-        err: at.err
-        , get: f
-        , gun: gun
-        , via: { get: s, via: at }
-      })
-      return
-    }
-    gun.on('in', {
-      err: at.err
-      , put: at.put? at.put[s] || at.put : at.put
-      , get: s
-      , gun: gun
-      , via: at
-    })
-  }
-  var obj = Gun.obj, obj_has = obj.has, obj_to = obj.to
-  var empty = {}, u
-  var _soul = Gun._.soul, _field = Gun._.field, _sid = Gun.on.ask._, _rid = Gun.on.ack._
-}())
 
-(function(){
+
+function applyKey (Gun) {
+  let obj = Gun.obj
+  let obj_has = obj.has
+  let obj_to = obj.to
+  let empty = {}
+  let u
+
   Gun.chain.key = function(index, cb, opt){
+    let _soul = Gun._.soul
+    let _field = Gun._.field
+    let _sid = Gun.on.ask._
+    let _rid = Gun.on.ack._
     if(!index){
       if(cb){
         cb.call(this, { err: Gun.log('No key!') })
@@ -737,165 +653,14 @@ let _field = '.'
       })
     }
   }
-  var obj = Gun.obj, obj_has = obj.has
-}())
 
-Gun.chain.path = function(field, cb, opt){
-  var back = this, gun = back, tmp
-  opt = opt || {}; opt.path = true
-  if(gun === gun._.root){if(cb){cb({ err: Gun.log('Can\'t do that on root instance.') })}return gun}
-  if(typeof field === 'string'){
-    tmp = field.split(opt.split || '.')
-    if(1 === tmp.length){
-      gun = back.get(field, cb, opt)
-      gun._.opt = opt
-      return gun
-    }
-    field = tmp
-  }
-  if(field instanceof Array){
-    if(field.length > 1){
-      gun = back
-      var i = 0, l = field.length
-      for(i; i < l; i++){
-        console.debug(3, 'path', field[i])
-        console.debug(2, 'path', field[i])
-        gun = gun.get(field[i], (i+1 === l)? cb : null, opt)
-      }
-      gun.back = back // TODO: API change!
-    } else {
-      gun = back.get(field[0], cb, opt)
-    }
-    gun._.opt = opt
-    return gun
-  }
-  if(!field && 0 != field){
-    return back
-  }
-  gun = back.get(''+field, cb, opt)
-  gun._.opt = opt
-  return gun
+
 }
 
-;(function(){
-  Gun.chain.on = function(tag, arg, eas, as){
-    var gun = this, at = gun._, tmp
-    if(!at.on){ at.on = Gun.on }
-    if(typeof tag === 'string'){
-      if(!arg){ return at.on(tag) }
-      at.on(tag, arg, eas || at, as)
-      return gun
-    }
-    var opt = arg
-    opt = (true === opt)? { change: true } : opt || {}
-    opt.ok = tag
-    gun.any(ok, { as: opt, change: opt.change }) // TODO: PERF! Event listener leak!!!????
-    return gun
-  }
 
-  function ok(cat, ev) {
-    var opt = this
-    var data = cat.put, tmp
-    // TODO: BUG! Need to use at.put > cat.put for merged cache?
-    if(u === data){ return }
-    if(opt.as){
-      //console.log("BANANA CREAM PIE", opt);
-      opt.ok.call(opt.as, cat, ev)
-    } else {
-      //console.log("HICADOO DAAH", cat, opt);
-      opt.ok.call(cat.gun, data, cat.get, cat, ev)
-    }
-  }
-
-      //if(obj_empty(value, Gun._.meta) && !(opt && opt.empty)){ // TODO: PERF! Deprecate!???
-
-      //} else {
-        //console.log("value", value);
-        //if(!(value||empty)['#']/* || !val_rel_is(value)*/){ // TODO: Performance hit!???? // TODO: BUG! WE should avoid this. So that way it is usable with gun plugin chains.
-          //cb.call(gun, value, at.get); // TODO: BUG! What about stun?
-          //return gun;
-        //}
-      //}
-
-  // TODO: BUG! What about stun?
-  Gun.chain.val = function(cb, opt){
-    var gun = this, at = gun._, value = at.put
-    if(!at.stun && u !== value){
-      cb.call(gun, value, at.get)
-      return gun
-    }
-    if(cb){
-      (opt = opt || {}).ok = cb
-      opt.cat = at
-      console.debug(4, 'val', at)
-      gun.any(val, { as: opt })
-      opt.async = true
-    }
-    return gun
-  }
-
-  function val(at, ev, to) {
-    var opt = this
-    var cat = opt.cat, data = at.put
-    if(u === data){
-      return
-    }
-    clearTimeout(ev.to)
-    if(!to && opt.async){
-      ev.to = setTimeout(function(){
-        val.call(opt, at, ev, ev.to || 1)
-      }, opt.wait || 99)
-      return
-    }
-    ev.off()
-    opt.ok.call(at.gun || opt.gun, data, at.get) // TODO: BUG! opt.gun?
-  }
-
-  Gun.chain.off = function() {
-    var gun = this, at = gun._, tmp
-    var back = at.back || {}, cat = back._
-    if(!cat){ return }
-    if(tmp = cat.path){
-      if(tmp[at.get]){
-        obj_del(tmp, at.get)
-      } else {
-        obj_map(tmp, function(path, key){
-          if(gun !== path){ return }
-          obj_del(tmp, key)
-        })
-      }
-    }
-    if((tmp = gun.Back(-1)) === back){
-      obj_del(tmp.graph, at.get)
-    }
-    if(at.ons && (tmp = at.ons['@$'])){
-      obj_map(tmp.s, function(ev){
-        ev.off()
-      })
-    }
-    return gun
-  }
-  var obj = Gun.obj, obj_has = obj.has, obj_del = obj.del, obj_to = obj.to
-  var val_rel_is = Gun.val.rel.is
-  var empty = {}, u
-}())
-
-(function(){
-  Gun.chain.not = function(cb, opt, t){
-    var gun = this, at = Gun.obj.to(gun._, { not: { not: cb } })
-    gun.any(ought, { as: at })
-    return gun
-  }
-  function ought(cat, ev) {
-    ev.off(); var at = this // TODO: BUG! Is this correct?
-    if(cat.err || cat.put){ return }
-    if(!at.not || !at.not.not){ return }
-    //ev.stun(); // TODO: BUG? I think this is correct. NOW INCORRECT because as things mutate we might want to retrigger!
-    at.not.not.call(at.gun, at.get, function(){ console.log('Please report this bug on https://gitter.im/amark/gun and in the issues.'); need.to.implement })
-  }
-}())
-
-(function(){
+function applyMap (Gun) {
+  let obj = Gun.obj
+  let obj_has = obj.has
   Gun.chain.map = function(cb, opt, t){
     var gun = this, cat = gun._, chain = cat.map
     if(!chain){
@@ -936,17 +701,298 @@ Gun.chain.path = function(field, cb, opt){
       cat.on('in', [ id+f, { gun: this, get: f, put: v }, ev ])
     })
   }
-  var obj_map = Gun.obj.map, noop = function(){}, event = { stun: noop, off: noop }, n_ = Gun.node._
-}())
+}
 
-(function(){
+
+function applyOff (Gun) {
+  Gun.chain.off = function() {
+    var gun = this, at = gun._, tmp
+    var back = at.back || {}, cat = back._
+    if(!cat){ return }
+    if(tmp = cat.path){
+      if(tmp[at.get]){
+        obj_del(tmp, at.get)
+      } else {
+        obj_map(tmp, function(path, key){
+          if(gun !== path){ return }
+          obj_del(tmp, key)
+        })
+      }
+    }
+    if((tmp = gun.Back(-1)) === back){
+      obj_del(tmp.graph, at.get)
+    }
+    if(at.ons && (tmp = at.ons['@$'])){
+      obj_map(tmp.s, function(ev){
+        ev.off()
+      })
+    }
+    return gun
+  }
+
+}
+
+function applyNot(Gun) {
+  let obj = Gun.obj
+  let obj_has = obj.has
+  let obj_del = obj.del
+  let obj_to = obj.to
+  let val_rel_is = Gun.val.rel.is
+  let empty = {}
+  let u
+
+  Gun.chain.not = function(cb, opt, t){
+    var gun = this, at = Gun.obj.to(gun._, { not: { not: cb } })
+    gun.any(ought, { as: at })
+    return gun
+  }
+  function ought(cat, ev) {
+    ev.off(); var at = this // TODO: BUG! Is this correct?
+    if(cat.err || cat.put){ return }
+    if(!at.not || !at.not.not){ return }
+    //ev.stun(); // TODO: BUG? I think this is correct. NOW INCORRECT because as things mutate we might want to retrigger!
+    at.not.not.call(at.gun, at.get, function(){ console.log('Please report this bug on https://gitter.im/amark/gun and in the issues.'); need.to.implement })
+  }
+}
+
+
+function applyInit(Gun) {
+  let obj_map = Gun.obj.map
+  let noop = function(){}
+  let event = { stun: noop, off: noop }
+  let n_ = Gun.node._
+
   Gun.chain.init = function(){ // TODO: DEPRECATE?
     (this._.opt = this._.opt || {}).init = true
     return this.Back(-1).put(Gun.node.ify({}, this._.get), null, this._.get)
   }
-}())
 
-(function(){
+}
+
+function applyOn (Gun) {
+  Gun.chain.on = function(tag, arg, eas, as){
+    var gun = this, at = gun._, tmp
+    if(!at.on){ at.on = Gun.on }
+    if(typeof tag === 'string'){
+      if(!arg){ return at.on(tag) }
+      at.on(tag, arg, eas || at, as)
+      return gun
+    }
+    var opt = arg
+    opt = (true === opt)? { change: true } : opt || {}
+    opt.ok = tag
+    gun.any(ok, { as: opt, change: opt.change }) // TODO: PERF! Event listener leak!!!????
+    return gun
+  }
+
+  function ok(cat, ev) {
+    var opt = this
+    var data = cat.put, tmp
+    // TODO: BUG! Need to use at.put > cat.put for merged cache?
+    if(u === data){ return }
+    if(opt.as){
+      //console.log("BANANA CREAM PIE", opt);
+      opt.ok.call(opt.as, cat, ev)
+    } else {
+      //console.log("HICADOO DAAH", cat, opt);
+      opt.ok.call(cat.gun, data, cat.get, cat, ev)
+    }
+  }
+
+      //if(obj_empty(value, Gun._.meta) && !(opt && opt.empty)){ // TODO: PERF! Deprecate!???
+
+      //} else {
+        //console.log("value", value);
+        //if(!(value||empty)['#']/* || !val_rel_is(value)*/){ // TODO: Performance hit!???? // TODO: BUG! WE should avoid this. So that way it is usable with gun plugin chains.
+          //cb.call(gun, value, at.get); // TODO: BUG! What about stun?
+          //return gun;
+        //}
+      //}
+
+}
+
+
+
+
+
+function applyAny (Gun) {
+
+  Gun.chain.any = function(any, opt){
+    if(!any){ return this }
+    var chain = this, cat = chain._, opt = opt || {}, last = {}//function(){};
+    if(opt.change){ opt.change = 1 }
+    console.debug(5, 'any')
+    chain.on('out', { get: function(at, ev){
+        //console.log("any!", at);
+        if(!at.gun){ console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%EXPLODE%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%', at) }
+        var gun = at.gun || chain, cat = gun._
+        var data = cat.put || at.put, tmp
+        if((tmp = at.put) && tmp[Gun.val.rel._] && (tmp = Gun.val.rel.is(tmp))){
+          if(null !== opt['.']){
+            return
+          }
+          at = obj_to(at, { put: data = cat.change = cat.put = Gun.state.ify(Gun.node.ify({}, tmp)) })
+        }
+        // TODO: BUG! Need to use at.put > cat.put for merged cache?
+        if(tmp = opt.change){ // TODO: BUG! Opt is outer scope, gun/cat/data might be iterative and thus only inner scope? Aka, we can't use it for all of them.
+          if(1 === tmp){
+            opt.change = true
+          } else {
+            data = cat.change
+            at = obj_to(at, { put: data })
+          }
+        }
+        var id = cat.id+at.get
+        /*
+        if(last[id] == data && obj_has(last, id)){ return }
+        last[id] = data; // TODO: PERF! Memory optimizaiton? Can we avoid this.
+        */
+
+        if(last.put === data && last.get === id){ return }
+        last.get = id
+        last.put = data
+
+        cat.last = data
+        if(opt.as){
+          any.call(opt.as, at, ev)
+        } else {
+          any.call(gun, at.err, data, at.get, cat, ev)
+        }
+      }
+      , opt
+    })
+    return chain
+  }
+  function ack(at, ev) {
+    var lex = this.get, chain = this.gun
+    var s = lex['#'], f = lex['.'], root = at.gun.Back(-1), gun = root.get(s), tmp
+    if(tmp = at.put){
+      if(!f || obj_has(tmp[s], f)) {
+        ev.off()
+        at['@'] = 0
+        return root.on('in', at)
+      }
+      /*
+      if(!tmp[s] && !obj_empty(tmp)){ // TODO: BUG! Seems like it just causes unnecessary data/event to be triggered. Nothing genuinely useful.
+        ev.off(); // TODO: BUG!? It isn't matching data by lex means, but it IS a reply?
+        at['@'] = 0;
+        return root.on('in', at);
+      }
+      */
+      if(f && gun._.put){
+        gun = gun.get(f, null, { path: true })
+        if(!chain){
+          console.log('Please report this as an issue! ack.chain')
+          return
+        }
+        chain.on('in', {
+          err: at.err
+          , get: f
+          , gun: chain
+          , via: { get: s, via: at }
+        })
+        return
+      }
+    }
+    if(gun._.put){
+      gun = gun.get(f, null, { path: true })
+      gun.on('in', {
+        err: at.err
+        , get: f
+        , gun: gun
+        , via: { get: s, via: at }
+      })
+      return
+    }
+    gun.on('in', {
+      err: at.err
+      , put: at.put? at.put[s] || at.put : at.put
+      , get: s
+      , gun: gun
+      , via: at
+    })
+  }
+}
+
+function applyPath (Gun) {
+  Gun.chain.path = function(field, cb, opt){
+    var back = this, gun = back, tmp
+    opt = opt || {}; opt.path = true
+    if(gun === gun._.root){if(cb){cb({ err: Gun.log('Can\'t do that on root instance.') })}return gun}
+    if(typeof field === 'string'){
+      tmp = field.split(opt.split || '.')
+      if(1 === tmp.length){
+        gun = back.get(field, cb, opt)
+        gun._.opt = opt
+        return gun
+      }
+      field = tmp
+    }
+    if(field instanceof Array){
+      if(field.length > 1){
+        gun = back
+        var i = 0, l = field.length
+        for(i; i < l; i++){
+          console.debug(3, 'path', field[i])
+          console.debug(2, 'path', field[i])
+          gun = gun.get(field[i], (i+1 === l)? cb : null, opt)
+        }
+        gun.back = back // TODO: API change!
+      } else {
+        gun = back.get(field[0], cb, opt)
+      }
+      gun._.opt = opt
+      return gun
+    }
+    if(!field && 0 != field){
+      return back
+    }
+    gun = back.get(''+field, cb, opt)
+    gun._.opt = opt
+    return gun
+  }
+
+}
+
+function applyVal (Gun) {
+  // TODO: BUG! What about stun?
+  Gun.chain.val = function(cb, opt){
+    var gun = this, at = gun._, value = at.put
+    if(!at.stun && u !== value){
+      cb.call(gun, value, at.get)
+      return gun
+    }
+    if(cb){
+      (opt = opt || {}).ok = cb
+      opt.cat = at
+      console.debug(4, 'val', at)
+      gun.any(val, { as: opt })
+      opt.async = true
+    }
+    return gun
+  }
+
+  function val(at, ev, to) {
+    var opt = this
+    var cat = opt.cat, data = at.put
+    if(u === data){
+      return
+    }
+    clearTimeout(ev.to)
+    if(!to && opt.async){
+      ev.to = setTimeout(function(){
+        val.call(opt, at, ev, ev.to || 1)
+      }, opt.wait || 99)
+      return
+    }
+    ev.off()
+    opt.ok.call(at.gun || opt.gun, data, at.get) // TODO: BUG! opt.gun?
+  }
+
+}
+
+
+function applySet (Gun) {
   Gun.chain.set = function(item, cb, opt){
     var gun = this
     cb = cb || function(){}
@@ -956,4 +1002,13 @@ Gun.chain.path = function(field, cb, opt){
       gun.put(Gun.obj.put(put, soul, Gun.val.rel.ify(soul)), cb, opt)
     })
   }
-}())
+}
+
+
+export default function api (Gun) {
+  const applyFNs = [ applyBack, applyPut, applyGet, applyAny, applyOn, applyKey, applyPath, applyVal, applyOff, applyNot, applyMap, applyInit, applySet ]
+  return applyFNs.reduce((_, applyFN) => {
+    applyFN(_)
+    return _
+  }, Gun)
+}
